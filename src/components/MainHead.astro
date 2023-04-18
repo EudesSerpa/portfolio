@@ -1,0 +1,100 @@
+---
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const {
+	title = "Portfolio",
+	description = "Browse my portfolio and see my expertise in web development and electronic engineering. Let's discuss how I can help with your next project!",
+} = Astro.props;
+---
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eudes Serpa | { title }</title>
+<meta name="description" content="Browse my portfolio and see my expertise in web development and electronic engineering. Let's discuss how I can help with your next project!">
+<meta name="description" property="og:description" content={description} />
+<meta name="generator" content={Astro.generator}>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&display=swap" rel="stylesheet">
+
+<script is:inline>
+	// This code is inlined in the head to make dark mode instant & blocking
+	const DARK_MODE_MEDIA_QUERY = "(prefers-color-scheme: dark)";
+	const LOCAL_STORAGE_THEME_KEY = "theme";
+	const THEME = { DARK: "dark", LIGHT: "light" };
+
+	/**
+	 * Checks if a specified storage type is both supported and available.
+	 *
+	 * @param {string} [storageType='localStorage'] - The type of storage to check. Defaults to 'localStorage'.
+	 * @returns {boolean} - True if storage is available, false otherwise.
+	 *
+	 * Code from: https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API#feature-detecting_localstorage
+	 */
+	function storageAvailable(storageType = 'localStorage') {
+		let storage;
+
+		try {
+			storage = window[storageType];
+			const testKey = '__storage_test__';
+			storage.setItem(testKey, testKey);
+			storage.removeItem(testKey);
+			return true;
+		} catch (error) {
+			return (
+				error instanceof DOMException &&
+				(error.name === 'QuotaExceededError' ||
+					error.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+				storage?.length !== 0
+			);
+		}
+	}
+
+	/**
+	 * Gets the preferred theme from local storage or the user's system preference
+	 *
+	 * @returns {string} The preferred theme: 'dark' or 'light'.
+ 	*/
+	function getThemePreference() {
+		return isStorageAvailable && window.localStorage.getItem(LOCAL_STORAGE_THEME_KEY)
+			? window.localStorage.getItem(LOCAL_STORAGE_THEME_KEY)
+			: window.matchMedia(DARK_MODE_MEDIA_QUERY).matches ? THEME.DARK: THEME.LIGHT;
+	}
+
+	/**
+	 * Toggles the "theme-dark" class on the document's root element based on whether the theme is dark or light
+	 *
+	 * @param {boolean} isDark - Whether to add or remove the class
+	 */
+	function toggleThemeClass(isDark) {
+		document.documentElement.classList.toggle("theme-dark", isDark);
+	}
+
+	const isStorageAvailable = storageAvailable();
+	const isDarkThemePreferred = getThemePreference() === THEME.DARK;
+
+	toggleThemeClass(isDarkThemePreferred);
+
+	if (isStorageAvailable) {
+		// Watch the document element and persist user preference when it changes
+		try {
+			const observer = new MutationObserver(() => {
+				const isDark =
+					document.documentElement.classList.contains("theme-dark");
+
+				window.localStorage.setItem(LOCAL_STORAGE_THEME_KEY, isDark ? THEME.DARK : THEME.LIGHT);
+			});
+
+			observer.observe(document.documentElement, {
+				attributes: true,
+				attributeFilter: ["class"],
+			});
+		} catch (error) {
+			console.error("❌ Failed to create MutationObserver: ", error);
+		}
+	}
+</script>

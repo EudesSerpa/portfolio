@@ -1,21 +1,11 @@
 ---
-interface Props {
-	pageTitle: string;
-}
-
-const { pageTitle } = Astro.props;
+import Baselayout from "@layouts/Base.layout.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-		<title>Eudes Serpa | { pageTitle }</title>
-		<meta name="description" content="Browse my portfolio and see my expertise in web development and electronic engineering. Let's discuss how I can help with your next project!">
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-		<meta name="generator" content={Astro.generator}>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Baselayout>
+	<main>
+		<section>
+			Hero
+		</section>
+	</main>
+</Baselayout>
