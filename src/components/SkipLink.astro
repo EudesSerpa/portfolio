@@ -1,0 +1,36 @@
+---
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
+
+type Props = Record<string, never>;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<a class="skip-link" href="#main">{t("skip.title")}</a>
+
+<style>
+	.skip-link {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 100;
+		padding: var(--space-stack-8x) var(--space-stack-16x);
+		font-size: var(--font-size-medium);
+		color: var(--on-surface);
+		background-color: var(--surface);
+		border-end-end-radius: var(--radius-rounded-8);
+		transition: translate var(--appears-transition);
+		translate: 0 -5rem;
+	}
+
+	.skip-link:is(:focus-visible, :active) {
+		translate: 0;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.skip-link {
+			transition: translate var(--appears-transition);
+		}
+	}
+</style>
