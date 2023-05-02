@@ -1,0 +1,239 @@
+---
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
+import Logo from "@components/Logo.astro";
+import BurgerButton from "@components/BurgerButton.astro";
+import LanguagePicker from "@components/LanguagePicker.astro";
+import ThemeToggle from "@components/ThemeToggle.astro";
+
+type Props = Record<string, never>;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const NAV_LINKS: Array<{ label: string; href: string }> = [
+	{ label: t("nav.home"), href: `/${lang}/#top` },
+	{ label: t("nav.about"), href: `/${lang}/#about` },
+	{ label: t("nav.projects"), href: `/${lang}/#projects` },
+	{ label: t("nav.contact"), href: `/${lang}/#contact` },
+];
+
+const INITIAL_IDX_CURRENT_SECTION = 0;
+---
+
+<nav class="nav wrapper flex-group" data-lang={lang}>
+	<Logo />
+
+	<BurgerButton elementControl="nav-content" />
+
+	<div id="nav-content" class="nav__content">
+		<ul class="nav__list">
+			{
+				NAV_LINKS.map(({ label, href }, idx) => (
+					<li class="nav__item">
+						<a
+							class="nav__link"
+							href={href}
+							aria-current={idx === INITIAL_IDX_CURRENT_SECTION}
+							style={{ animationDelay: `${(idx + 1) * 0.1}s` }}
+						>
+							{label}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+
+		<div class="flex-group">
+			<LanguagePicker />
+			<ThemeToggle />
+		</div>
+	</div>
+</nav>
+
+<script>
+	import { toggleMenu } from "@utils/toggleMenu";
+
+	const nav = document.querySelector(".nav") as HTMLElement;
+	const burgerButton = document.querySelector(
+		".burger-button"
+	) as HTMLButtonElement;
+
+	toggleMenu(nav, burgerButton);
+</script>
+
+<style>
+	.nav {
+		--justify: space-between;
+	}
+
+	.nav__content {
+		position: var(--nav-content-position, fixed);
+		display: grid;
+		gap: var(--space-stack-64x);
+		align-content: center;
+		inline-size: var(--nav-content-width, min(22rem, 100vw));
+		block-size: var(--nav-content-height, 100vh);
+		padding-inline: 2rem;
+		visibility: var(--nav-content-visibility, hidden);
+		background: var(--surface);
+		box-shadow: var(--elevation-1);
+		opacity: var(--nav-content-opacity, 0);
+		inset-block-start: var(--header-size);
+		inset-inline-end: 0;
+		translate: var(--nav-content-translate, 100% 0);
+	}
+
+	.nav__list {
+		display: flex;
+		flex-flow: var(--nav-list-layout, column) wrap;
+		gap: var(--nav-list-gap, var(--space-stack-64x));
+		justify-content: var(--nav-list-justify, center);
+		padding: var(--nav-list-padding, 0);
+	}
+
+	@media screen and (width >= 57.5rem) {
+		.nav__content {
+			--nav-content-position: static;
+			--nav-content-visibility: visible;
+			--nav-content-opacity: 1;
+			--nav-content-width: fit-content;
+			--nav-content-height: auto;
+			--nav-content-translate: 0;
+
+			display: contents;
+		}
+
+		.nav__list {
+			--nav-list-layout: row;
+			--nav-list-justify: space-between;
+			--nav-list-gap: var(--space-stack-32x);
+			--nav-list-padding: var(--space-stack-6x) var(--space-stack-24x);
+
+			background: var(--surface);
+			border-radius: var(--radius-pill);
+			box-shadow: var(--elevation-inset-1);
+		}
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.nav__content {
+			--transition-duration: 0.5s;
+
+			transition: translate var(--bouncing-appears-transition);
+		}
+	}
+
+	.nav:is(.open) .nav__content {
+		visibility: var(--nav-list-visibility, visible);
+		opacity: 1;
+		animation: menu-in 0.375s;
+		translate: var(--nav-list-translate, 0);
+	}
+
+	@keyframes menu-in {
+		from {
+			clip-path: ellipse(60% 60% at 100% 50%);
+		}
+
+		to {
+			clip-path: ellipse(120% 120% at 100% 50%);
+		}
+	}
+
+	.nav__link {
+		--nav-link-opacity: 0.5;
+
+		position: relative;
+		display: block;
+		inline-size: min(100%, 300px);
+		font-size: var(--font-size-3x-large);
+		font-weight: 700;
+		color: var(--on-surface);
+		text-transform: capitalize;
+		isolation: isolate;
+		opacity: var(--nav-link-opacity);
+		transition: opacity var(--theme-transition);
+	}
+
+	.nav__link::before,
+	.nav__link::after {
+		position: absolute;
+		inset-block-end: -0.125rem;
+		inset-inline-start: 0;
+		inline-size: 100%;
+		block-size: 0.125rem;
+		content: "";
+		border-radius: var(--radius-pill);
+	}
+
+	/* Current indicator */
+	.nav__link::before {
+		background-color: rgb(140 140 140 / 20%);
+		opacity: 0;
+		transition: opacity var(--theme-transition);
+	}
+
+	/* Underline (mobile) */
+	.nav__link::after {
+		background-color: var(--on-surface);
+		transition: scale var(--bouncing-transition);
+		transform-origin: 0% 50%;
+		scale: 0 1;
+	}
+
+	.nav__link:is([aria-current], :hover, :focus-visible, :active),
+	.nav__link:is([aria-current], :hover, :focus-visible, :active)::before {
+		opacity: 1;
+	}
+
+	.nav__link:is([aria-current], :hover, :focus-visible, :active)::after {
+		scale: 1;
+	}
+
+	.nav:is(.open) .nav__link {
+		animation: appear 0.1s linear backwards;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.nav:is(.open) .nav__link {
+			animation: appear var(--bouncing-appears-transition) backwards;
+		}
+	}
+
+	@media screen and (width >= 57.5rem) {
+		.nav__link {
+			font-size: var(--font-size-x-large);
+		}
+
+		.nav__link[aria-current] {
+			color: var(--on-primary);
+		}
+
+		.nav__link::before {
+			inset: 0 calc(var(--space-stack-12x) * -1);
+			z-index: -1;
+			inline-size: initial;
+			block-size: 100%;
+		}
+
+		.nav__link[aria-current]::before {
+			background-color: var(--primary);
+			transition: background-color var(--theme-transition);
+		}
+
+		.nav__link::after {
+			display: none;
+		}
+	}
+
+	@keyframes appear {
+		from {
+			opacity: 1;
+			translate: 2rem 0;
+		}
+
+		to {
+			opacity: var(--nav-link-opacity);
+		}
+	}
+</style>
