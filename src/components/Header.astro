@@ -1,0 +1,130 @@
+---
+import Navigation from "@components/Navigation.astro";
+---
+
+<header id="js-header" class="header">
+	<Navigation />
+</header>
+<span class="header-placeholder"></span>
+
+<style>
+	* {
+		--header-size: 5rem;
+	}
+
+	.header {
+		position: fixed;
+		inset-inline: 0;
+		block-size: var(--header-size);
+		background-color: var(--surface-transparency);
+		box-shadow: var(--elevation-1);
+		transition: translate var(--theme-transition);
+		inset-block-start: 0;
+		backdrop-filter: var(--background-blur);
+	}
+
+	.header:is(.hide) {
+		translate: 0 -100%;
+	}
+
+	.header-placeholder {
+		display: block;
+		block-size: var(--header-size);
+	}
+</style>
+
+<script>
+	/**
+	 * Observes the sections to update the active navlink according to the current visible section
+	 */
+
+	const sections = document.querySelectorAll(".section");
+
+	/**
+	 * Determines if the new section is different from the current one
+	 *
+	 * @param {Element} currentSection - The current visible section
+	 * @param {Element} newSection - The section that is intersecting with the viewport
+	 * @returns {Element|null}
+	 */
+	function shouldUpdateLink(
+		currentSection: Element,
+		newSection: Element
+	): Element | null {
+		return currentSection !== newSection ? newSection : null;
+	}
+
+	/**
+	 * Updates the active link in the navigation based on the intersecting section
+	 *
+	 * @param {Element} relatedSection - The related section that is intersecting with the viewport
+	 */
+	function updateLink(relatedSection: Element): void {
+		document
+			.querySelector(".nav__link[aria-current]")
+			?.removeAttribute("aria-current");
+
+		// change the href "hero" for "top"
+		const href = relatedSection.id === "hero" ? "top" : relatedSection.id;
+
+		const activeLink = document.querySelector(`.nav__link[href*="#${href}"]`);
+		activeLink?.setAttribute("aria-current", "true");
+	}
+
+	/**
+	 * Handles the intersection of the observed sections with the viewport
+	 *
+	 * @param {Element} currentSection - The current visible section
+	 * @returns {(entry: IntersectionObserverEntry) => void} - Callback for handle the intersection
+	 */
+	function onIntersect(currentSection: Element): IntersectionObserverCallback {
+		return (entries: IntersectionObserverEntry[]): void => {
+			entries.forEach(({ isIntersecting, target }) => {
+				if (isIntersecting) {
+					const newSection = shouldUpdateLink(currentSection, target);
+					if (newSection) {
+						updateLink(target);
+						currentSection = newSection;
+					}
+				}
+			});
+		};
+	}
+
+	const observer = new IntersectionObserver(onIntersect(sections[0]), {
+		root: null,
+		rootMargin: "-70px 0px -70px 0px",
+		threshold: 0.5,
+	});
+
+	sections.forEach((section) => observer.observe(section));
+</script>
+
+<script>
+	/**
+	 * Listen to scroll to hide the header when the user scrolls down
+	 */
+
+  const HIDE_CLASS = "hide";
+	const header = document.getElementById("js-header") as HTMLElement;
+
+	/**
+	 * Creates an event listener function that hides the header on scroll.
+	 *
+	 * @param {number} previousScroll - The previous scroll position
+	 * @returns {(_evt: Event) => void} The event listener function
+	 */
+	function handleScroll(previousScroll: number): (_evt: Event) => void {
+		return (_evt: Event) => {
+			const newScroll: number = window.scrollY;
+			header.classList[newScroll > previousScroll ? "add" : "remove"](HIDE_CLASS);
+
+			// Avoid blank in the header's initial position
+			if (newScroll > header.offsetHeight) {
+				previousScroll = newScroll;
+			}
+		};
+	}
+
+	window.addEventListener("scroll", handleScroll(header.offsetHeight));
+</script>
