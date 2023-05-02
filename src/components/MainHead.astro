@@ -1,19 +1,24 @@
 ---
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
+
 interface Props {
-	title?: string;
+  title?: string;
 	description?: string;
 }
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
 const {
-	title = "Portfolio",
-	description = "Browse my portfolio and see my expertise in web development and electronic engineering. Let's discuss how I can help with your next project!",
+  title = t("site.title"),
+	description = t("site.description"),
 } = Astro.props;
 ---
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Eudes Serpa | { title }</title>
-<meta name="description" content="Browse my portfolio and see my expertise in web development and electronic engineering. Let's discuss how I can help with your next project!">
+<meta name="description" content={description}>
 <meta name="description" property="og:description" content={description} />
 <meta name="generator" content={Astro.generator}>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -22,9 +27,13 @@ const {
 <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&display=swap" rel="stylesheet">
 
 <script is:inline>
-	// This code is inlined in the head to make dark mode instant & blocking
+	/**
+   * Make dark mode instant & blocking
+   */
+
 	const DARK_MODE_MEDIA_QUERY = "(prefers-color-scheme: dark)";
 	const LOCAL_STORAGE_THEME_KEY = "theme";
+  const THEME_CLASS = "theme-dark";
 	const THEME = { DARK: "dark", LIGHT: "light" };
 
 	/**
@@ -71,7 +80,7 @@ const {
 	 * @param {boolean} isDark - Whether to add or remove the class
 	 */
 	function toggleThemeClass(isDark) {
-		document.documentElement.classList.toggle("theme-dark", isDark);
+		document.documentElement.classList.toggle(THEME_CLASS, isDark);
 	}
 
 	const isStorageAvailable = storageAvailable();
@@ -84,7 +93,7 @@ const {
 		try {
 			const observer = new MutationObserver(() => {
 				const isDark =
-					document.documentElement.classList.contains("theme-dark");
+					document.documentElement.classList.contains(THEME_CLASS);
 
 				window.localStorage.setItem(LOCAL_STORAGE_THEME_KEY, isDark ? THEME.DARK : THEME.LIGHT);
 			});
