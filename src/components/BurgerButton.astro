@@ -1,0 +1,158 @@
+---
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
+
+interface Props {
+	elementControl: string;
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const { elementControl } = Astro.props;
+---
+
+<button
+	class="btn burger-button"
+	aria-label={t("i11n.menu.no.expanded.label")}
+	aria-controls={elementControl}
+>
+	<span class="burger-button__line" aria-hidden="true"></span>
+</button>
+
+<style>
+	.burger-button {
+		position: relative;
+		z-index: 10;
+		display: var(--button-display, flex);
+		justify-content: start;
+		inline-size: 48px;
+		aspect-ratio: 1;
+		padding: 0.5rem;
+		cursor: pointer;
+		background-color: var(--surface);
+		border-radius: var(--radius-circle);
+		box-shadow: var(--elevation-1);
+		transition: background-color var(--theme-transition),
+			color var(--theme-transition);
+	}
+
+	@media screen and (width >= 57.5rem) {
+		.burger-button {
+			--button-display: none;
+		}
+	}
+
+	.burger-button:is([aria-expanded="true"], :hover, :active, :focus-visible) {
+		color: var(--on-primary);
+		background-color: var(--primary);
+	}
+
+	.burger-button__line,
+	.burger-button__line::before,
+	.burger-button__line::after {
+		inline-size: 50%;
+		block-size: 0.125rem;
+		background-color: var(--on-surface);
+		border-radius: var(--radius-pill);
+		transition: transform var(--theme-transition),
+			background-color var(--theme-transition);
+	}
+
+	.burger-button__line::before,
+	.burger-button__line::after {
+		--separation-size: var(--space-stack-8x);
+		--separation-top: calc(var(--separation-size) * -1);
+		--separation-bottom: var(--separation-size);
+		--transition-duration: 0.35s;
+		--animatition: var(--theme-transition) forwards;
+
+		position: absolute;
+		left: calc(0.5rem * 1.5);
+		inline-size: min(100%, 1.125rem);
+		content: "";
+	}
+
+	.burger-button__line::before {
+		translate: 0 var(--separation-bottom);
+	}
+
+	.burger-button__line::after {
+		translate: 0 var(--separation-top);
+	}
+
+	/* Animation: close to open */
+	.burger-button:is([aria-expanded="true"]) .burger-button__line::after {
+		animation: close-top-line var(--animatition);
+	}
+
+	.burger-button:is([aria-expanded="true"]) .burger-button__line {
+		background-color: transparent;
+	}
+
+	.burger-button:is([aria-expanded="true"]) .burger-button__line::before {
+		animation: close-bottom-line var(--animatition);
+	}
+
+	/* Animation: open to close */
+	.burger-button:is([aria-expanded="false"]) .burger-button__line::after {
+		animation: open-top-line var(--animatition);
+	}
+
+	.burger-button:is([aria-expanded="false"]) .burger-button__line {
+		transition-delay: 0.15s;
+	}
+
+	.burger-button:is([aria-expanded="false"]) .burger-button__line::before {
+		animation: open-bottom-line var(--animatition);
+	}
+
+	@keyframes close-top-line {
+		25% {
+			translate: var(--separation-top);
+		}
+
+		100% {
+			translate: 0;
+			rotate: -225deg;
+		}
+	}
+
+	@keyframes close-bottom-line {
+		25% {
+			translate: var(--separation-bottom);
+		}
+
+		100% {
+			translate: 0;
+			rotate: 225deg;
+		}
+	}
+
+	@keyframes open-top-line {
+		0% {
+			translate: 0 var(--separation-top);
+			rotate: -225deg;
+		}
+
+		25% {
+			translate: var(--separation-top);
+		}
+
+		100% {
+			translate: 0 var(--separation-top);
+			rotate: 0;
+		}
+	}
+
+	@keyframes open-bottom-line {
+		0% {
+			translate: var(--separation-bottom);
+			rotate: 225deg;
+		}
+
+		100% {
+			translate: 0 var(--separation-bottom);
+			rotate: 0;
+		}
+	}
+</style>
