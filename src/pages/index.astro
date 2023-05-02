@@ -1,11 +1,9 @@
 ---
-import Baselayout from "@layouts/Base.layout.astro";
+/**
+ * Code from: https://docs.astro.build/es/recipes/i18n/
+ */
+
+import { DEFAULT_LANG } from "@i18n/ui";
 ---
 
-<Baselayout>
-	<main>
-		<section>
-			Hero
-		</section>
-	</main>
-</Baselayout>
+<meta http-equiv="refresh" content={`0;url=/${DEFAULT_LANG}/`} />
