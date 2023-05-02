@@ -1,0 +1,41 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"a"> {
+	isExternal?: boolean;
+}
+
+const { href, isExternal = false, ...attrs } = Astro.props;
+
+const externalAtts = isExternal
+	? { target: "_blank", rel: "noopener noreferrer" }
+	: {};
+---
+
+<a class="link" href={href} {...attrs} {...externalAtts}>
+	<slot />
+</a>
+
+<style>
+	.link {
+		position: relative;
+		font-weight: 700;
+		color: var(--link);
+	}
+
+	.link::after {
+		position: absolute;
+		inset-inline: 0;
+		block-size: .125rem;
+		content: "";
+		background-color: var(--link);
+		transition: scale var(--bouncing-transition);
+		transform-origin: center;
+		inset-block-end: -.125rem;
+		scale: 0 1;
+	}
+
+	.link:is(:hover, :focus-visible)::after {
+		scale: 1;
+	}
+</style>
