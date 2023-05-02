@@ -1,0 +1,41 @@
+---
+/**
+ * Code from: https://stackblitz.com/github/withastro/astro/tree/latest/examples/portfolio?file=src%2Fcomponents%2FIcon.astro
+ */
+
+import type { HTMLAttributes } from "astro/types";
+import { iconPaths } from "./IconPath";
+
+export interface Props {
+	icon: keyof typeof iconPaths;
+	color?: string;
+	size?: string;
+}
+
+const { color = "currentcolor", icon, size } = Astro.props;
+const iconPath = iconPaths[icon];
+
+const attrs: HTMLAttributes<"svg"> = {};
+if (size) attrs.style = { "--size": size };
+---
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	width="40"
+	height="40"
+	viewBox="0 0 256 256"
+	aria-hidden="true"
+	stroke={color}
+	fill={color}
+	{...attrs}
+>
+	<g set:html={iconPath} />
+</svg>
+
+<style>
+	svg {
+		width: var(--size, 1em);
+		height: var(--size, 1em);
+		vertical-align: middle;
+	}
+</style>
