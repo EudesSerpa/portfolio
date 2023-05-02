@@ -1,0 +1,109 @@
+---
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
+import { Lang, languages } from "@i18n/ui";
+import Flags from "@icons/Flags.astro";
+import Icon from "@components/Icon.astro";
+
+const currentLangTag = getLangFromUrl(Astro.url);
+const currentLangLabel = languages[currentLangTag];
+
+const availableLangs = Object.entries(languages).filter(
+	([langTag, _label]) => langTag !== currentLangTag
+);
+
+const t = useTranslations(currentLangTag);
+---
+
+<div class="lang">
+	<span class="visually-hidden">{t("lang.picker")}</span>
+
+	<button
+		id="js-lang-switcher"
+		class="btn lang__switcher"
+		aria-label={t("i11n.menu.no.expanded.label")}
+	>
+		<Flags flagTag={currentLangTag} />
+		<span><abbr title={currentLangLabel}>{currentLangTag}</abbr></span>
+		<span class="lang__arrow"><Icon icon="arrow" /></span>
+	</button>
+
+	<ul id="js-lang-list" class="lang__list" data-lang={currentLangTag}>
+		{
+			availableLangs.map(([langTag, label]) => (
+				<li>
+					<a class="btn lang__option" href={`/${langTag}/`}>
+						<Flags flagTag={langTag as Lang} />
+						<span>
+							<abbr title={label}>{langTag}</abbr>
+						</span>
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</div>
+
+<script>
+	import { toggleMenu } from "@utils/toggleMenu";
+
+	const langList = document.getElementById("js-lang-list") as HTMLUListElement;
+	const switcherLang = document.getElementById(
+		"js-lang-switcher"
+	) as HTMLButtonElement;
+
+	toggleMenu(langList, switcherLang);
+</script>
+
+<style>
+	abbr {
+		text-decoration: none;
+	}
+
+	.lang {
+		position: relative;
+		font-size: var(--font-size-large);
+		font-weight: 700;
+	}
+
+	.lang__switcher,
+	.lang__option {
+		padding: var(--space-stack-4x) var(--space-stack-12x);
+		text-transform: uppercase;
+		background-color: var(--surface);
+		border-radius: var(--radius-pill);
+		box-shadow: var(--elevation-1);
+	}
+
+	.lang__list {
+		--separation: calc(100% + var(--space-stack-10x));
+
+		position: absolute;
+		display: grid;
+		gap: var(--space-stack-4x);
+		inset-block-start: var(--separation);
+		visibility: var(--lang-list-visibility, hidden);
+		opacity: var(--lang-list-opacity, 0);
+		translate: var(--lang-list-translate, 0 calc(var(--separation) * -1));
+	}
+
+	.lang__switcher:is([aria-expanded="true"]) .lang__arrow {
+		rotate: 0.5turn;
+	}
+
+	.lang__switcher:is([aria-expanded="true"]) + .lang__list {
+		--lang-list-visibility: visible;
+		--lang-list-opacity: 1;
+		--lang-list-translate: 0;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.lang__arrow {
+			transition: rotate var(--theme-transition);
+		}
+
+		.lang__list {
+			transition: opacity var(--theme-transition),
+				translate var(--appears-transition);
+		}
+	}
+</style>
