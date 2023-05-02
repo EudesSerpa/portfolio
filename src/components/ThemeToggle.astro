@@ -1,0 +1,97 @@
+---
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
+import Icon from "@components/Icon.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<button
+	id="js-theme-toggle"
+	class="btn stack theme-toggle"
+	aria-label={t("i11n.theme.dark.label")}
+	aria-live="polite"
+	data-lang={lang}
+>
+	<span class="theme-toggle__icon icon--light" aria-hidden="true"
+		><Icon icon="sun" /></span
+	>
+	<span class="theme-toggle__icon icon--dark" aria-hidden="true"
+		><Icon icon="moon-stars" /></span
+	>
+</button>
+
+<script>
+	/**
+	 * Toggles theme
+	 */
+	import { clientTranslation } from "@utils/clientTranslation";
+
+	const THEME_CLASS = "theme-dark";
+	const themeBtn = document.getElementById(
+		"js-theme-toggle"
+	) as HTMLButtonElement;
+
+	const t = clientTranslation(themeBtn.dataset.lang);
+
+	/**
+	 * Sets the theme of the document
+	 *
+	 * @param {boolean } isDark - Whether or not to set the theme to dark mode
+	 */
+	function setTheme(isDark: boolean): void {
+		document.documentElement.classList.toggle(THEME_CLASS, isDark);
+
+		const label = isDark
+			? t("i11n.theme.light.label")
+			: t("i11n.theme.dark.label");
+
+		themeBtn.setAttribute("aria-label", label);
+	}
+
+	/**
+	 * Gets the current theme of the document
+	 *
+	 * @returns {boolean} - True if the theme is dark mode, otherwise false
+	 */
+	function isDarkMode(): boolean {
+		return document.documentElement.classList.contains(THEME_CLASS);
+	}
+
+	// Initialize button state to reflect current theme
+	setTheme(isDarkMode());
+
+	themeBtn.addEventListener("click", (_evt) => setTheme(!isDarkMode()));
+</script>
+
+<style>
+	.theme-toggle {
+		padding: var(--space-stack-10x);
+		font-size: var(--font-size-2x-large);
+		color: var(--on-surface);
+		background-color: var(--surface);
+		border-radius: var(--radius-circle);
+		box-shadow: var(--elevation-1);
+	}
+
+	/* Show corresponding theme icon and hide the other one */
+	html:is(.theme-dark) .icon--dark,
+	html:not(.theme-dark) .icon--light {
+		rotate: 1turn;
+		scale: 0;
+		opacity: 0;
+	}
+
+	html:is(.theme-dark) .icon--light,
+	html:not(.theme-dark) .icon--dark {
+		scale: 1;
+		opacity: 1;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.theme-toggle__icon {
+			transition: opacity var(--theme-transition),
+				scale var(--bouncing-appears-transition), rotate var(--theme-transition);
+		}
+	}
+</style>
