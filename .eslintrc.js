@@ -15,7 +15,8 @@ module.exports = {
         extraFileExtensions: [".astro"],
       },
       rules: {
-        "astro/no-set-html-directive": "error"
+        "astro/no-set-html-directive": "error",
+				"astro/no-unused-css-selector": "error"
       },
     },
   ],
