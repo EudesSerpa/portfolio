@@ -3,22 +3,24 @@ import type { HTMLAttributes } from "astro/types";
 
 interface Props extends HTMLAttributes<"a"> {
 	isExternal?: boolean;
+	class?: string;
 }
 
-const { href, isExternal = false, ...attrs } = Astro.props;
+const { href, class: className, isExternal = false, ...attrs } = Astro.props;
 
 const externalAtts = isExternal
 	? { target: "_blank", rel: "noopener noreferrer" }
 	: {};
 ---
 
-<a class="link" href={href} {...attrs} {...externalAtts}>
+<a class={`link ${className}`} href={href} {...attrs} {...externalAtts}>
 	<slot />
 </a>
 
 <style>
 	.link {
 		position: relative;
+		font-size: var(--font-size-medium);
 		font-weight: 700;
 		color: var(--link);
 	}
@@ -26,12 +28,12 @@ const externalAtts = isExternal
 	.link::after {
 		position: absolute;
 		inset-inline: 0;
-		block-size: .125rem;
+		block-size: 0.125rem;
 		content: "";
 		background-color: var(--link);
 		transition: scale var(--bouncing-transition);
 		transform-origin: center;
-		inset-block-end: -.125rem;
+		inset-block-end: -0.125rem;
 		scale: 0 1;
 	}
 
