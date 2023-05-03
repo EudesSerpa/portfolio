@@ -2,38 +2,45 @@
 import { getLangFromUrl, useTranslations } from "@i18n/utils";
 
 interface Props {
-  title?: string;
+	title?: string;
 	description?: string;
 }
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const {
-  title = t("site.title"),
-	description = t("site.description"),
-} = Astro.props;
+const { title = t("site.title"), description = t("site.description") } =
+	Astro.props;
 ---
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Eudes Serpa | { title }</title>
-<meta name="description" content={description}>
+<meta charset="utf-8" />
+<meta
+	name="viewport"
+	content="width=device-width, initial-scale=1, viewport-fit=cover"
+/>
+<title>Eudes Serpa | {title}</title>
+<meta name="description" content={description} />
 <meta name="description" property="og:description" content={description} />
-<meta name="generator" content={Astro.generator}>
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&display=swap" rel="stylesheet">
+<meta name="generator" content={Astro.generator} />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+<link
+	href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&display=swap"
+	rel="stylesheet"
+/>
 
 <script is:inline>
 	/**
-   * Make dark mode instant & blocking
-   */
+	 * Make dark mode instant & blocking
+	 */
 
 	const DARK_MODE_MEDIA_QUERY = "(prefers-color-scheme: dark)";
 	const LOCAL_STORAGE_THEME_KEY = "theme";
-  const THEME_CLASS = "theme-dark";
+	const THEME_CLASS = "theme-dark";
 	const THEME = { DARK: "dark", LIGHT: "light" };
 
 	/**
@@ -44,20 +51,20 @@ const {
 	 *
 	 * Code from: https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API#feature-detecting_localstorage
 	 */
-	function storageAvailable(storageType = 'localStorage') {
+	function storageAvailable(storageType = "localStorage") {
 		let storage;
 
 		try {
 			storage = window[storageType];
-			const testKey = '__storage_test__';
+			const testKey = "__storage_test__";
 			storage.setItem(testKey, testKey);
 			storage.removeItem(testKey);
 			return true;
 		} catch (error) {
 			return (
 				error instanceof DOMException &&
-				(error.name === 'QuotaExceededError' ||
-					error.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+				(error.name === "QuotaExceededError" ||
+					error.name === "NS_ERROR_DOM_QUOTA_REACHED") &&
 				storage?.length !== 0
 			);
 		}
@@ -67,11 +74,14 @@ const {
 	 * Gets the preferred theme from local storage or the user's system preference
 	 *
 	 * @returns {string} The preferred theme: 'dark' or 'light'.
- 	*/
+	 */
 	function getThemePreference() {
-		return isStorageAvailable && window.localStorage.getItem(LOCAL_STORAGE_THEME_KEY)
+		return isStorageAvailable &&
+			window.localStorage.getItem(LOCAL_STORAGE_THEME_KEY)
 			? window.localStorage.getItem(LOCAL_STORAGE_THEME_KEY)
-			: window.matchMedia(DARK_MODE_MEDIA_QUERY).matches ? THEME.DARK: THEME.LIGHT;
+			: window.matchMedia(DARK_MODE_MEDIA_QUERY).matches
+			? THEME.DARK
+			: THEME.LIGHT;
 	}
 
 	/**
@@ -92,10 +102,12 @@ const {
 		// Watch the document element and persist user preference when it changes
 		try {
 			const observer = new MutationObserver(() => {
-				const isDark =
-					document.documentElement.classList.contains(THEME_CLASS);
+				const isDark = document.documentElement.classList.contains(THEME_CLASS);
 
-				window.localStorage.setItem(LOCAL_STORAGE_THEME_KEY, isDark ? THEME.DARK : THEME.LIGHT);
+				window.localStorage.setItem(
+					LOCAL_STORAGE_THEME_KEY,
+					isDark ? THEME.DARK : THEME.LIGHT
+				);
 			});
 
 			observer.observe(document.documentElement, {
