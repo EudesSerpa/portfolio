@@ -9,31 +9,58 @@ import { iconPaths } from "./IconPath";
 export interface Props {
 	icon: keyof typeof iconPaths;
 	color?: string;
+	gradient?: boolean;
 	size?: string;
+	class?: string;
 }
 
-const { color = "currentcolor", icon, size } = Astro.props;
+const {
+	color = "currentcolor",
+	class: className,
+	icon,
+	gradient,
+	size,
+} = Astro.props;
 const iconPath = iconPaths[icon];
 
 const attrs: HTMLAttributes<"svg"> = {};
 if (size) attrs.style = { "--size": size };
+
+const gradientId =
+	"icon-gradient-" + Math.round(Math.random() * 10e12).toString(36);
 ---
 
 <svg
+	class={`icon ${className}`}
 	xmlns="http://www.w3.org/2000/svg"
 	width="40"
 	height="40"
 	viewBox="0 0 256 256"
 	aria-hidden="true"
-	stroke={color}
-	fill={color}
+	stroke={gradient ? `url(#${gradientId})` : color}
+	fill={gradient ? `url(#${gradientId})` : color}
 	{...attrs}
 >
 	<g set:html={iconPath} />
+	{
+		gradient && (
+			<linearGradient
+				id={gradientId}
+				x1="0"
+				x2="0"
+				y1="40"
+				y2="200"
+				gradientUnits="userSpaceOnUse"
+			>
+				<stop offset="0" stop-color="var(--secondary-decorative)" />
+				<stop offset="1" stop-color="var(--primary)" />
+			</linearGradient>
+		)
+	}
 </svg>
 
 <style>
-	svg {
+	.icon {
 		width: var(--size, 1em);
 		height: var(--size, 1em);
 		vertical-align: middle;
