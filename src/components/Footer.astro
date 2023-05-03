@@ -1,0 +1,50 @@
+---
+import Logo from "@components/Logo.astro";
+import Link from "@components/Link.astro";
+import Icon from "./Icon.astro";
+---
+
+<footer class="footer wrapper flex-group">
+	<Logo class="footer__logo" />
+
+	<div class="footer__media social-media flex-group">
+		<button class="btn">Github</button>
+		<button class="btn">LinkedIn</button>
+	</div>
+
+	<p class="footer__copyright">
+		<span>Code with</span>
+		<span class="visually-hidden">love</span>
+		<Icon class="footer__icon" icon="heart" gradient />
+		<span>by</span>
+		<Link href="https://www.linkedin.com/in/eudes-serpa/" isExternal>
+			Eudes&nbsp;Serpa
+		</Link>
+	</p>
+</footer>
+
+<style>
+	.footer {
+		--justify: center;
+		flex-wrap: wrap;
+		padding-block: var(--space-stack-10x);
+		background-color: transparent;
+	}
+
+	@media screen and (width >= 40rem) {
+		.footer {
+			--justify: space-between;
+		}
+	}
+
+	.footer__logo {
+		inline-size: 160px;
+	}
+
+	.footer__icon {
+		display: inline-block;
+		font-size: var(--font-size-2x-large);
+		vertical-align: text-bottom;
+		rotate: 10deg;
+	}
+</style>
