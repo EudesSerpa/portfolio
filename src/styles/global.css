@@ -32,15 +32,20 @@
 		);
 
 	/* Shadows */
-	--elevation-1: 0 .0625rem .25rem rgb(0 0 0 / 20%);
-	--elevation-2: 0 .125rem .625rem rgb(0 0 0 / 20%);
-	--elevation-inset-1: inset 0 .0625rem .25rem rgb(0 0 0 / 20%);
-	--elevation-inset-2: inset 0 .125rem .625rem rgb(0 0 0 / 20%);
+	--shadow-color: rgb(0 0 0 / 20%);
+	--elevation-1: 0 .0625rem .25rem var(--shadow-color);
+	--elevation-2: 0 .125rem .625rem var(--shadow-color);
+	--elevation-inset-1: inset 0 .0625rem .25rem var(--shadow-color);
+	--elevation-inset-2: inset 0 .125rem .625rem var(--shadow-color);
 
 	/* Fonts */
 	--font-system: system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, oxygen, ubuntu,
 		cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	--font-body: 'League Spartan', var(--font-system);
+
+	/* Weight */
+	--font-weight-regular: 400;
+	--font-weight-bold: 700;
 
 	/* Sizes */
 	--font-size-small: .75rem;
@@ -108,6 +113,7 @@
 	--on-secondary: #151515;
 	--on-background: #f2f2f2;
 	--on-surface: #f2f2f2;
+	--shadow-color: rgb(0 0 0 / 40%);
 }
 
 
@@ -183,17 +189,18 @@ ul {
 /* Wrapping element for the whole site */
 .wrapper {
 	inline-size: min(100%, 75rem);
-	padding-inline: 1.5rem;
+	padding-inline: var(--space-stack-24x);
 	margin-inline: auto;
 }
 
 /* Base button */
 .btn {
+	position: relative;
 	display: inline-flex;
-	gap: .5rem;
+	gap: var(--space-stack-8x);
 	align-items: center;
 	justify-content: center;
-	padding: .5rem 1rem;
+	padding: var(--space-stack-8x) var(--space-stack-16x);
 	color: inherit;
 	text-align: center;
 	text-transform: inherit;
@@ -201,7 +208,34 @@ ul {
 	user-select: none;
 	background-color: var(--background);
 	border: 2px solid transparent;
-	border-radius: var(--radius-rounded-8);
+}
+
+.btn:is(:hover, :focus-visible, :active) {
+	scale: 1.15;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.btn {
+		transition: color var(--appears-transition),
+			background-color var(--theme-transition),
+			border-color var(--theme-transition),
+			scale var(--appears-transition);
+	}
+}
+
+/* click effect */
+.btn::after {
+	position: absolute;
+	inset: 0;
+	content: "";
+	border-radius: inherit;
+	box-shadow: var(--elevation-inset-1);
+	opacity: 0;
+	transition: opacity var(--bouncing-appears-transition);
+}
+
+.btn:is(:active, [aria-expanded="true"])::after {
+	opacity: 0.8;
 }
 
 /* Stacking child elements */
