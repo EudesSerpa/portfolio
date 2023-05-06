@@ -1,5 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations } from "@i18n/utils";
+import { AUTHOR } from "@utils/const";
 
 interface Props {
 	title?: string;
@@ -18,7 +19,7 @@ const { title = t("site.title"), description = t("site.description") } =
 	name="viewport"
 	content="width=device-width, initial-scale=1, viewport-fit=cover"
 />
-<title>Eudes Serpa | {title}</title>
+<title>{AUTHOR.name} | {title}</title>
 <meta name="description" content={description} />
 <meta name="description" property="og:description" content={description} />
 <meta name="generator" content={Astro.generator} />
