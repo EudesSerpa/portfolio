@@ -20,10 +20,16 @@ const NAV_LINKS: Array<{ label: string; href: string }> = [
 const INITIAL_IDX_CURRENT_SECTION = 0;
 ---
 
-<nav class="nav wrapper flex-group" data-lang={lang}>
+<nav class="nav js-nav wrapper flex-group" data-lang={lang}>
 	<Logo />
 
-	<BurgerButton elementControl="nav-content" />
+	<BurgerButton
+		class="js-burger-button"
+		i11nAttrs={{
+			"aria-label": t("i11n.menu.no.expanded.label"),
+			"aria-controls": "nav-content",
+		}}
+	/>
 
 	<div id="nav-content" class="nav__content">
 		<ul class="nav__list">
@@ -53,9 +59,9 @@ const INITIAL_IDX_CURRENT_SECTION = 0;
 <script>
 	import { toggleMenu } from "@utils/toggleMenu";
 
-	const nav = document.querySelector(".nav") as HTMLElement;
+	const nav = document.querySelector(".js-nav") as HTMLElement;
 	const burgerButton = document.querySelector(
-		".burger-button"
+		".js-burger-button"
 	) as HTMLButtonElement;
 
 	toggleMenu(nav, burgerButton);
@@ -64,7 +70,8 @@ const INITIAL_IDX_CURRENT_SECTION = 0;
 <style>
 	.nav {
 		--justify: space-between;
-		height: 100%;
+
+		block-size: 100%;
 	}
 
 	.nav__content {
@@ -148,7 +155,7 @@ const INITIAL_IDX_CURRENT_SECTION = 0;
 		display: block;
 		inline-size: min(100%, 300px);
 		font-size: var(--font-size-3x-large);
-		font-weight: 700;
+		font-weight: var(--font-weight-bold);
 		color: var(--on-surface);
 		text-transform: capitalize;
 		isolation: isolate;

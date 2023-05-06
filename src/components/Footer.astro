@@ -1,50 +1,60 @@
 ---
+import { AUTHOR } from "@utils/const";
 import Logo from "@components/Logo.astro";
 import Link from "@components/Link.astro";
-import Icon from "./Icon.astro";
+import Icon from "@components/Icon.astro";
+import ButtonIcon from "@components/ButtonIcon.astro";
 ---
 
 <footer class="footer wrapper flex-group">
 	<Logo class="footer__logo" />
 
 	<div class="footer__media social-media flex-group">
-		<button class="btn">Github</button>
-		<button class="btn">LinkedIn</button>
+		<ButtonIcon href={AUTHOR.github} type="solid" isExternal>
+			<Icon icon="github" />
+		</ButtonIcon>
+		<ButtonIcon href={AUTHOR.linkedin} type="solid" isExternal>
+			<Icon icon="linkedin" />
+		</ButtonIcon>
 	</div>
 
 	<p class="footer__copyright">
-		<span>Code with</span>
+		<span>Design & Code with</span>
 		<span class="visually-hidden">love</span>
-		<Icon class="footer__icon" icon="heart" gradient />
+		<Icon
+			class="footer__icon footer__icon--heart"
+			icon="heart"
+			size="large"
+			gradient
+		/>
 		<span>by</span>
-		<Link href="https://www.linkedin.com/in/eudes-serpa/" isExternal>
-			Eudes&nbsp;Serpa
-		</Link>
+		<Link href={AUTHOR.linkedin} isExternal>{AUTHOR.name}</Link>
 	</p>
 </footer>
 
 <style>
 	.footer {
-		--justify: center;
 		flex-wrap: wrap;
 		padding-block: var(--space-stack-10x);
 		background-color: transparent;
 	}
 
-	@media screen and (width >= 40rem) {
-		.footer {
-			--justify: space-between;
-		}
+	.footer__logo,
+	.footer__media {
+		flex: 1 1 auto;
 	}
 
 	.footer__logo {
 		inline-size: 160px;
 	}
 
-	.footer__icon {
+	.footer__icon--heart {
 		display: inline-block;
-		font-size: var(--font-size-2x-large);
 		vertical-align: text-bottom;
 		rotate: 10deg;
+	}
+
+	.footer__copyright {
+		text-align: center;
 	}
 </style>
