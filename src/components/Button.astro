@@ -1,0 +1,121 @@
+---
+export interface Props {
+	children: any;
+	type: "solid" | "outline" | "ghost" | "ghost-underline";
+	class?: string;
+	href?: string;
+	shape?: "shark" | "rounded-4" | "rounded-8" | "pill" | "circle";
+	i11nAttrs?: Object;
+	isExternal?: boolean;
+}
+
+const {
+	href,
+	type,
+	class: className,
+	shape = "rounded-8",
+	i11nAttrs = {},
+	isExternal = false,
+} = Astro.props;
+
+const ElementToRender = href ? "a" : "button";
+
+const style = {
+	"--radius": `${shape ? `var(--radius-${shape})` : ""}`,
+};
+
+const attrs = {
+	href,
+	style,
+	...i11nAttrs,
+};
+
+const externalAtts = isExternal
+	? { ...attrs, target: "_blank", rel: "noopener noreferrer" }
+	: { ...attrs };
+---
+
+<ElementToRender
+	class:list={[
+		"btn",
+		{
+			[`btn--${type}`]: type,
+			[`${className}`]: className
+		}
+	]}
+	{...externalAtts}
+>
+	<slot />
+</ElementToRender>
+
+<style>
+	/**
+	 * Extends .btn from global styles
+	*/
+	.btn {
+		border-radius: var(--radius);
+	}
+
+	.btn--solid {
+		background-color: var(--surface);
+		box-shadow: var(--elevation-1);
+	}
+
+	.btn--outline {
+		overflow: hidden;
+		background-color: transparent;
+		border-color: var(--surface);
+	}
+
+	.btn--outline:is(:hover, :focus-visible, :active) {
+		color: var(--on-surface);
+	}
+
+	.btn--outline::before {
+		position: absolute;
+		inset: -20%;
+		z-index: -1;
+		content: "";
+		background-color: var(--surface);
+		border-radius: var(--radius-circle);
+		transition: scale var(--appears-transition);
+		transform-origin: bottom;
+		scale: 1 0;
+	}
+
+	.btn--outline:is(:hover, :focus-visible, :active)::before {
+		scale: 1;
+	}
+
+	.btn--ghost:is(:hover, :focus-visible, :active) {
+		color: var(--on-surface);
+		background-color: var(--surface);
+	}
+
+	.btn--ghost-underline {
+		position: relative;
+		background-color: transparent;
+	}
+
+	.btn--ghost-underline:is(:hover, :focus-visible) {
+		color: var(--on-surface);
+		background-color: var(--surface);
+	}
+
+	.btn--ghost-underline::before {
+		position: absolute;
+		inset-inline: 0;
+		content: "";
+		background-color: var(--on-background);
+		border-radius: var(--radius-pill);
+		transition: scale var(--bouncing-transition);
+		transform-origin: center;
+		block-size: 0.125rem;
+		inset-block-end: var(--space-stack-4x);
+		scale: 1;
+	}
+
+	.btn--ghost-underline:is(:hover, :focus-visible)::before {
+		scale: 0;
+	}
+</style>

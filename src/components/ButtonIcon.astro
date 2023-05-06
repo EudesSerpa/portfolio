@@ -1,0 +1,34 @@
+---
+import Button from "@components/Button.astro";
+import type { Props as ButtonProps } from "@components/Button.astro";
+
+interface Props extends ButtonProps {}
+
+const {
+	class: className,
+	href,
+	type,
+	shape = "circle",
+	i11nAttrs = {},
+	isExternal = false,
+} = Astro.props;
+---
+
+<Button
+	class={`btn--icon ${className}`}
+	type={type}
+	href={href}
+	shape={shape}
+	i11nAttrs={i11nAttrs}
+	isExternal={isExternal}
+>
+	<slot />
+</Button>
+
+<style>
+	.btn--icon {
+		aspect-ratio: 1;
+		padding: var(--space-stack-8x);
+		box-shadow: var(--elevation-1);
+	}
+</style>
