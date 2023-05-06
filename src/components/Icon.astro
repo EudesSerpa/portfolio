@@ -9,9 +9,9 @@ import { iconPaths } from "./IconPath";
 export interface Props {
 	icon: keyof typeof iconPaths;
 	color?: string;
-	gradient?: boolean;
-	size?: string;
 	class?: string;
+	gradient?: boolean;
+	size?: keyof typeof sizeMap;
 }
 
 const {
@@ -19,19 +19,25 @@ const {
 	class: className,
 	icon,
 	gradient,
-	size,
+	size = "medium",
 } = Astro.props;
-const iconPath = iconPaths[icon];
 
 const attrs: HTMLAttributes<"svg"> = {};
-if (size) attrs.style = { "--size": size };
-
+const iconPath = iconPaths[icon];
 const gradientId =
 	"icon-gradient-" + Math.round(Math.random() * 10e12).toString(36);
+
+const sizeMap = {
+	small: "1rem",
+	medium: "1.25rem",
+	large: "1.5rem",
+};
+
+if (size) attrs.style = { "--size": sizeMap[size] };
 ---
 
 <svg
-	class={`icon ${className}`}
+	class:list={["icon", { [`${className}`]: className }]}
 	xmlns="http://www.w3.org/2000/svg"
 	width="40"
 	height="40"
