@@ -15,10 +15,12 @@ import Navigation from "@components/Navigation.astro";
 	.header {
 		position: fixed;
 		inset-inline: 0;
-		block-size: var(--header-size);
+		z-index: 1;
 		background-color: var(--surface-transparency);
+		isolation: isolate;
 		box-shadow: var(--elevation-1);
 		transition: translate var(--theme-transition);
+		block-size: var(--header-size);
 		inset-block-start: 0;
 		backdrop-filter: var(--background-blur);
 	}
