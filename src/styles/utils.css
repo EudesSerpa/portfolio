@@ -1,0 +1,38 @@
+/* ------------------------------------*\
+	#Utilities
+\*------------------------------------ */
+
+.visually-hidden:not(:focus, :active) {
+	position: absolute;
+	inline-size: 1px;
+	block-size: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+.flex-group {
+	display: flex;
+	flex-direction: var(--layout, row);
+	gap: var(--gap, 1.25rem);
+	align-items: var(--align, center);
+	justify-content: var(--justify, center);
+}
+
+/* Wrapping element for the whole site */
+.wrapper {
+	inline-size: min(100%, 75rem);
+	padding-inline: var(--space-stack-24x);
+	margin-inline: auto;
+}
+
+/* Stacking child elements */
+.stack {
+	display: grid;
+	grid-template-areas: "stack";
+	place-items: center;
+}
+
+.stack>* {
+	grid-area: stack;
+}

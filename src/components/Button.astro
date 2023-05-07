@@ -40,8 +40,8 @@ const externalAtts = isExternal
 		"btn",
 		{
 			[`btn--${type}`]: type,
-			[`${className}`]: className
-		}
+			[`${className}`]: className,
+		},
 	]}
 	{...externalAtts}
 >
@@ -49,11 +49,49 @@ const externalAtts = isExternal
 </ElementToRender>
 
 <style>
-	/**
-	 * Extends .btn from global styles
-	*/
+	/* Base button */
 	.btn {
+		position: relative;
+		display: inline-flex;
+		gap: var(--space-stack-8x);
+		align-items: center;
+		justify-content: center;
+		padding: var(--space-stack-8x) var(--space-stack-16x);
+		color: inherit;
+		text-align: center;
+		text-transform: inherit;
+		cursor: pointer;
+		user-select: none;
+		background-color: var(--background);
+		border: 2px solid transparent;
 		border-radius: var(--radius);
+	}
+
+	.btn:is(:hover, :focus-visible, :active) {
+		scale: 1.15;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.btn {
+			transition: color var(--appears-transition),
+				background-color var(--theme-transition),
+				border-color var(--theme-transition), scale var(--appears-transition);
+		}
+	}
+
+	/* click effect */
+	.btn::after {
+		position: absolute;
+		inset: 0;
+		content: "";
+		border-radius: inherit;
+		box-shadow: var(--elevation-inset-1);
+		opacity: 0;
+		transition: opacity var(--bouncing-appears-transition);
+	}
+
+	.btn:is(:active, [aria-expanded="true"])::after {
+		opacity: 0.8;
 	}
 
 	.btn--solid {
