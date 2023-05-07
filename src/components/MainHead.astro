@@ -12,6 +12,8 @@ const t = useTranslations(lang);
 
 const { title = t("site.title"), description = t("site.description") } =
 	Astro.props;
+
+const author = `${AUTHOR.name} ${AUTHOR.lastName}`;
 ---
 
 <meta charset="utf-8" />
@@ -19,7 +21,7 @@ const { title = t("site.title"), description = t("site.description") } =
 	name="viewport"
 	content="width=device-width, initial-scale=1, viewport-fit=cover"
 />
-<title>{AUTHOR.name} | {title}</title>
+<title>{author} | {title}</title>
 <meta name="description" content={description} />
 <meta name="description" property="og:description" content={description} />
 <meta name="generator" content={Astro.generator} />

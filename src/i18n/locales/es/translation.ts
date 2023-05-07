@@ -18,6 +18,12 @@ const LANGUAGE_PICKER = {
 	"lang.picker": "Seleccionar lenguaje",
 };
 
+const FOOTER = {
+	"footer.credits.text": "Diseñado y desarrollado con",
+	"footer.credits.aux": "amor",
+	"footer.credits.by": "por",
+}
+
 const I11N = {
 	"i11n.theme.dark.label": "Cambiar a modo oscuro",
 	"i11n.theme.light.label": "Cambiar a modo claro",
@@ -34,4 +40,5 @@ export const esTranslations = {
 	...LANGUAGE_PICKER,
 	...SKIP_LINK,
 	...I11N,
+	...FOOTER,
 };

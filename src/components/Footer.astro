@@ -1,9 +1,13 @@
 ---
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
 import { AUTHOR } from "@utils/const";
 import Logo from "@components/Logo.astro";
 import Link from "@components/Link.astro";
 import Icon from "@components/Icon.astro";
 import ButtonIcon from "@components/ButtonIcon.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <footer class="footer wrapper flex-group">
@@ -18,17 +22,17 @@ import ButtonIcon from "@components/ButtonIcon.astro";
 		</ButtonIcon>
 	</div>
 
-	<p class="footer__copyright">
-		<span>Design & Code with</span>
-		<span class="visually-hidden">love</span>
+	<p class="footer__credits">
+		<span>{t("footer.credits.text")}</span>
+		<span class="visually-hidden">{t("footer.credits.aux")}</span>
 		<Icon
 			class="footer__icon footer__icon--heart"
 			icon="heart"
 			size="large"
 			gradient
 		/>
-		<span>by</span>
-		<Link href={AUTHOR.linkedin} isExternal>{AUTHOR.name}</Link>
+		<span>{t("footer.credits.by")}</span>
+		<Link class="footer__author" href={AUTHOR.linkedin} isExternal>{AUTHOR.name}&nbsp;{AUTHOR.lastName}</Link>
 	</p>
 </footer>
 
@@ -54,7 +58,7 @@ import ButtonIcon from "@components/ButtonIcon.astro";
 		rotate: 10deg;
 	}
 
-	.footer__copyright {
+	.footer__credits {
 		text-align: center;
 	}
 </style>
