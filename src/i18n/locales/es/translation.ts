@@ -19,7 +19,7 @@ const LANGUAGE_PICKER = {
 };
 
 const HERO = {
-	"hero.introduction": "¡Hola!, Yo soy",
+	"hero.introduction": "¡Hola!, soy",
 	"hero.professions.ing": "Ingeniero electrónico",
 	"hero.professions.dev": "Desarrollador web",
 	"hero.description": "Soy un apasionado de la tecnología y la programación. Tengo experiencia en desarrollo de sistemas embebidos, el puente entre el software y el hardware. Así como en desarrollo web con el ecosistema JavaScript.",
