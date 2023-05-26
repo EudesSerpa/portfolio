@@ -3,7 +3,7 @@ import { getLangFromUrl, useTranslations } from "@i18n/utils";
 import { Lang, languages } from "@i18n/ui";
 import Flags from "@icons/Flags.astro";
 import Icon from "@components/Icon.astro";
-import Button from "./Button.astro";
+import Button from "@components/buttons/Button.astro";
 
 const currentLangTag = getLangFromUrl(Astro.url);
 const currentLangLabel = languages[currentLangTag];

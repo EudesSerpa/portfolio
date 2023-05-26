@@ -1,7 +1,7 @@
 ---
 import { getLangFromUrl, useTranslations } from "@i18n/utils";
 import Logo from "@components/Logo.astro";
-import BurgerButton from "@components/BurgerButton.astro";
+import BurgerButton from "@components/buttons/BurgerButton.astro";
 import LanguagePicker from "@components/LanguagePicker.astro";
 import ThemeToggle from "@components/ThemeToggle.astro";
 
@@ -70,6 +70,7 @@ const INITIAL_IDX_CURRENT_SECTION = 0;
 <style>
 	.nav {
 		--justify: space-between;
+		--flex-wrap: nowrap;
 
 		block-size: 100%;
 	}

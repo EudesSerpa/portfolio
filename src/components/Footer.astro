@@ -4,7 +4,7 @@ import { AUTHOR } from "@utils/const";
 import Logo from "@components/Logo.astro";
 import Link from "@components/Link.astro";
 import Icon from "@components/Icon.astro";
-import ButtonIcon from "@components/ButtonIcon.astro";
+import ButtonIcon from "@components/buttons/ButtonIcon.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -38,7 +38,6 @@ const t = useTranslations(lang);
 
 <style>
 	.footer {
-		flex-wrap: wrap;
 		padding-block: var(--space-stack-10x);
 		background-color: transparent;
 	}
