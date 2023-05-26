@@ -13,7 +13,7 @@
 
 .flex-group {
 	display: flex;
-	flex-direction: var(--layout, row);
+	flex-flow: var(--layout, row) var(--flex-wrap, wrap);
 	gap: var(--gap, 1.25rem);
 	align-items: var(--align, center);
 	justify-content: var(--justify, center);
@@ -35,4 +35,21 @@
 
 .stack>* {
 	grid-area: stack;
+}
+
+.gradient-text {
+	color: transparent;
+	background-image: var(--gradient-vertical);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	-moz-text-fill-color: transparent;
+}
+
+.gradient-text--horizontal {
+	background-image: var(--gradient-horizontal);
+}
+
+.gradient-text--vertical {
+	background-image: var(--gradient-vertical);
 }
