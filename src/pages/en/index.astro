@@ -1,20 +1,33 @@
 ---
 import Baselayout from "@layouts/Base.layout.astro";
+import Hero from "@components/sections/Hero.astro";
 ---
 
 <Baselayout>
 	<main id="main">
-		<section id="hero" class="section" style={{ minHeight: "100vh" }}>
-			HERO
+		<Hero />
+		<section id="about" class="section wrapper" style={{ minHeight: "100vh" }}>
+			<h1 class="section__title">
+				About <span class="gradient-text">me</span>
+			</h1>
 		</section>
-		<section id="about" class="section" style={{ minHeight: "100vh" }}>
-			ABOUT
+		<section
+			id="projects"
+			class="section wrapper"
+			style={{ minHeight: "100vh" }}
+		>
+			<h1 class="section__title">
+				My <span class="gradient-text">projects</span>
+			</h1>
 		</section>
-		<section id="projects" class="section" style={{ minHeight: "100vh" }}>
-			PROJECTS
-		</section>
-		<section id="contact" class="section" style={{ minHeight: "100vh" }}>
-			CONTACT
+		<section
+			id="contact"
+			class="section wrapper"
+			style={{ minHeight: "100vh" }}
+		>
+			<h1 class="section__title">
+				Contact <span class="gradient-text">me</span>
+			</h1>
 		</section>
 	</main>
 </Baselayout>

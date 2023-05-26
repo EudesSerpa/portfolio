@@ -1,0 +1,488 @@
+---
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
+import { AUTHOR } from "@utils/const";
+import Button from "@components/buttons/Button.astro";
+import ButtonIcon from "@components/buttons/ButtonIcon.astro";
+import Icon from "@components/Icon.astro";
+import StudyImage from "@assets/studyMini.webp";
+import PracticeImage from "@assets/practiceMini.webp";
+import BuildImage from "@assets/buildMini.webp";
+import HeroImageStudy from "@assets/study.webp";
+import HeroImagePractice from "@assets/practice.webp";
+import HeroImageBuild from "@assets/build.webp";
+import Mask from "@assets/hero-mask.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+interface Processes {
+	title: string;
+	miniature: string;
+	image: string;
+}
+
+const processes: Processes[] = [
+	{
+		title: t("hero.process.study"),
+		miniature: StudyImage,
+		image: HeroImageStudy,
+	},
+	{
+		title: t("hero.process.practice"),
+		miniature: PracticeImage,
+		image: HeroImagePractice,
+	},
+	{
+		title: t("hero.process.build"),
+		miniature: BuildImage,
+		image: HeroImageBuild,
+	},
+];
+---
+
+<section id="hero" class="section hero">
+	<div class="wrapper">
+		<ButtonIcon
+			class="js-button-slide hero__button-slide stack"
+			type="outline"
+			i11nAttrs={{ "aria-label": t("i11n.hero.btn-slide.label.pause") }}
+		>
+			<Icon
+				class="hero__button-slide--icon icon--pause"
+				icon="pause"
+				size="small"
+			/>
+			<Icon
+				class="hero__button-slide--icon icon--play"
+				icon="play"
+				size="small"
+			/>
+		</ButtonIcon>
+
+		<article class="hero__content">
+			<header>
+				<h1 class="hero__title section__title">
+					<span class="hero__hand" aria-hidden="true">👋🏻 </span>{t("hero.introduction")}
+					<span
+						class="hero__title--highlight gradient-text gradient-text--horizontal"
+						>{AUTHOR.name}&nbsp;{AUTHOR.lastName}.</span
+					>
+				</h1>
+			</header>
+
+			<p class="hero__professions">{t("hero.professions.dev")}</p>
+
+			<p class="hero__description">{t("hero.description")}</p>
+
+			<div class="hero__ctas flex-group">
+				<Button href="#contact" type="solid" color="primary">
+					<span>{t("hero.cta.contact")}</span>
+					<Icon icon="message" size="large" />
+				</Button>
+				<Button
+					href="https://drive.google.com/file/d/1tG9sHXN-2TquhWEJLq91HMfekMl4-Vpw/view?usp=sharing"
+					type="outline"
+					color="primary"
+					isExternal
+				>
+					<span>{t("hero.cta.see-cv")}</span>
+					<Icon icon="external-link" size="large" />
+				</Button>
+			</div>
+
+			<footer class="hero__processes flex-group">
+				<span class="visually-hidden">{t("hero.process.title")}</span>
+				{
+					processes.map(({ title, miniature }) => (
+						<figure class="hero__process">
+							<img class="hero__process-image" src={miniature} alt="" />
+							<figcaption>{title}</figcaption>
+						</figure>
+					))
+				}
+			</footer>
+		</article>
+
+		<div class="hero__image-container stack">
+			{
+				processes.map(({ title, image }, idx) => (
+					<img
+						class:list={[
+							"js-hero__image",
+							"hero__image",
+							`hero__image--${title.toLowerCase()}`,
+							{ active: idx === 0 },
+						]}
+						src={image}
+						alt=""
+					/>
+				))
+			}
+			<Mask />
+		</div>
+	</div>
+</section>
+
+<script>
+	/**
+	 * Hero slides
+	 */
+
+	import { clientTranslation } from "@utils/clientTranslation";
+	const t = clientTranslation(document.documentElement.getAttribute("lang")!);
+
+	const INITIAL_IDX_CURRENT_IMAGE = 0;
+	const TRANSITION_CLASS = "active";
+	const BUTTON_STOP_CLASS = "pause";
+	const KEY_STOP_SLIDES = "pause-slides";
+	const $heroImages =
+		document.querySelectorAll<HTMLImageElement>(".js-hero__image");
+	const $slideButton = document.querySelector(
+		".js-button-slide"
+	) as HTMLButtonElement;
+
+	/**
+	 * Initialize the slideshow with the given configuration
+	 *
+	 * @param {Object} config - The configuration for the slideshow
+	 * @param {number} config.slideDelay - The configuration for the slideshow
+	 */
+	function initSlideshow({ slideDelay }: { slideDelay: number }): void {
+		let idxCurrentVisibleImage = INITIAL_IDX_CURRENT_IMAGE;
+		let transitioning = false;
+		let slideshowInterval: ReturnType<typeof setInterval> | undefined;
+
+		/**
+		 * Update the index of the current visible image
+		 *
+		 * @param {number} idxNextImage - The index of the next image
+		 */
+		const updateIdxCurrentImage = (idxNextImage: number): void => {
+			idxCurrentVisibleImage = idxNextImage;
+		};
+
+		interface getSlideImagesReturn {
+			currentImage: HTMLImageElement;
+			nextImage: HTMLImageElement;
+			idxCurrentImage: number;
+			idxNextImage: number;
+		}
+
+		/**
+		 * Retrieve the current and next slide images
+		 *
+		 * @param {number} idxCurrentImage - The index of the current image
+		 * @returns {getSlideImagesReturn} - The current and next slide images and their indexes
+		 */
+		const getSlideImages = (idxCurrentImage: number): getSlideImagesReturn => {
+			const currentImage = $heroImages[idxCurrentImage];
+
+			const isLastImage = idxCurrentImage === $heroImages.length - 1;
+
+			const idxNextImage = isLastImage
+				? INITIAL_IDX_CURRENT_IMAGE
+				: idxCurrentImage + 1;
+
+			const nextImage = $heroImages[idxNextImage];
+
+			return {
+				currentImage,
+				nextImage,
+				idxCurrentImage,
+				idxNextImage,
+			};
+		};
+
+		/**
+		 * Create an infinite stack effect
+		 *
+		 * @param {HTMLImageElement} currentImage - The current slide
+		 * @param {HTMLImageElement} nextImage - The next slide
+		 */
+		const overlapingSlides = (
+			currentImage: HTMLImageElement,
+			nextImage: HTMLImageElement
+		) => {
+			currentImage.style.zIndex = "-1";
+			nextImage.style.zIndex = "1";
+		};
+
+		/**
+		 * Transition to the next image in the slideshow
+		 */
+		const transitionImage = (): void => {
+			if (transitioning) return;
+
+			const { currentImage, nextImage, idxNextImage } = getSlideImages(
+				idxCurrentVisibleImage
+			);
+			overlapingSlides(currentImage, nextImage);
+			updateIdxCurrentImage(idxNextImage);
+
+			nextImage.classList.add(TRANSITION_CLASS);
+			transitioning = true;
+
+			nextImage.addEventListener(
+				"transitionend",
+				() => {
+					currentImage.classList.remove(TRANSITION_CLASS);
+					transitioning = false;
+				},
+				{ once: true }
+			);
+		};
+
+		/**
+		 * Pause the slideshow
+		 */
+		const pauseSlideshow = (): void => {
+			if (!slideshowInterval) return;
+
+			clearInterval(slideshowInterval);
+			slideshowInterval = undefined;
+		};
+
+		/**
+		 * Start the slideshow interval
+		 */
+		const startSlideshow = (): void => {
+			if (slideshowInterval || $slideButton.classList.contains(BUTTON_STOP_CLASS)) return;
+
+			slideshowInterval = setInterval(transitionImage, slideDelay);
+		};
+
+		/**
+		 * Handle the visibility change event
+		 */
+		const handleVisibilityChange = (): void => {
+			document.hidden ? pauseSlideshow() : startSlideshow();
+		};
+
+		const handleSlidesPlayback = () => {
+			const isPlaying = $slideButton.classList.toggle(BUTTON_STOP_CLASS);
+			let label = "";
+
+			if (isPlaying) {
+				pauseSlideshow();
+				label = t("i11n.hero.btn-slide.label.start");
+				window.sessionStorage.setItem(KEY_STOP_SLIDES, String(isPlaying));
+			} else {
+				startSlideshow();
+				label = t("i11n.hero.btn-slide.label.pause");
+				window.sessionStorage.removeItem(KEY_STOP_SLIDES);
+			}
+
+			$slideButton.setAttribute("aria-label", label);
+		};
+
+		// First load
+		const wantToPauseSlides = window.sessionStorage.getItem(KEY_STOP_SLIDES);
+
+		if (wantToPauseSlides) {
+			$slideButton.classList.add(BUTTON_STOP_CLASS);
+			pauseSlideshow();
+		} else {
+			$slideButton.classList.remove(BUTTON_STOP_CLASS);
+			startSlideshow();
+		}
+
+		document.addEventListener("visibilitychange", handleVisibilityChange);
+		$slideButton.addEventListener("click", handleSlidesPlayback);
+	}
+
+	/**
+	 * The delay between each image transition in milliseconds
+	 * This delay must be greater than the transition duration (1s)
+	 */
+	initSlideshow({ slideDelay: 10000 });
+</script>
+
+<style>
+	* {
+		--dynamic-heigth: 100dvh;
+		--min-hero-size: calc(var(--dynamic-heigth, 100vh) - var(--header-size));
+	}
+
+	.hero {
+		position: relative;
+		place-content: center;
+		min-block-size: var(--min-hero-size);
+	}
+
+	.hero__button-slide {
+		position: absolute;
+		inset-block-start: var(--space-stack-32x);
+		inset-inline-end: var(--space-stack-24x);
+	}
+
+	.hero__button-slide:is(.pause) .icon--pause,
+	.hero__button-slide:not(.pause) .icon--play {
+		rotate: 1turn;
+		scale: 0;
+		opacity: 0;
+	}
+
+	.hero__button-slide:is(.pause) .icon--play,
+	.hero__button-slide:not(.pause) .icon--pause {
+		scale: 1;
+		opacity: 1;
+	}
+
+	.hero__content {
+		display: grid;
+		gap: var(--space-stack-24x);
+		place-content: center;
+		margin-block-start: calc(var(--space-stack-48x) + var(--space-stack-24x));
+	}
+
+	.hero__hand {
+		display: inline-block;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.hero__title:is(:hover) > .hero__hand {
+			animation: waving var(--theme-transition) infinite alternate;
+			animation-duration: 0.2s;
+		}
+
+		.hero__button-slide--icon {
+			transition: opacity var(--theme-transition),
+				scale var(--bouncing-appears-transition), rotate var(--theme-transition);
+		}
+	}
+
+	@keyframes waving {
+		to {
+			rotate: -10deg;
+		}
+	}
+
+	.hero__professions {
+		font-size: var(--font-size-3x-large);
+		font-weight: var(--font-weight-bold);
+		text-align: center;
+		text-transform: capitalize;
+	}
+
+	.hero__description {
+		max-inline-size: 60ch;
+		font-size: var(--font-size-medium);
+	}
+
+	.hero__ctas {
+		margin-block-start: var(--space-stack-16x);
+		font-size: var(--font-size-large);
+	}
+
+	.hero__processes {
+		gap: var(--space-stack-24x);
+		margin-block-start: var(--space-stack-32x);
+	}
+
+	.hero__process {
+		display: grid;
+		gap: var(--space-stack-8x);
+		place-items: center;
+		text-transform: capitalize;
+	}
+
+	.hero__process-image {
+		aspect-ratio: 1;
+		filter: drop-shadow(var(--elevation-1));
+		border-radius: var(--radius-circle);
+		object-fit: cover;
+		object-position: top;
+		inline-size: clamp(50px, 50px + 3vw, 75px);
+	}
+
+	.hero__image-container {
+		position: absolute;
+		inset: 0;
+		-webkit-mask-image: linear-gradient(
+			180deg,
+			var(--background),
+			transparent 98%
+		);
+		mask-image: linear-gradient(180deg, var(--background), transparent 98%);
+		z-index: -1;
+		isolation: isolate;
+	}
+
+	.hero__image {
+		/**
+		 * Horizontal Wipe Transition
+		 * Credits: https://codersblock.com/blog/star-wars-scene-transition-effects-in-css/#horizontal-wipe-transition
+		 */
+
+		/* Mask only in x direction: right/left */
+		--mask-dir: right;
+		--mask-position-show: var(--mask-dir);
+		--mask-position-hide: left;
+
+		transition: -webkit-mask-position var(--theme-transition),
+			mask-position var(--theme-transition);
+		transition-duration: 1s;
+		inline-size: 100%;
+		block-size: 100%;
+		min-block-size: var(--min-hero-size);
+		object-fit: cover;
+		-webkit-mask-image: linear-gradient(
+			to var(--mask-dir),
+			transparent 47.5%,
+			#fff 52.5%
+		);
+		-webkit-mask-size: 210%;
+		-webkit-mask-position: var(--mask-position-hide);
+		-webkit-mask-repeat: no-repeat;
+		mask-image: linear-gradient(
+			to var(--mask-dir),
+			transparent 47.5%,
+			#fff 52.5%
+		);
+		mask-size: 210%;
+		mask-position: var(--mask-position-hide);
+		mask-repeat: no-repeat;
+		will-change: mask-position;
+	}
+
+	.hero__image:is(.active) {
+		-webkit-mask-position: var(--mask-position-show);
+		mask-position: var(--mask-position-show);
+	}
+
+	@media screen and (width < 1200px) {
+		html:is(.theme-dark) .hero__image {
+			filter: contrast(110%) brightness(80%);
+		}
+
+		html:not(.theme-dark) .hero__image {
+			filter: contrast(80%) brightness(110%);
+		}
+	}
+
+	@media screen and (width >= 1200px) {
+		.hero__content {
+			place-content: start;
+		}
+
+		.hero__title--highlight {
+			filter: none;
+		}
+
+		.hero__image-container {
+			inset-inline-start: auto;
+			inline-size: clamp(500px, 50vw, 680px);
+			-webkit-mask-image: linear-gradient(
+				180deg,
+				var(--background) 60%,
+				transparent 98%
+			);
+			mask-image: linear-gradient(180deg, var(--background) 60%, transparent)
+				transparent 98%;
+		}
+
+		.hero__image {
+			clip-path: url("#mask");
+		}
+	}
+</style>
