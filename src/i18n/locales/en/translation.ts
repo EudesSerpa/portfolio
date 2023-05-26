@@ -18,6 +18,19 @@ const LANGUAGE_PICKER = {
 	"lang.picker": "Select language",
 };
 
+const HERO = {
+	"hero.introduction": "Hi, there! I'm",
+	"hero.professions.ing": "Electronic engineer",
+	"hero.professions.dev": "Web developer",
+	"hero.description": "I am passionate about technology and programming. I have expertise in embedded systems development, the bridge between software and hardware. As well as in web development with the JavaScript ecosystem.",
+	"hero.cta.contact": "Contact Me",
+	"hero.cta.see-cv": "See CV",
+	"hero.process.title": "My learning process",
+	"hero.process.study": "Study",
+	"hero.process.practice": "Practice",
+	"hero.process.build": "Build",
+}
+
 const FOOTER = {
 	"footer.credits.text": "Designed & developed with",
 	"footer.credits.aux": "love",
@@ -32,6 +45,9 @@ const I11N = {
 	"i11n.menu.no.expanded.label": "Open menu",
 
   "i11n.logo.label": "Go to home",
+
+	"i11n.hero.btn-slide.label.start": "Start automatic slide show",
+	"i11n.hero.btn-slide.label.pause": "Stop automatic slide show"
 };
 
 export const enTranslations = {
@@ -40,5 +56,6 @@ export const enTranslations = {
 	...LANGUAGE_PICKER,
 	...SKIP_LINK,
 	...I11N,
+	...HERO,
 	...FOOTER,
 };
