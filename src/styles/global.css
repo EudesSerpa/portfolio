@@ -24,12 +24,11 @@
 	--gradient-stop-1: var(--primary);
 	--gradient-stop-2: var(--secondary-decorative);
 	--gradient-vertical: linear-gradient(180deg,
-			var(--gradient-stop-1) 30%,
-			var(--gradient-stop-2) 100%);
+			var(--gradient-stop-2) 20%,
+			var(--gradient-stop-1) 80%);
 	--gradient-horizontal: linear-gradient(270deg,
-			var(--gradient-stop-1) 10%,
-			var(--gradient-stop-2) 50%,
-		);
+			var(--gradient-stop-2) 30%,
+			var(--gradient-stop-1) 70%);
 
 	/* Shadows */
 	--shadow-color: rgb(0 0 0 / 20%);
@@ -48,6 +47,8 @@
 	--font-weight-bold: 700;
 
 	/* Sizes */
+	--header-size: 5rem;
+
 	--font-size-small: .75rem;
 	--font-size-base: .875rem;
 	--font-size-medium: 1rem;
@@ -56,7 +57,8 @@
 	--font-size-2x-large: 1.5rem;
 	--font-size-3x-large: 1.75rem;
 	--font-size-4x-large: 2rem;
-	--font-size-5x-large: 3rem;
+	--font-size-5x-large: 2.5rem;
+	--font-size-6x-large: 3rem;
 
 	/* Spacing */
 	--space-stack-x: .0625rem;
@@ -91,10 +93,10 @@
 	--theme-transition: var(--transition-duration) ease-in-out;
 	--bouncing-transition: var(--transition-duration) cubic-bezier(.1, .7, .6, .9);
 	--appears-transition: var(--transition-duration) cubic-bezier(.12, .6, .54, .56);
-	--bouncing-appears-transition: var(--transition-duration) cubic-bezier(.68, -0.55, .27, 1.55)
+	--bouncing-appears-transition: var(--transition-duration) cubic-bezier(.68, -0.55, .27, 1.55);
 }
 
-:root.theme-dark {
+:root:is(.theme-dark) {
 	--primary: #c497fc;
 	--secondary: #03d6da;
 	--background: #121212;
@@ -131,11 +133,23 @@
 	outline: var(--outline);
 }
 
+/* Avoid overlapping with header */
+html {
+	scroll-padding-block-start: var(--space-stack-32x);
+}
+
 body {
 	font-family: var(--font-body);
 	font-size: var(--font-size-base);
 	color: var(--on-background);
 	background-color: var(--background);
+	background-image: url("/src/assets/stars-bg-light.webp");
+	background-position: 50%;
+	background-size: 1090px;
+}
+
+html:is(.theme-dark) body {
+	background-image: url("/src/assets/stars-bg-dark.webp");
 }
 
 a {
@@ -162,4 +176,17 @@ ul {
 	body {
 		transition: background-color var(--theme-transition), color var(--theme-transition);
 	}
+}
+
+.section {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-stack-32x);
+	padding-block: var(--space-stack-48x);
+}
+
+.section__title {
+	font-size: clamp(var(--font-size-4x-large), calc(var(--font-size-5x-large) + 1.5vw), var(--font-size-6x-large));
+	text-align: center;
+	text-transform: capitalize;
 }
