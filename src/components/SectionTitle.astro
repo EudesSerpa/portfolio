@@ -1,0 +1,19 @@
+---
+interface Props {
+	children: any;
+}
+---
+<h2 class="section__title">
+	<slot name="text"></slot>
+	<span class="gradient-text">
+		<slot name="text-highlight"></slot>
+	</span>
+</h2>
+
+<style>
+	/**
+	 * Inherit from .section__title on global style
+	 * and from .gradient-text on util styles
+	*/
+</style>
+

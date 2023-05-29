@@ -61,10 +61,10 @@ const processes: Processes[] = [
 
 		<article class="hero__content">
 			<header>
-				<h1 class="hero__title section__title">
-					<span class="hero__hand" aria-hidden="true">👋🏻 </span>{t("hero.introduction")}
-					<span
-						class="hero__title--highlight gradient-text gradient-text--horizontal"
+				<h1 class="section__title">
+					<span class="hero__hand" aria-hidden="true">👋🏻</span>
+					{t("hero.introduction")}
+					<span class="gradient-text gradient-text--horizontal"
 						>{AUTHOR.name}&nbsp;{AUTHOR.lastName}.</span
 					>
 				</h1>
@@ -246,7 +246,11 @@ const processes: Processes[] = [
 		 * Start the slideshow interval
 		 */
 		const startSlideshow = (): void => {
-			if (slideshowInterval || $slideButton.classList.contains(BUTTON_STOP_CLASS)) return;
+			if (
+				slideshowInterval ||
+				$slideButton.classList.contains(BUTTON_STOP_CLASS)
+			)
+				return;
 
 			slideshowInterval = setInterval(transitionImage, slideDelay);
 		};
@@ -463,10 +467,6 @@ const processes: Processes[] = [
 	@media screen and (width >= 1200px) {
 		.hero__content {
 			place-content: start;
-		}
-
-		.hero__title--highlight {
-			filter: none;
 		}
 
 		.hero__image-container {
