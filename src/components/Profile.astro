@@ -1,0 +1,45 @@
+---
+import Profile from "@assets/profile-mask.webp";
+
+interface Props {
+	class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={["profile", "stack", { [`${className}`]: className }]}>
+	<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 360"
+		>
+		<path
+			d="M302 85c45 36 105 69 116 114s-28 101-73 129c-46 27-99 24-155 28-57 3-116 12-151-15C5 314-5 251 2 195S31 90 66 54c34-37 81-60 119-53 40 8 71 48 117 84Z"
+			fill="url(#gradient)"></path>
+		<defs>
+			<linearGradient
+				id="gradient"
+				x1="210"
+				y1="0"
+				x2="210"
+				y2="360"
+				gradientUnits="userSpaceOnUse"
+				>
+				<stop offset=".3" stop-color="var(--secondary-decorative)"></stop>
+				<stop offset=".7" stop-color="var(--primary)"></stop>
+			</linearGradient>
+		</defs>
+	</svg>
+	<img
+		class="profile__image"
+		src={Profile}
+		width="420"
+		height="360"
+		alt="Eudes Serpa wearing glasses and a tie with a white shirt"
+	/>
+</div>
+
+<style>
+	.profile {
+		align-items: baseline;
+		max-inline-size: 100%;
+	}
+</style>
