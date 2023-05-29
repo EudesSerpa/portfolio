@@ -1,8 +1,8 @@
 ---
 import Profile from "@components/Profile.astro";
 import SectionTitle from "@components/SectionTitle.astro";
+import Skills from "@components/Skills.astro";
 import SocialMedia from "@components/SocialMedia.astro";
-import HTML from "@components/icons/HTML.astro";
 ---
 
 <section id="about" class="about section wrapper">
@@ -59,16 +59,7 @@ import HTML from "@components/icons/HTML.astro";
 			<h3 class="subsection__title">Skills</h3>
 		</header>
 
-		<ul class="skills__list">
-			<li class="skills__item">
-				<span class="skills__icon"><HTML /></span>
-				<span class="skills__name">HTML</span>
-			</li>
-			<li class="skills__item">
-				<span class="skills__icon"><HTML /></span>
-				<span class="skills__name">HTML</span>
-			</li>
-		</ul>
+		<Skills />
 	</section>
 </section>
 
@@ -77,7 +68,6 @@ import HTML from "@components/icons/HTML.astro";
 		margin-block-end: var(--space-stack-10x);
 		font-size: var(--font-size-2x-large);
 	}
-
 
 	/* ------------------------------------*\
 		#Subsection: Who I am?
@@ -119,30 +109,5 @@ import HTML from "@components/icons/HTML.astro";
 
 	.whoiam__profile-image {
 		inline-size: clamp(min(100%, 280px), 40vw, 360px);
-	}
-
-
-	/* ------------------------------------*\
-		#Subsection: Skills
-	\*------------------------------------ */
-
-	.skills__list {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--space-stack-20x);
-	}
-
-	.skills__item {
-		display: grid;
-		gap: var(--space-stack-8x);
-		place-items: center;
-		padding: var(--space-stack-8x) var(--space-stack-16x);
-		color: var(--on-surface);
-		background-color: var(--surface);
-		border-radius: var(--radius-rounded-8);
-	}
-
-	.skills__icon {
-		inline-size: 42px;
 	}
 </style>

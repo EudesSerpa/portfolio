@@ -1,0 +1,94 @@
+---
+import type { AstroInstance } from "astro";
+
+/**
+ * Use the files in "./icons/tech" folder to get all tech icons
+ *
+ * Add more?
+ * 1. Add a new file .astro in the "./icons/tech" folder
+ * 2. The filename will be the shown text:
+ * 		- the name must be in kebab-case
+ */
+const techIconComponents: AstroInstance[] = await Astro.glob(
+	"./icons/techs/*.astro"
+);
+---
+
+<ul class="skill__list">
+	{
+		techIconComponents.map((iconComponent) => (
+			<li class="skill__item">
+				<span class="skill__icon">
+					<iconComponent.default />
+				</span>
+				<span class="skill__name">
+					{iconComponent.file
+						.split("/")
+						.at(-1)!
+						.split(".")[0]
+						.replaceAll("-", " ")}
+				</span>
+			</li>
+		))
+	}
+</ul>
+
+<style>
+	.skill__list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-stack-20x);
+	}
+
+	.skill__item {
+		--inner-border-radius: 6px;
+		--outer-border-radius: 8px;
+
+		position: relative;
+		display: grid;
+		gap: var(--space-stack-8x);
+		place-items: center;
+		padding: clamp(var(--space-stack-4x), 2vw, var(--space-stack-8x))
+			clamp(var(--space-stack-8x), 4vw, var(--space-stack-16x));
+		color: var(--on-surface);
+		background-color: var(--surface);
+		border-radius: var(--inner-border-radius);
+	}
+
+	.skill__item::before {
+		position: absolute;
+		inset: calc(var(--space-stack-2x) * -1);
+		z-index: -1;
+		content: "";
+		background: conic-gradient(
+			from var(--gradient-angle),
+			var(--gradient-stop-1),
+			var(--gradient-stop-2),
+			var(--gradient-stop-1)
+		);
+		border-radius: var(--outer-border-radius);
+		box-shadow: var(--elevation-1);
+		animation: rotation 6s linear infinite;
+	}
+
+	@property --gradient-angle {
+		syntax: "<angle>";
+		initial-value: 0deg;
+		inherits: false;
+	}
+
+	@keyframes rotation {
+		to {
+			--gradient-angle: 360deg;
+		}
+	}
+
+	.skill__icon {
+		inline-size: clamp(28px, 3vw, 42px);
+		aspect-ratio: 1;
+	}
+
+	.skill__name {
+		text-transform: capitalize;
+	}
+</style>
