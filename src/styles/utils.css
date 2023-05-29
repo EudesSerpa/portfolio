@@ -49,7 +49,3 @@
 .gradient-text--horizontal {
 	background-image: var(--gradient-horizontal);
 }
-
-.gradient-text--vertical {
-	background-image: var(--gradient-vertical);
-}
