@@ -1,50 +1,33 @@
 ---
-import Profile from "@components/Profile.astro";
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
 import SectionTitle from "@components/SectionTitle.astro";
-import Skills from "@components/Skills.astro";
+import Profile from "@components/Profile.astro";
 import SocialMedia from "@components/SocialMedia.astro";
+import Skills from "@components/Skills.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const [title, titleHighlight] = t("about.title").split(" ");
+const whoIAmTexts: string[] = t("about.whoiam.description").split(/<.*>/g);
 ---
 
 <section id="about" class="about section wrapper">
 	<header>
 		<SectionTitle>
-			<span slot="text">About</span>
-			<span slot="text-highlight">me</span>
+			<span slot="text">{title}</span>
+			<span slot="text-highlight">{titleHighlight}</span>
 		</SectionTitle>
 	</header>
 
 	<section class="whoiam subsection subsection--whoiam">
 		<article class="whoiam__bio">
 			<header>
-				<h3 class="subsection__title">Who I am?</h3>
+				<h3 class="subsection__title">{t("about.whoiam.title")}</h3>
 			</header>
 
-			<div class="whoiam__details">
-				<p>
-					Soy un joven colombiano graduado en Ingeniería Electrónica de la
-					Universidad del Magdalena y apasionado por el desarrollo de software.
-					Actualmente, estoy cursando un tecnólogo en Análisis y Desarrollo de
-					Software en el Servicio Nacional de Aprendizaje, SENA.
-				</p>
-				<p>
-					Mi primer acercamiento a la programación y al desarrollo de software
-					ocurrió durante mi primer semestre de pregrado, donde tuve la
-					oportunidad de familiarizarme con el lenguaje de programación C y el
-					microcontrolador Arduino. Aunque fue un inicio desafiante, descubrí
-					una pasión genuina por estas áreas.
-				</p>
-				<p>
-					A lo largo de los últimos años, he invertido innumerables horas en
-					estudiar y practicar diversos lenguajes de programación, frameworks y
-					tecnologías web. Esta dedicación me ha permitido adquirir
-					conocimientos sólidos en desarrollo web y sistemas embebidos.
-				</p>
-				<p>
-					Si estás en busca de un profesional comprometido, autodidacta y
-					entusiasta que pueda aportar una perspectiva única y habilidades
-					técnicas sólidas a tu equipo, ¡me encantaría tener la oportunidad de
-					discutir cómo puedo contribuir a tu proyecto!
-				</p>
+			<div class="whoiam__description">
+				{whoIAmTexts.map((text: string) => <p>{text}</p>)}
 			</div>
 		</article>
 
@@ -56,7 +39,7 @@ import SocialMedia from "@components/SocialMedia.astro";
 
 	<section class="skills subsection subsection--skills">
 		<header>
-			<h3 class="subsection__title">Skills</h3>
+			<h3 class="subsection__title">{t("about.skills.title")}</h3>
 		</header>
 
 		<Skills />
@@ -93,7 +76,7 @@ import SocialMedia from "@components/SocialMedia.astro";
 		grid-area: text;
 	}
 
-	.whoiam__details {
+	.whoiam__description {
 		display: grid;
 		gap: var(--space-stack-8x);
 		max-inline-size: 70ch;
