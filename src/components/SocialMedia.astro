@@ -1,0 +1,22 @@
+---
+import { AUTHOR } from "@utils/const";
+import ButtonIcon from "@components/buttons/ButtonIcon.astro";
+import Icon from "@components/Icon.astro";
+
+interface Props {
+	class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div
+	class:list={["social-media", "flex-group", { [`${className}`]: className }]}
+>
+	<ButtonIcon href={AUTHOR.github} type="solid" isExternal>
+		<Icon icon="github" />
+	</ButtonIcon>
+	<ButtonIcon href={AUTHOR.linkedin} type="solid" isExternal>
+		<Icon icon="linkedin" />
+	</ButtonIcon>
+</div>

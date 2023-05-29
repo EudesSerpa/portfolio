@@ -4,7 +4,7 @@ import { AUTHOR } from "@utils/const";
 import Logo from "@components/Logo.astro";
 import Link from "@components/Link.astro";
 import Icon from "@components/Icon.astro";
-import ButtonIcon from "@components/buttons/ButtonIcon.astro";
+import SocialMedia from "./SocialMedia.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -13,14 +13,7 @@ const t = useTranslations(lang);
 <footer class="footer wrapper flex-group">
 	<Logo class="footer__logo" />
 
-	<div class="footer__media social-media flex-group">
-		<ButtonIcon href={AUTHOR.github} type="solid" isExternal>
-			<Icon icon="github" />
-		</ButtonIcon>
-		<ButtonIcon href={AUTHOR.linkedin} type="solid" isExternal>
-			<Icon icon="linkedin" />
-		</ButtonIcon>
-	</div>
+	<SocialMedia class="footer__media" />
 
 	<p class="footer__credits">
 		<span>{t("footer.credits.text")}</span>
