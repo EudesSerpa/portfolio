@@ -1,0 +1,148 @@
+---
+import Profile from "@components/Profile.astro";
+import SectionTitle from "@components/SectionTitle.astro";
+import SocialMedia from "@components/SocialMedia.astro";
+import HTML from "@components/icons/HTML.astro";
+---
+
+<section id="about" class="about section wrapper">
+	<header>
+		<SectionTitle>
+			<span slot="text">About</span>
+			<span slot="text-highlight">me</span>
+		</SectionTitle>
+	</header>
+
+	<section class="whoiam subsection subsection--whoiam">
+		<article class="whoiam__bio">
+			<header>
+				<h3 class="subsection__title">Who I am?</h3>
+			</header>
+
+			<div class="whoiam__details">
+				<p>
+					Soy un joven colombiano graduado en Ingeniería Electrónica de la
+					Universidad del Magdalena y apasionado por el desarrollo de software.
+					Actualmente, estoy cursando un tecnólogo en Análisis y Desarrollo de
+					Software en el Servicio Nacional de Aprendizaje, SENA.
+				</p>
+				<p>
+					Mi primer acercamiento a la programación y al desarrollo de software
+					ocurrió durante mi primer semestre de pregrado, donde tuve la
+					oportunidad de familiarizarme con el lenguaje de programación C y el
+					microcontrolador Arduino. Aunque fue un inicio desafiante, descubrí
+					una pasión genuina por estas áreas.
+				</p>
+				<p>
+					A lo largo de los últimos años, he invertido innumerables horas en
+					estudiar y practicar diversos lenguajes de programación, frameworks y
+					tecnologías web. Esta dedicación me ha permitido adquirir
+					conocimientos sólidos en desarrollo web y sistemas embebidos.
+				</p>
+				<p>
+					Si estás en busca de un profesional comprometido, autodidacta y
+					entusiasta que pueda aportar una perspectiva única y habilidades
+					técnicas sólidas a tu equipo, ¡me encantaría tener la oportunidad de
+					discutir cómo puedo contribuir a tu proyecto!
+				</p>
+			</div>
+		</article>
+
+		<div class="whoiam__profile">
+			<Profile class="whoiam__profile-image" />
+			<SocialMedia />
+		</div>
+	</section>
+
+	<section class="skills subsection subsection--skills">
+		<header>
+			<h3 class="subsection__title">Skills</h3>
+		</header>
+
+		<ul class="skills__list">
+			<li class="skills__item">
+				<span class="skills__icon"><HTML /></span>
+				<span class="skills__name">HTML</span>
+			</li>
+			<li class="skills__item">
+				<span class="skills__icon"><HTML /></span>
+				<span class="skills__name">HTML</span>
+			</li>
+		</ul>
+	</section>
+</section>
+
+<style>
+	.subsection__title {
+		margin-block-end: var(--space-stack-10x);
+		font-size: var(--font-size-2x-large);
+	}
+
+
+	/* ------------------------------------*\
+		#Subsection: Who I am?
+	\*------------------------------------ */
+
+	.whoiam {
+		display: grid;
+		grid-template-areas:
+			"profile"
+			"text";
+		gap: var(--space-stack-32x);
+		place-items: center;
+	}
+
+	@media screen and (width >= 940px) {
+		.whoiam {
+			grid-template-areas: "text profile";
+			place-content: space-between;
+		}
+	}
+
+	.whoiam__bio {
+		grid-area: text;
+	}
+
+	.whoiam__details {
+		display: grid;
+		gap: var(--space-stack-8x);
+		max-inline-size: 70ch;
+		font-size: var(--font-size-medium);
+	}
+
+	.whoiam__profile {
+		display: grid;
+		grid-area: profile;
+		gap: var(--space-stack-20x);
+		place-items: center;
+	}
+
+	.whoiam__profile-image {
+		inline-size: clamp(min(100%, 280px), 40vw, 360px);
+	}
+
+
+	/* ------------------------------------*\
+		#Subsection: Skills
+	\*------------------------------------ */
+
+	.skills__list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-stack-20x);
+	}
+
+	.skills__item {
+		display: grid;
+		gap: var(--space-stack-8x);
+		place-items: center;
+		padding: var(--space-stack-8x) var(--space-stack-16x);
+		color: var(--on-surface);
+		background-color: var(--surface);
+		border-radius: var(--radius-rounded-8);
+	}
+
+	.skills__icon {
+		inline-size: 42px;
+	}
+</style>
