@@ -22,7 +22,7 @@ const HERO = {
 	"hero.introduction": "Hi, there! I'm",
 	"hero.professions.ing": "Electronic engineer",
 	"hero.professions.dev": "Web developer",
-	"hero.description": "I am passionate about technology and programming. I have expertise in embedded systems development, the bridge between software and hardware. As well as in web development with the JavaScript ecosystem.",
+	"hero.description": "I am passionate about technology and programming. I have experience in the development of embedded systems, which act as a bridge between software and hardware, as well as in web development using the JavaScript ecosystem.",
 	"hero.cta.contact": "Contact Me",
 	"hero.cta.see-cv": "See CV",
 	"hero.process.title": "My learning process",

@@ -22,7 +22,7 @@ const HERO = {
 	"hero.introduction": "¡Hola!, soy",
 	"hero.professions.ing": "Ingeniero electrónico",
 	"hero.professions.dev": "Desarrollador web",
-	"hero.description": "Soy un apasionado de la tecnología y la programación. Tengo experiencia en desarrollo de sistemas embebidos, el puente entre el software y el hardware. Así como en desarrollo web con el ecosistema JavaScript.",
+	"hero.description": "Soy un apasionado de la tecnología y la programación. Tengo experiencia en el desarrollo de sistemas embebidos, que actúan como puente entre el software y el hardware, así como en el desarrollo web utilizando el ecosistema de JavaScript.",
 	"hero.cta.contact": "Contáctame",
 	"hero.cta.see-cv": "Ver CV",
 	"hero.process.title": "Mi proceso de aprendizaje",
