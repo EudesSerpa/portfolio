@@ -6,12 +6,14 @@
 import type { HTMLAttributes } from "astro/types";
 import { iconPaths } from "./IconPath";
 
+export type IconSize = keyof typeof sizeMap;
+
 export interface Props {
 	icon: keyof typeof iconPaths;
 	color?: string;
 	class?: string;
 	gradient?: boolean;
-	size?: keyof typeof sizeMap;
+	size?: IconSize;
 }
 
 const {
@@ -37,7 +39,7 @@ if (size) attrs.style = { "--size": sizeMap[size] };
 ---
 
 <svg
-	class:list={["icon", { [`${className}`]: className }]}
+	class:list={["icon", { [`${className}`]: !!className }]}
 	xmlns="http://www.w3.org/2000/svg"
 	width="40"
 	height="40"
