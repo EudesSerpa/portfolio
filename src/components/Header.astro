@@ -15,9 +15,10 @@ import Navigation from "@components/Navigation.astro";
 		background-color: var(--surface-transparency);
 		isolation: isolate;
 		box-shadow: var(--elevation-1);
-		transition: translate var(--theme-transition);
+		transition: translate .3s var(--theme-transition);
 		block-size: var(--header-size);
 		inset-block-start: 0;
+		-webkit-backdrop-filter: var(--background-blur);
 		backdrop-filter: var(--background-blur);
 	}
 

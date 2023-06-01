@@ -86,11 +86,11 @@ const t = useTranslations(currentLangTag);
 		visibility: var(--lang-list-visibility, hidden);
 		opacity: var(--lang-list-opacity, 0);
 		translate: var(--lang-list-translate, 0 calc(var(--separation) * -1));
-		transition: opacity var(--theme-transition);
+		transition: opacity .3s var(--theme-transition);
 	}
 
 	.lang__arrow {
-		transition: rotate var(--theme-transition);
+		transition: rotate .3s var(--theme-transition);
 	}
 
 	.lang__switcher:is([aria-expanded="true"]) .lang__arrow {
@@ -107,6 +107,7 @@ const t = useTranslations(currentLangTag);
 		.lang__list {
 			transition: opacity var(--theme-transition),
 				translate var(--appears-transition);
+			transition-duration: .3s;
 		}
 	}
 </style>

@@ -4,7 +4,7 @@ import type { Props as ButtonProps } from "@components/buttons/Button.astro";
 
 interface Props extends Partial<ButtonProps> {}
 
-const { class: className, i11nAttrs } = Astro.props;
+const { class: className = "", i11nAttrs } = Astro.props;
 ---
 
 <ButtonIcon
@@ -41,6 +41,7 @@ const { class: className, i11nAttrs } = Astro.props;
 		border-radius: var(--radius-pill);
 		transition: translate var(--theme-transition),
 			background-color var(--theme-transition);
+		transition-duration: .3s;
 	}
 
 	.burger-button__line::before,
@@ -48,8 +49,7 @@ const { class: className, i11nAttrs } = Astro.props;
 		--separation-size: var(--space-stack-8x);
 		--separation-top: calc(var(--separation-size) * -1);
 		--separation-bottom: var(--separation-size);
-		--transition-duration: 0.35s;
-		--animatition: var(--theme-transition) forwards;
+		--animatition: .35s var(--theme-transition) forwards;
 
 		position: absolute;
 		inset-inline-start: calc(0.125rem + 27%);

@@ -15,7 +15,7 @@ const externalAtts = isExternal
 ---
 
 <a
-	class:list={["link", { [`${className}`]: className }]}
+	class:list={["link", { [`${className}`]: !!className }]}
 	href={href}
 	{...attrs}
 	{...externalAtts}
@@ -37,7 +37,7 @@ const externalAtts = isExternal
 		block-size: 0.125rem;
 		content: "";
 		background-color: var(--link);
-		transition: scale var(--bouncing-transition);
+		transition: scale .3s var(--bouncing-transition);
 		transform-origin: center;
 		inset-block-end: -0.125rem;
 		scale: 0 1;

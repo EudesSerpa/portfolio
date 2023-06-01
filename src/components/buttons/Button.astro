@@ -47,7 +47,7 @@ const externalAtts = isExternal
 		{
 			[`btn--${type}`]: type,
 			[`btn--${color}`]: color,
-			[`${className}`]: className,
+			[`${className}`]: !!className,
 		},
 	]}
 	{...externalAtts}
@@ -84,6 +84,7 @@ const externalAtts = isExternal
 			transition: color var(--appears-transition),
 				background-color var(--theme-transition),
 				border-color var(--theme-transition), scale var(--appears-transition);
+			transition-duration: .3s;
 		}
 	}
 
@@ -95,7 +96,7 @@ const externalAtts = isExternal
 		border-radius: inherit;
 		box-shadow: var(--elevation-inset-1);
 		opacity: 0;
-		transition: opacity var(--bouncing-appears-transition);
+		transition: opacity .3s var(--bouncing-appears-transition);
 	}
 
 	.btn:is(:active, [aria-expanded="true"])::after {
@@ -125,8 +126,7 @@ const externalAtts = isExternal
 		content: "";
 		background-color: var(--surface);
 		border-radius: var(--radius-circle);
-		transition: scale var(--appears-transition);
-		transition-duration: .4s;
+		transition: scale .4s var(--appears-transition);
 		transform-origin: bottom;
 		scale: 1 0;
 	}
@@ -141,7 +141,7 @@ const externalAtts = isExternal
 		content: "";
 		background-color: var(--on-surface);
 		border-radius: var(--radius-pill);
-		transition: scale var(--bouncing-transition);
+		transition: scale .3s var(--bouncing-transition);
 		transform-origin: center;
 		block-size: 0.125rem;
 		inset-block-end: var(--space-stack-4x);

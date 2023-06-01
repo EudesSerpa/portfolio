@@ -126,9 +126,7 @@ const INITIAL_IDX_CURRENT_SECTION = 0;
 
 	@media (prefers-reduced-motion: no-preference) {
 		.nav__content {
-			--transition-duration: 0.5s;
-
-			transition: translate var(--bouncing-appears-transition);
+			transition: translate .5s var(--bouncing-appears-transition);
 		}
 	}
 
@@ -161,7 +159,7 @@ const INITIAL_IDX_CURRENT_SECTION = 0;
 		text-transform: capitalize;
 		isolation: isolate;
 		opacity: var(--nav-link-opacity);
-		transition: opacity var(--theme-transition);
+		transition: opacity .3s var(--theme-transition);
 	}
 
 	.nav__link::before,
@@ -179,13 +177,13 @@ const INITIAL_IDX_CURRENT_SECTION = 0;
 	.nav__link::before {
 		background-color: rgb(140 140 140 / 20%);
 		opacity: 0;
-		transition: opacity var(--theme-transition);
+		transition: opacity .3s var(--theme-transition);
 	}
 
 	/* Underline (mobile) */
 	.nav__link::after {
 		background-color: var(--on-surface);
-		transition: scale var(--bouncing-transition);
+		transition: scale .3s var(--bouncing-transition);
 		transform-origin: 0% 50%;
 		scale: 0 1;
 	}
@@ -206,6 +204,7 @@ const INITIAL_IDX_CURRENT_SECTION = 0;
 	@media (prefers-reduced-motion: no-preference) {
 		.nav:is(.open) .nav__link {
 			animation: appear var(--bouncing-appears-transition) backwards;
+			animation-duration: .3s;
 		}
 	}
 
@@ -227,7 +226,7 @@ const INITIAL_IDX_CURRENT_SECTION = 0;
 
 		.nav__link[aria-current]::before {
 			background-color: var(--primary);
-			transition: background-color var(--theme-transition);
+			transition: background-color .3s var(--theme-transition);
 		}
 
 		.nav__link::after {

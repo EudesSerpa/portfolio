@@ -12,7 +12,7 @@ const t = useTranslations(lang);
 const { class: className, href = "#top" } = Astro.props;
 ---
 
-<a class={`logo ${className}`} href={href} aria-label={t("i11n.logo.label")}>
+<a class:list={["logo", {[`${className}`]: !!className}]} href={href} aria-label={t("i11n.logo.label")}>
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
 		width="248"

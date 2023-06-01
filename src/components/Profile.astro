@@ -1,5 +1,5 @@
 ---
-import Profile from "@assets/profile-mask.webp";
+import Profile from "@assets/profile-ai.webp";
 
 interface Props {
 	class?: string;
@@ -8,7 +8,7 @@ interface Props {
 const { class: className } = Astro.props;
 ---
 
-<div class:list={["profile", "stack", { [`${className}`]: className }]}>
+<div class:list={["profile", "stack", { [`${className}`]: !!className }]}>
 	<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 360"
 		>
 		<path
@@ -34,6 +34,7 @@ const { class: className } = Astro.props;
 		width="420"
 		height="360"
 		alt="Eudes Serpa wearing glasses and a tie with a white shirt"
+		loading="lazy"
 	/>
 </div>
 
