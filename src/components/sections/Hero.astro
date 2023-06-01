@@ -12,8 +12,7 @@ import HeroImagePractice from "@assets/practice.webp";
 import HeroImageBuild from "@assets/build.webp";
 import Mask from "@assets/hero-mask.astro";
 
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
+const t = useTranslations(getLangFromUrl(Astro.url));
 
 interface Processes {
 	title: string;
@@ -61,7 +60,7 @@ const processes: Processes[] = [
 
 		<article class="hero__content">
 			<header>
-				<h1 class="section__title">
+				<h1 class="hero__title section__title">
 					<span class="hero__hand" aria-hidden="true">👋🏻</span>
 					{t("hero.introduction")}
 					<span class="gradient-text gradient-text--horizontal"
@@ -95,7 +94,13 @@ const processes: Processes[] = [
 				{
 					processes.map(({ title, miniature }) => (
 						<figure class="hero__process">
-							<img class="hero__process-image" src={miniature} alt="" />
+							<img
+								class="hero__process-image"
+								width="75"
+								height="75"
+								src={miniature}
+								alt=""
+							/>
 							<figcaption>{title}</figcaption>
 						</figure>
 					))
@@ -113,6 +118,8 @@ const processes: Processes[] = [
 							`hero__image--${title.toLowerCase()}`,
 							{ active: idx === 0 },
 						]}
+						width="680"
+						height="860"
 						src={image}
 						alt=""
 					/>
@@ -352,6 +359,7 @@ const processes: Processes[] = [
 		.hero__button-slide--icon {
 			transition: opacity var(--theme-transition),
 				scale var(--bouncing-appears-transition), rotate var(--theme-transition);
+			transition-duration: 0.3s;
 		}
 	}
 
@@ -409,7 +417,6 @@ const processes: Processes[] = [
 		);
 		mask-image: linear-gradient(180deg, var(--background), transparent 98%);
 		z-index: -1;
-		isolation: isolate;
 	}
 
 	.hero__image {
@@ -423,6 +430,7 @@ const processes: Processes[] = [
 		--mask-position-show: var(--mask-dir);
 		--mask-position-hide: left;
 
+		background-color: var(--surface);
 		transition: -webkit-mask-position var(--theme-transition),
 			mask-position var(--theme-transition);
 		transition-duration: 1s;
