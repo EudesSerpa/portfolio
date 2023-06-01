@@ -417,6 +417,7 @@ const processes: Processes[] = [
 		);
 		mask-image: linear-gradient(180deg, var(--background), transparent 98%);
 		z-index: -1;
+		background-color: var(--surface);
 	}
 
 	.hero__image {
@@ -430,7 +431,6 @@ const processes: Processes[] = [
 		--mask-position-show: var(--mask-dir);
 		--mask-position-hide: left;
 
-		background-color: var(--surface);
 		transition: -webkit-mask-position var(--theme-transition),
 			mask-position var(--theme-transition);
 		transition-duration: 1s;
@@ -480,6 +480,7 @@ const processes: Processes[] = [
 		.hero__image-container {
 			inset-inline-start: auto;
 			inline-size: clamp(500px, 50vw, 680px);
+			clip-path: url("#mask");
 			-webkit-mask-image: linear-gradient(
 				180deg,
 				var(--background) 60%,
@@ -487,10 +488,6 @@ const processes: Processes[] = [
 			);
 			mask-image: linear-gradient(180deg, var(--background) 60%, transparent)
 				transparent 98%;
-		}
-
-		.hero__image {
-			clip-path: url("#mask");
 		}
 	}
 </style>
