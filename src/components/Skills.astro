@@ -14,14 +14,14 @@ const techIconComponents: AstroInstance[] = await Astro.glob(
 );
 ---
 
-<ul class="skill__list">
+<ul class="skills">
 	{
 		techIconComponents.map((iconComponent) => (
-			<li class="skill__item">
-				<span class="skill__icon">
+			<li class="skills__item">
+				<span class="skills__icon">
 					<iconComponent.default />
 				</span>
-				<span class="skill__name">
+				<span class="skills__name">
 					{iconComponent.file
 						.split("/")
 						.at(-1)!
@@ -34,13 +34,13 @@ const techIconComponents: AstroInstance[] = await Astro.glob(
 </ul>
 
 <style>
-	.skill__list {
+	.skills {
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--space-stack-20x);
 	}
 
-	.skill__item {
+	.skills__item {
 		--inner-border-radius: 6px;
 		--outer-border-radius: 8px;
 
@@ -55,7 +55,7 @@ const techIconComponents: AstroInstance[] = await Astro.glob(
 		border-radius: var(--inner-border-radius);
 	}
 
-	.skill__item::before {
+	.skills__item::before {
 		position: absolute;
 		inset: calc(var(--space-stack-2x) * -1);
 		z-index: -1;
@@ -83,12 +83,12 @@ const techIconComponents: AstroInstance[] = await Astro.glob(
 		}
 	}
 
-	.skill__icon {
-		inline-size: clamp(28px, 3vw, 42px);
+	.skills__icon {
+		inline-size: clamp(28px, 3vw, 32px);
 		aspect-ratio: 1;
 	}
 
-	.skill__name {
+	.skills__name {
 		text-transform: capitalize;
 	}
 </style>
