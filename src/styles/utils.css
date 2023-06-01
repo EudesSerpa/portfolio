@@ -31,6 +31,7 @@
 	display: grid;
 	grid-template-areas: "stack";
 	place-items: center;
+	isolation: isolate;
 }
 
 .stack>* {
@@ -48,4 +49,12 @@
 
 .gradient-text--horizontal {
 	background-image: var(--gradient-horizontal);
+}
+
+/* Full width background inside a container */
+.full-bleed {
+  --bleed-color: transparent;
+
+  clip-path: inset(0 -100vmax);
+  box-shadow: 0 0 0 100vmax var(--bleed-color, var(--background, red));
 }
