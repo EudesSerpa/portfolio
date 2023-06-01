@@ -34,6 +34,7 @@ const HERO = {
 
 const ABOUT = {
 	"about.title": "Sobre mí",
+
 	"about.whoiam.title": "¿Quién soy?",
 	"about.whoiam.description": `
 	<0>
@@ -61,7 +62,24 @@ const ABOUT = {
 	técnicas sólidas a tu equipo, ¡me encantaría tener la oportunidad de
 	discutir cómo puedo contribuir a tu proyecto!
 	</3>`,
+
 	"about.skills.title": "Habilidades",
+
+	"about.service.web.title": "Web",
+	"about.service.web.text":
+		"Desarrollo de sitios y aplicaciones web personalizados y adaptables con una experiencia de usuario fluida y un gran énfasis en la accesibilidad y rendimiento.",
+	"about.service.desktop.title": "Escritorio",
+	"about.service.desktop.text":
+		"Creación de aplicaciones de escritorio potentes, multiplataforma y fáciles de usar, adaptadas a las necesidades empresariales específicas.",
+	"about.service.design.title": "Diseño web",
+	"about.service.design.text":
+		"Creación de interfaces de usuario visualmente atractivas y centradas en el usuario, empleando técnicas y principios de diseño modernos para crear experiencias digitales intuitivas y atractivas.",
+	"about.service.embedded.title": "Sistemas embebidos",
+	"about.service.embedded.text":
+		"Diseño y desarrollo de sistemas embebidos especializados para crear soluciones eficientes y robustas.",
+	"about.service.db.title": "Bases de datos",
+	"about.service.db.text":
+		"Gestión y administración eficiente y segura de bases de datos relacionales y no relacionales.",
 };
 
 const FOOTER = {

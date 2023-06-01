@@ -34,6 +34,7 @@ const HERO = {
 
 const ABOUT = {
 	"about.title": "About me",
+
 	"about.whoiam.title": "Who I am?",
 	"about.whoiam.description": `
 	<0>
@@ -59,7 +60,25 @@ const ABOUT = {
 	who can bring a unique perspective and solid technical skills to your team,
 	I'd love the opportunity to discuss how I can contribute to your project!
 	</3>`,
+
 	"about.skills.title": "Skills",
+
+	"about.service.title": "Whay I can do?",
+	"about.service.web.title": "Web",
+	"about.service.web.text":
+		"Development of custom and responsive websites and applications with a seamless user experience and a strong emphasis on accessibility and performance.",
+	"about.service.desktop.title": "Desktop",
+	"about.service.desktop.text":
+		"Creation of powerful, cross-platform, and user-friendly desktop applications tailored to specific business needs.",
+	"about.service.design.title": "Web Design",
+	"about.service.design.text":
+		"Creation of visually appealing and user-centered interfaces, employing modern design techniques and principles to craft intuitive and engaging digital experiences.",
+	"about.service.embedded.title": "Embedded Systems",
+	"about.service.embedded.text":
+		"Design and development of specialized embedded systems to create efficient and robust solutions.",
+	"about.service.db.title": "Databases",
+	"about.service.db.text":
+		"Efficient and secure management and administration of relational and non-relational databases.",
 };
 
 const FOOTER = {
