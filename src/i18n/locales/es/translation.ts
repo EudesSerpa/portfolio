@@ -81,6 +81,8 @@ const I11N = {
 
 	"i11n.hero.btn-slide.label.start": "Iniciar presentación automática",
 	"i11n.hero.btn-slide.label.pause": "Detener presentación automática",
+
+	"i11n.social.btn.label": "Ir a la cuenta de <social-media>",
 };
 
 export const esTranslations = {

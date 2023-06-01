@@ -79,6 +79,8 @@ const I11N = {
 
 	"i11n.hero.btn-slide.label.start": "Start automatic slide show",
 	"i11n.hero.btn-slide.label.pause": "Stop automatic slide show",
+
+	"i11n.social.btn.label": "Go to <social-media> account",
 };
 
 export const enTranslations = {
