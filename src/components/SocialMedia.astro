@@ -1,22 +1,38 @@
 ---
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
 import { AUTHOR } from "@utils/const";
 import ButtonIcon from "@components/buttons/ButtonIcon.astro";
-import Icon from "@components/Icon.astro";
+import Icon, { IconSize } from "@components/Icon.astro";
 
 interface Props {
 	class?: string;
+	size?: IconSize;
 }
 
-const { class: className } = Astro.props;
+const { class: className, size } = Astro.props;
+const t = useTranslations(getLangFromUrl(Astro.url));
+
+const getLabeledAccount = (account: string) =>
+	t("i11n.social.btn.label").replace(/<.*>/, account);
 ---
 
 <div
-	class:list={["social-media", "flex-group", { [`${className}`]: className }]}
+	class:list={["social-media", "flex-group", { [`${className}`]: !!className }]}
 >
-	<ButtonIcon href={AUTHOR.github} type="solid" isExternal>
-		<Icon icon="github" />
+	<ButtonIcon
+		i11nAttrs={{ "aria-label": getLabeledAccount("GitHub") }}
+		href={AUTHOR.github}
+		type="solid"
+		isExternal
+	>
+		<Icon icon="github" size={size} />
 	</ButtonIcon>
-	<ButtonIcon href={AUTHOR.linkedin} type="solid" isExternal>
-		<Icon icon="linkedin" />
+	<ButtonIcon
+		i11nAttrs={{ "aria-label": getLabeledAccount("Linkedin") }}
+		href={AUTHOR.linkedin}
+		type="solid"
+		isExternal
+	>
+		<Icon icon="linkedin" size={size} />
 	</ButtonIcon>
 </div>
