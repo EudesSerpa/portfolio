@@ -1,0 +1,78 @@
+---
+interface Props {
+	name: string;
+	description: string;
+	image: string;
+}
+
+const { name, description, image } = Astro.props;
+---
+
+<figure class="service stack">
+	<img
+		class="service__image"
+		width="230"
+		height="250"
+		src={image}
+		alt=""
+		loading="lazy"
+	/>
+
+	<figcaption class="service__body">
+		<header>
+			<h4 class="service__title">{name}</h4>
+		</header>
+
+		<p class="service__description">{description}</p>
+	</figcaption>
+</figure>
+
+<style>
+	.service {
+		--content-padding-block: var(--space-stack-8x);
+		--overlay-off-height: var(--space-stack-48x);
+
+		margin-inline: auto;
+		overflow: hidden;
+		border-radius: var(--radius-rounded-8);
+		box-shadow: var(--elevation-1);
+		block-size: 100%;
+	}
+
+	.service__image {
+		object-fit: cover;
+		inline-size: 100%;
+		block-size: 100%;
+		background-color: var(--surface);
+	}
+
+	.service__body {
+		display: grid;
+		gap: var(--space-stack-4x);
+		place-self: end;
+		padding: var(--content-padding-block) var(--space-stack-16x);
+		background-color: var(--surface-transparency);
+	}
+
+	.service__title {
+		font-size: var(--font-size-large);
+		color: var(--hight-emphasis);
+		text-transform: capitalize;
+	}
+
+	.service__description {
+		color: var(--medium-emphasis);
+	}
+
+	@media (hover: hover) {
+		.service__body {
+			translate: 0
+				calc(100% - var(--overlay-off-height) + var(--content-padding-block));
+			transition: translate 0.5s var(--bouncing-transition);
+		}
+
+		.service:hover .service__body {
+			translate: 0;
+		}
+	}
+</style>

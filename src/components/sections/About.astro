@@ -4,12 +4,51 @@ import SectionTitle from "@components/SectionTitle.astro";
 import Profile from "@components/Profile.astro";
 import SocialMedia from "@components/SocialMedia.astro";
 import Skills from "@components/Skills.astro";
+import ServiceList from "@components/ServiceList.astro";
+import WebImage from "@assets/web-dev.webp";
+import DBImage from "@assets/db-admin.webp";
+import EmbeddedSystemsImage from "@assets/embedded-systems.webp";
+import WebDesignImage from "@assets/web-design.webp";
+import DesktopImage from "@assets/desktop-dev.webp";
+import type { Services } from "@components/ServiceList.astro";
 
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
+const t = useTranslations(getLangFromUrl(Astro.url));
 
 const [title, titleHighlight] = t("about.title").split(" ");
 const whoIAmTexts: string[] = t("about.whoiam.description").split(/<.*>/g);
+
+const services: Services = [
+	{
+		name: "Web development",
+		description:
+			"Custom web sites and applications with a seamless user experience and a strong emphasis on accessibility and performance that adapt and display optimally on various devices and screen sizes.",
+		image: WebImage,
+	},
+	{
+		name: "Desktop development",
+		description:
+			"Creating powerful and user-friendly desktop applications for Windows, macOS, or Linux platforms, tailored to meet specific business needs and provide a seamless user experience.",
+		image: DesktopImage,
+	},
+	{
+		name: "Web design",
+		description:
+			"Crafting visually appealing and user-centric website interfaces, employing modern design principles and techniques to create intuitive and engaging digital experiences.",
+		image: WebDesignImage,
+	},
+	{
+		name: "Embedded system development",
+		description:
+			"Design and development of specialized computer systems integrated into hardware devices, combining software and hardware engineering to create efficient and reliable embedded solutions.",
+		image: EmbeddedSystemsImage,
+	},
+	{
+		name: "Database administration",
+		description:
+			"Efficient and secure management of databases, including data organization, storage, retrieval, and optimization for smooth data operations and reliable performance.",
+		image: DBImage,
+	},
+];
 ---
 
 <section id="about" class="about section wrapper">
@@ -33,7 +72,7 @@ const whoIAmTexts: string[] = t("about.whoiam.description").split(/<.*>/g);
 
 		<div class="whoiam__profile">
 			<Profile class="whoiam__profile-image" />
-			<SocialMedia />
+			<SocialMedia size="large" />
 		</div>
 	</section>
 
@@ -43,6 +82,14 @@ const whoIAmTexts: string[] = t("about.whoiam.description").split(/<.*>/g);
 		</header>
 
 		<Skills />
+	</section>
+
+	<section class="services subsection subsection--services full-bleed">
+		<header>
+			<h3 class="subsection__title">What I can do?</h3>
+		</header>
+
+		<ServiceList services={services} />
 	</section>
 </section>
 
@@ -91,6 +138,51 @@ const whoIAmTexts: string[] = t("about.whoiam.description").split(/<.*>/g);
 	}
 
 	.whoiam__profile-image {
+		position: relative;
 		inline-size: clamp(min(100%, 280px), 40vw, 360px);
+	}
+
+	.whoiam__profile-image::before {
+		position: absolute;
+		inset: -5%;
+		z-index: -1;
+		aspect-ratio: 1;
+		content: "";
+		background: conic-gradient(
+			from var(--gradient-angle),
+			var(--gradient-stop-2),
+			var(--gradient-stop-1),
+			var(--gradient-stop-2)
+		);
+		filter: blur(5rem) opacity(var(--gradient-opacity, 0.75));
+		border-radius: var(--radius-circle);
+		animation: rotation 20s linear infinite;
+	}
+
+	html:is(.theme-dark) .whoiam__profile-image::before {
+		--gradient-opacity: 0.3;
+	}
+
+	@property --gradient-angle {
+		syntax: "<angle>";
+		initial-value: 0deg;
+		inherits: false;
+	}
+
+	@keyframes rotation {
+		to {
+			--gradient-angle: 360deg;
+		}
+	}
+
+	/* ------------------------------------*\
+		#Subsection: What I can do?
+	\*------------------------------------ */
+
+	.services {
+		--bleed-color: var(--surface-transparency);
+
+		padding-block: var(--space-stack-20x);
+		background-color: var(--bleed-color);
 	}
 </style>

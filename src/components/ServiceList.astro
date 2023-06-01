@@ -1,0 +1,40 @@
+---
+import Service from "./Service.astro";
+
+export type Services = { name: string; description: string; image: string }[];
+
+interface Props {
+	services: Services;
+}
+
+const { services } = Astro.props;
+---
+
+<ul class="services__list">
+	{
+		services.map(({ name, description, image }) => (
+			<li>
+				<Service name={name} description={description} image={image} />
+			</li>
+		))
+	}
+</ul>
+
+<style>
+	.services__list {
+		--min-column-size: 210px;
+
+		display: grid;
+		grid-template-columns: repeat(
+			auto-fill,
+			minmax(min(var(--min-column-size), 100%), 0.2fr)
+		);
+		gap: var(--space-stack-20x);
+	}
+
+	@media screen and (width <= 46rem) {
+		.services__list {
+			place-content: center;
+		}
+	}
+</style>
