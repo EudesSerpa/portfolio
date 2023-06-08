@@ -23,7 +23,7 @@ const HERO = {
 	"hero.professions.ing": "Ingeniero electrónico",
 	"hero.professions.dev": "Desarrollador web",
 	"hero.description":
-		"Soy un apasionado de la tecnología y la programación. Tengo experiencia en el desarrollo de sistemas embebidos, que actúan como puente entre el software y el hardware, así como en el desarrollo web utilizando el ecosistema de JavaScript.",
+		"Especializado en el desarrollo web y de sistemas embebidos, enfocado en brindar una experiencia de usuario fluida y de calidad",
 	"hero.cta.contact": "Contáctame",
 	"hero.cta.see-cv": "Ver CV",
 	"hero.process.title": "Mi proceso de aprendizaje",
@@ -37,34 +37,31 @@ const ABOUT = {
 
 	"about.whoiam.title": "¿Quién soy?",
 	"about.whoiam.description": `
-	<0>
-	Soy un joven colombiano graduado en Ingeniería Electrónica de la Universidad
-	del Magdalena y apasionado por el desarrollo de software.	Actualmente, estoy
+	Joven colombiano graduado en Ingeniería Electrónica de la Universidad
+	del Magdalena y apasionado por el desarrollo de software.	Actualmente,
 	cursando un tecnólogo en el área de Análisis y Desarrollo de Software en el
 	Servicio Nacional de Aprendizaje, SENA.
-	</0>
-	<1>
+	---
 	Mi primer acercamiento a la programación y al desarrollo de software
 	ocurrió durante mi primer semestre de pregrado, donde tuve la
 	oportunidad de familiarizarme con el lenguaje de programación C y el
 	microcontrolador Arduino. Aunque fue un inicio desafiante, descubrí
 	una pasión genuina por estas áreas.
-	</1>
-	<2>
+	---
 	A lo largo de los últimos años, he invertido innumerables horas en
 	estudiar y practicar diversos lenguajes de programación, frameworks y
 	tecnologías web. Esta dedicación me ha permitido adquirir
-	conocimientos sólidos en desarrollo web y sistemas embebidos.
-	</2>
-	<3>
+	conocimientos sólidos en desarrollo de software.
+	---
 	Si estás en busca de un profesional comprometido, autodidacta y
 	entusiasta que pueda aportar una perspectiva única y habilidades
 	técnicas sólidas a tu equipo, ¡me encantaría tener la oportunidad de
 	discutir cómo puedo contribuir a tu proyecto!
-	</3>`,
+	`,
 
 	"about.skills.title": "Habilidades",
 
+	"about.service.title": "¿Qué puedo hacer?",
 	"about.service.web.title": "Web",
 	"about.service.web.text":
 		"Desarrollo de sitios y aplicaciones web personalizados y adaptables con una experiencia de usuario fluida y un gran énfasis en la accesibilidad y rendimiento.",
@@ -80,6 +77,23 @@ const ABOUT = {
 	"about.service.db.title": "Bases de datos",
 	"about.service.db.text":
 		"Gestión y administración eficiente y segura de bases de datos relacionales y no relacionales.",
+
+	"about.education.title": "Educación",
+	"about.education.unimag": "Universidad del Magdalena",
+	"about.education.unab": "Universidad Autónoma de Bucaramanga",
+	"about.education.sena": "Servicio Nacional de Aprendizaje",
+	"about.education.unimag.career": "Ingeniería electrónica",
+	"about.education.unab.career": "Desarrollo web",
+	"about.education.sena.career": "Análisis y desarrollo de software",
+	"about.education.platzi.career": "Desarrollo web, diseño e inglés",
+	"about.education.type.professional": "Profesional",
+	"about.education.type.technical": "Técnica",
+	"about.education.type.technological": "Tecnológica",
+	"about.education.type.self-taught": "Autodidacta",
+	"about.education.degree.technician": "Técnico",
+	"about.education.degree.technologist": "Tecnólogo",
+	"about.education.degree.engineer": "Ingeniero",
+	"about.education.degree.no": "Sin titulación",
 };
 
 const FOOTER = {

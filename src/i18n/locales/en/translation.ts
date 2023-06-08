@@ -23,7 +23,7 @@ const HERO = {
 	"hero.professions.ing": "Electronic engineer",
 	"hero.professions.dev": "Web developer",
 	"hero.description":
-		"I am passionate about technology and programming. I have experience in the development of embedded systems, which act as a bridge between software and hardware, as well as in web development using the JavaScript ecosystem.",
+		"Specialized in web and embedded systems development, focused on providing a smooth and quality user experience.",
 	"hero.cta.contact": "Contact Me",
 	"hero.cta.see-cv": "See CV",
 	"hero.process.title": "My learning process",
@@ -37,29 +37,24 @@ const ABOUT = {
 
 	"about.whoiam.title": "Who I am?",
 	"about.whoiam.description": `
-	<0>
-	I'm a young Colombian graduated in Electronic Engineering from the University
-	of Magdalena and passionate about software development. Currently, I am
-	studying a technologist in the area of Software Analysis and Development at
-	the National Learning Service, SENA (for its acronym in Spanish).
-	</0>
-	<1>
+	Young Colombian graduated in Electronic Engineering from the University of
+	Magdalena and passionate about software development. Currently, studying
+	a technologist in the area of Software Analysis and Development at the
+	National Learning Service, SENA (for its acronym in Spanish).
+	---
 	My first approach to programming and software development was during my first
 	semester of undergraduate, where I had the opportunity to familiarize myself
 	with the C programming language and the Arduino microcontroller. Although it
 	was a challenging start, I discovered a genuine passion for these areas.
-	</1>
-	<2>
+	---
 	Over the past few years, I have invested countless hours in studying
 	and practicing various programming languages,	frameworks and web
 	technologies. This dedication has allowed me to acquire solid
 	knowledge in web development and embedded systems.
-	</2>
-	<3>
+	---
 	If you're looking for a committed, self-taught and enthusiastic professional
 	who can bring a unique perspective and solid technical skills to your team,
-	I'd love the opportunity to discuss how I can contribute to your project!
-	</3>`,
+	I'd love the opportunity to discuss how I can contribute to your project!`,
 
 	"about.skills.title": "Skills",
 
@@ -79,6 +74,23 @@ const ABOUT = {
 	"about.service.db.title": "Databases",
 	"about.service.db.text":
 		"Efficient and secure management and administration of relational and non-relational databases.",
+
+	"about.education.title": "Education",
+	"about.education.unimag": "University of Magdalena",
+	"about.education.unab": "Autonomous University of Bucaramanga",
+	"about.education.sena": "National Learning Service",
+	"about.education.unimag.career": "Electronic engineering",
+	"about.education.unab.career": "Web development",
+	"about.education.sena.career": "Software analysis and development",
+	"about.education.platzi.career": "Web development, design and english",
+	"about.education.type.professional": "Professional",
+	"about.education.type.technical": "Technical",
+	"about.education.type.technological": "Technological",
+	"about.education.type.self-taught": "Self-taught",
+	"about.education.degree.technician": "Technician",
+	"about.education.degree.technologist": "Technologist",
+	"about.education.degree.engineer": "Engineer",
+	"about.education.degree.no": "No degree",
 };
 
 const FOOTER = {
