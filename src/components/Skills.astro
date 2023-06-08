@@ -14,7 +14,7 @@ const techIconComponents: AstroInstance[] = await Astro.glob(
 );
 ---
 
-<ul class="skills">
+<ul class="skills flex-group">
 	{
 		techIconComponents.map((iconComponent) => (
 			<li class="skills__item">
@@ -35,9 +35,8 @@ const techIconComponents: AstroInstance[] = await Astro.glob(
 
 <style>
 	.skills {
-		display: flex;
-		flex-wrap: wrap;
 		gap: var(--space-stack-20x);
+		justify-content: start;
 	}
 
 	.skills__item {

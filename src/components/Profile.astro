@@ -1,5 +1,5 @@
 ---
-import Profile from "@assets/profile-ai.webp";
+import ProfileImage from "@assets/profile-ai.webp";
 
 interface Props {
 	class?: string;
@@ -30,7 +30,7 @@ const { class: className } = Astro.props;
 	</svg>
 	<img
 		class="profile__image"
-		src={Profile}
+		src={ProfileImage}
 		width="420"
 		height="360"
 		alt="Eudes Serpa wearing glasses and a tie with a white shirt"
@@ -42,5 +42,9 @@ const { class: className } = Astro.props;
 	.profile {
 		align-items: baseline;
 		max-inline-size: 100%;
+	}
+
+	.profile__image {
+		block-size: 100%;
 	}
 </style>
