@@ -5,17 +5,23 @@ import Profile from "@components/Profile.astro";
 import SocialMedia from "@components/SocialMedia.astro";
 import Skills from "@components/Skills.astro";
 import ServiceList from "@components/ServiceList.astro";
+import type { Services } from "@components/ServiceList.astro";
 import WebImage from "@assets/web-dev.webp";
 import DBImage from "@assets/db-admin.webp";
 import EmbeddedSystemsImage from "@assets/embedded-systems.webp";
 import WebDesignImage from "@assets/web-design.webp";
 import DesktopImage from "@assets/desktop-dev.webp";
-import type { Services } from "@components/ServiceList.astro";
+import type { Props as EducationProps } from "@components/EducationCard.astro"
+import UnimagLogo from "@assets/unimag-logo.png";
+import UnabLogo from "@assets/unab-logo.png";
+import PlatziLogo from "@assets/platzi-logo.png";
+import SenaLogo from "@assets/sena-logo.png";
+import EducationList from "@components/EducationList.astro";
 
 const t = useTranslations(getLangFromUrl(Astro.url));
 
 const [title, titleHighlight] = t("about.title").split(" ");
-const whoIAmTexts: string[] = t("about.whoiam.description").split(/<.*>/g);
+const whoIAmTexts: string[] = t("about.whoiam.description").split("---");
 
 const services: Services = [
 	{
@@ -42,6 +48,43 @@ const services: Services = [
 		name: t("about.service.db.title"),
 		description: t("about.service.db.text"),
 		image: DBImage,
+	},
+];
+
+const educations: EducationProps[] = [
+	{
+		institute: t("about.education.unimag"),
+		type: t("about.education.type.professional"),
+		career: t("about.education.unimag.career"),
+		degree: t("about.education.degree.engineer"),
+		initDate: "2016-02-01",
+		finishDate: "2021-12-15",
+		image: UnimagLogo,
+	},
+	{
+		institute: t("about.education.unab"),
+		type: t("about.education.type.technical"),
+		career: t("about.education.unab.career"),
+		degree: t("about.education.degree.technician"),
+		initDate: "2022-05-05",
+		finishDate: "2022-11-09",
+		image: UnabLogo,
+	},
+	{
+		institute: "Platzi",
+		type: t("about.education.type.self-taught"),
+		career: t("about.education.platzi.career"),
+		degree: t("about.education.degree.no"),
+		initDate: "2021-09-01",
+		image: PlatziLogo,
+	},
+	{
+		institute: t("about.education.sena"),
+		type: t("about.education.type.technological"),
+		career: t("about.education.sena.career"),
+		degree: t("about.education.degree.technologist"),
+		initDate: "2023-05-20",
+		image: SenaLogo,
 	},
 ];
 ---
@@ -81,10 +124,18 @@ const services: Services = [
 
 	<section class="services subsection subsection--services full-bleed">
 		<header>
-			<h3 class="subsection__title">What I can do?</h3>
+			<h3 class="subsection__title">{t("about.service.title")}</h3>
 		</header>
 
 		<ServiceList services={services} />
+	</section>
+
+	<section class="education subsection subsection--education">
+		<header>
+			<h3 class="subsection__title">{t("about.education.title")}</h3>
+		</header>
+
+		<EducationList educations={educations} />
 	</section>
 </section>
 

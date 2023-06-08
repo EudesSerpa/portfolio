@@ -1,0 +1,37 @@
+---
+import EducationCard from "./EducationCard.astro";
+import type { Props as EducationProps } from "@components/EducationCard.astro";
+
+interface Props {
+	educations: EducationProps[];
+}
+
+const { educations } = Astro.props;
+---
+
+<ul class="education__list flex-group">
+	{
+		educations.map(
+			({ institute, image, type, career, degree, initDate, finishDate }) => (
+				<li>
+					<EducationCard
+						institute={institute}
+						type={type}
+						career={career}
+						degree={degree}
+						initDate={initDate}
+						finishDate={finishDate}
+						image={image}
+					/>
+				</li>
+			)
+		)
+	}
+</ul>
+
+<style>
+	.education__list {
+		justify-content: start;
+		gap: var(--space-stack-20x);
+	}
+</style>

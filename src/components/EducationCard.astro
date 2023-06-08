@@ -1,0 +1,146 @@
+---
+import Icon from "./Icon.astro";
+
+export interface Props {
+	institute: string;
+	career: string;
+	type: string;
+	image: string;
+	initDate: string;
+	finishDate?: string;
+	degree?: string;
+}
+
+const {
+	institute,
+	career,
+	type,
+	image,
+	initDate,
+	finishDate,
+	degree = "No degree",
+} = Astro.props;
+---
+
+<article class="education flex-group">
+	<aside>
+		<img
+			class="education__image"
+			src={image}
+			alt={`Logo of the ${institute}`}
+			width="64"
+			height="64"
+		/>
+	</aside>
+
+	<div class="education__details">
+		<header>
+			<h4 class="education__title">{institute}</h4>
+		</header>
+
+		<p class="education__career">{career}</p>
+
+		<footer class="education__footer flex-group">
+			<p class="education__data education__date">
+				<span class="visually-hidden">From</span>
+				<time datetime={initDate}>{new Date(initDate).getFullYear()}</time>
+
+				<span class="visually-hidden">to</span>
+				{
+					finishDate ? (
+						<>
+							<span> &minus; </span>
+							<time datetime={finishDate}>{new Date(finishDate).getFullYear()}</time>
+						</>
+					) : (
+						<span class="visually-hidden">Actually</span>
+					)
+				}
+				<Icon
+					class={`education__icon-state ${finishDate ? "education--completed" : "education--actual"}`}
+					icon={finishDate ? "check-mark" : "pencil"}
+					size="small"
+				/>
+			</p>
+			<p class="education__data education__degree">
+				<span class="visually-hidden">Degree: </span>
+				{degree}
+			</p>
+			<p class="education__data education__type">
+				<span class="visually-hidden">Type: </span>
+				{type}
+			</p>
+		</footer>
+	</div>
+</article>
+
+<style>
+	.education {
+		justify-content: flex-start;
+		flex-wrap: nowrap;
+		gap: var(--space-stack-12x);
+	}
+
+	@media screen and (width <= 31rem) {
+		.education {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+	}
+
+	.education__image {
+		inline-size: 48px;
+	}
+
+	.education__details {
+		display: grid;
+		gap: var(--space-stack-4x);
+	}
+
+	.education__title {
+		font-size: var(--font-size-large);
+		color: var(--hight-emphasis);
+	}
+
+	.education__career {
+		font-size: var(--font-size-base);
+		color: var(--medium-emphasis);
+	}
+
+	.education__footer {
+		justify-content: flex-start;
+		gap: var(--space-stack-6x);
+	}
+
+	.education__data {
+		--content-padding-block-start: var(--space-stack-2x);
+		--content-padding-inline: var(--space-stack-12x);
+
+		padding: var(--content-padding-block-start) var(--content-padding-inline)
+			var(--space-stack-x);
+		font-size: var(--font-size-small);
+		color: var(--on-surface);
+		background-color: var(--surface);
+		border-radius: var(--radius-pill);
+	}
+
+	.education__date {
+		position: relative;
+	}
+
+	.education__icon-state {
+		position: absolute;
+		inline-size: var(--space-stack-12x);
+		block-size: var(--space-stack-12x);
+		inset-block-start: calc(var(--space-stack-6x) * -1);
+		inset-inline-end: calc(var(--space-stack-4x) * -1);
+	}
+
+	.education--completed {
+		color: var(--success);
+	}
+
+	.education--actual {
+		color: var(--secondary-decorative);
+	}
+</style>
