@@ -20,6 +20,39 @@ const {
 	finishDate,
 	degree = "No degree",
 } = Astro.props;
+
+/**
+ * Formats dates to get the year or the year and month when the years of the dates are the same
+ *
+ * @param {string} initDate - The initial date string
+ * @param {string | undefined} finishDate - The finish date string (optional)
+ * @returns {string[]} - The formatted dates [formattedInitDate, formattedFinishDate]
+ */
+function formatDate(initDate: string, finishDate?: string): string[] {
+	const formattedInitDate = new Date(initDate);
+	const formattedFinishDate = finishDate ? new Date(finishDate) : null;
+
+	const initYear = formattedInitDate.getFullYear().toString();
+	const finishYear = formattedFinishDate?.getFullYear().toString() ?? "";
+
+	if (formattedFinishDate && initYear === finishYear) {
+		const initMonth = (formattedInitDate.getMonth() + 1)
+			.toString()
+			.padStart(2, "0");
+		const finishMonth = (formattedFinishDate.getMonth() + 1)
+			.toString()
+			.padStart(2, "0");
+
+		return [`${initMonth}/${initYear}`, `${finishMonth}/${finishYear}`];
+	}
+
+	return [initYear, finishYear];
+}
+
+const [formattedInitDate, formattedFinishDate] = formatDate(
+	initDate,
+	finishDate
+);
 ---
 
 <article class="education flex-group">
@@ -28,8 +61,8 @@ const {
 			class="education__image"
 			src={image}
 			alt={`Logo of the ${institute}`}
-			width="64"
-			height="64"
+			width="48"
+			height="48"
 		/>
 	</aside>
 
@@ -43,31 +76,33 @@ const {
 		<footer class="education__footer flex-group">
 			<p class="education__data education__date">
 				<span class="visually-hidden">From</span>
-				<time datetime={initDate}>{new Date(initDate).getFullYear()}</time>
+				<time datetime={initDate}>{formattedInitDate}</time>
 
 				<span class="visually-hidden">to</span>
 				{
 					finishDate ? (
 						<>
 							<span> &minus; </span>
-							<time datetime={finishDate}>{new Date(finishDate).getFullYear()}</time>
+							<time datetime={finishDate}>{formattedFinishDate}</time>
 						</>
 					) : (
 						<span class="visually-hidden">Actually</span>
 					)
 				}
 				<Icon
-					class={`education__icon-state ${finishDate ? "education--completed" : "education--actual"}`}
+					class={`education__icon-state ${
+						finishDate ? "education--completed" : "education--actual"
+					}`}
 					icon={finishDate ? "check-mark" : "pencil"}
 					size="small"
 				/>
 			</p>
 			<p class="education__data education__degree">
-				<span class="visually-hidden">Degree: </span>
+				<span class="visually-hidden">Degree:</span>
 				{degree}
 			</p>
 			<p class="education__data education__type">
-				<span class="visually-hidden">Type: </span>
+				<span class="visually-hidden">Type:</span>
 				{type}
 			</p>
 		</footer>
