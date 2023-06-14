@@ -1,0 +1,31 @@
+---
+interface Props {
+	image: string;
+	name: string;
+}
+
+const { name, image } = Astro.props;
+---
+
+<figure class="issuer">
+	<img class="issuer__image" src={image} alt={name} width="48" height="48" />
+
+	<figcaption>
+		<h4>{name}</h4>
+	</figcaption>
+</figure>
+
+<style>
+	.issuer {
+		inline-size: fit-content;
+		text-align: center;
+		text-transform: capitalize;
+	}
+
+	.issuer__image {
+		object-fit: cover;
+		inline-size: 2.625rem;
+		aspect-ratio: 1;
+		margin-block-end: var(--space-stack-2x);
+	}
+</style>

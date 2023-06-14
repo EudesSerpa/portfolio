@@ -1,0 +1,41 @@
+---
+interface Props {
+	href: string;
+	image: string;
+	name: string;
+}
+
+const { href, image, name } = Astro.props;
+---
+
+<a href={href} class="certificate" target="_blank" rel="noopener noreferrer">
+	<figure class="certificate__content">
+		<img
+			class="certificate__image"
+			src={image}
+			alt={`${name} certificate`}
+			width="160"
+			height="160"
+			loading="lazy"
+		/>
+
+		<figcaption>{name}</figcaption>
+	</figure>
+</a>
+
+<style>
+	.certificate__content {
+		inline-size: 10rem;
+		color: var(--medium-emphasis);
+		text-transform: capitalize;
+	}
+
+	.certificate__image {
+		margin-block-end: var(--space-stack-8x);
+		overflow: hidden;
+		background-color: var(--surface);
+		border-radius: var(--radius-rounded-8);
+		object-fit: cover;
+		box-shadow: var(--elevation-1);
+	}
+</style>
