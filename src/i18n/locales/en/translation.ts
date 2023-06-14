@@ -91,6 +91,11 @@ const ABOUT = {
 	"about.education.degree.technologist": "Technologist",
 	"about.education.degree.engineer": "Engineer",
 	"about.education.degree.no": "No degree",
+
+	"about.certifications.title": "Certifications",
+	"about.certifications.see-all-link": "See all in LinkedIn",
+	"about.certifications.btn.see-more": "See more",
+	"about.certifications.btn.see-less": "See less",
 };
 
 const FOOTER = {
