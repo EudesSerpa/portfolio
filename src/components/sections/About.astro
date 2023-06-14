@@ -11,12 +11,18 @@ import DBImage from "@assets/db-admin.webp";
 import EmbeddedSystemsImage from "@assets/embedded-systems.webp";
 import WebDesignImage from "@assets/web-design.webp";
 import DesktopImage from "@assets/desktop-dev.webp";
-import type { Props as EducationProps } from "@components/EducationCard.astro"
+import type { Props as EducationProps } from "@components/EducationCard.astro";
 import UnimagLogo from "@assets/unimag-logo.png";
 import UnabLogo from "@assets/unab-logo.png";
 import PlatziLogo from "@assets/platzi-logo.png";
 import SenaLogo from "@assets/sena-logo.png";
 import EducationList from "@components/EducationList.astro";
+import Button from "@components/buttons/Button.astro";
+import { AUTHOR } from "@utils/const";
+import Icon from "@components/Icon.astro";
+import ButtonIcon from "@components/buttons/ButtonIcon.astro";
+import Certification from "@components/Certification/index.astro";
+import { certifications } from "@components/Certification/index.astro";
 
 const t = useTranslations(getLangFromUrl(Astro.url));
 
@@ -99,7 +105,7 @@ const educations: EducationProps[] = [
 
 	<section class="whoiam subsection subsection--whoiam">
 		<article class="whoiam__bio">
-			<header>
+			<header class="subsection__header">
 				<h3 class="subsection__title">{t("about.whoiam.title")}</h3>
 			</header>
 
@@ -115,7 +121,7 @@ const educations: EducationProps[] = [
 	</section>
 
 	<section class="skills subsection subsection--skills">
-		<header>
+		<header class="subsection__header">
 			<h3 class="subsection__title">{t("about.skills.title")}</h3>
 		</header>
 
@@ -123,7 +129,7 @@ const educations: EducationProps[] = [
 	</section>
 
 	<section class="services subsection subsection--services full-bleed">
-		<header>
+		<header class="subsection__header">
 			<h3 class="subsection__title">{t("about.service.title")}</h3>
 		</header>
 
@@ -131,17 +137,77 @@ const educations: EducationProps[] = [
 	</section>
 
 	<section class="education subsection subsection--education">
-		<header>
+		<header class="subsection__header">
 			<h3 class="subsection__title">{t("about.education.title")}</h3>
 		</header>
 
 		<EducationList educations={educations} />
 	</section>
+
+	<section class="certifications subsection subsection--certifications">
+		<header class="certifications__header subsection__header flex-group">
+			<h3 class="subsection__title">{t("about.certifications.title")}</h3>
+
+			<>
+				<ButtonIcon
+					class="certifications__link certifications__link--mobile"
+					type="outline"
+					color="primary"
+					href={`${AUTHOR.linkedin}/details/certifications`}
+					isExternal
+				>
+					<Icon icon="external-link" size="small" />
+				</ButtonIcon>
+
+				<Button
+					class="certifications__link"
+					type="ghost-underline"
+					color="primary"
+					isExternal
+					href={`${AUTHOR.linkedin}/details/certifications`}
+				>
+					<span>{t("about.certifications.see-all-link")}</span>
+					<Icon icon="external-link" size="small" />
+				</Button>
+			</>
+		</header>
+
+		<ul id="js-certifications" class="certifications__list">
+			{
+				Object.keys(certifications).map((issuer) => (
+					<li>
+						<Certification issuer={issuer} />
+					</li>
+				))
+			}
+		</ul>
+
+		<footer class="certifications__ctas js-certifications__ctas flex-group">
+			<Button
+				class="certifications__cta certifications__cta--more js-certifications__cta--more"
+				type="outline"
+				color="primary"
+			>
+				<span>{t("about.certifications.btn.see-more")}</span>
+				<Icon icon="arrow" size="small" />
+			</Button>
+			<Button
+				class="certifications__cta certifications__cta--less js-certifications__cta--less"
+				type="ghost"
+			>
+				<span>{t("about.certifications.btn.see-less")}</span>
+				<Icon class="arrow-up-icon" icon="arrow" size="small" />
+			</Button>
+		</footer>
+	</section>
 </section>
 
 <style>
-	.subsection__title {
+	.subsection__header {
 		margin-block-end: var(--space-stack-10x);
+	}
+
+	.subsection__title {
 		font-size: var(--font-size-2x-large);
 	}
 
@@ -155,10 +221,9 @@ const educations: EducationProps[] = [
 			"profile"
 			"text";
 		gap: var(--space-stack-32x);
-		place-items: center;
 	}
 
-	@media screen and (width >= 940px) {
+	@media screen and (width >= 58.75rem) {
 		.whoiam {
 			grid-template-areas: "text profile";
 			place-content: space-between;
@@ -174,6 +239,7 @@ const educations: EducationProps[] = [
 		gap: var(--space-stack-8x);
 		max-inline-size: 70ch;
 		font-size: var(--font-size-medium);
+		color: var(--medium-emphasis);
 	}
 
 	.whoiam__profile {
@@ -231,4 +297,146 @@ const educations: EducationProps[] = [
 		padding-block: var(--space-stack-20x);
 		background-color: var(--bleed-color);
 	}
+
+	/* ------------------------------------*\
+		#Subsection: Certifications
+	\*------------------------------------ */
+
+	.certifications__header {
+		justify-content: space-between;
+	}
+
+	.certifications__link:not(.certifications__link--mobile) {
+		display: none;
+	}
+
+	@media screen and (width >= 31rem) {
+		.certifications__link--mobile {
+			display: none;
+		}
+
+		.certifications__link:not(.certifications__link--mobile) {
+			display: inline-flex;
+		}
+	}
+
+	.certifications__list {
+		--row-size: 310px;
+		--elements-to-show: 2;
+		--gap: var(--space-stack-20x);
+
+		display: grid;
+		grid-template-rows: repeat(auto-fill, minmax(var(--row-size), 1fr));
+		gap: var(--gap);
+		overflow: hidden;
+		transition: max-block-size 0.5s ease-in-out;
+		max-block-size: calc(
+			var(--row-size) * var(--elements-to-show) + var(--gap)
+		);
+		will-change: max-block-size;
+	}
+
+	.certifications__ctas {
+		gap: var(--space-stack-20x);
+		margin-block-start: var(--space-stack-20x);
+	}
+
+	.certifications__cta[disabled] {
+		color: var(--disabled);
+		pointer-events: none;
+	}
+
+	.certifications__cta--less {
+		display: none;
+		color: var(--medium-emphasis);
+	}
+
+	.arrow-up-icon {
+		rotate: 180deg;
+	}
 </style>
+
+<script>
+	/**
+	 * Show more/less buttons in certifications
+	 */
+	const $ = (selector: string) => document.querySelector(selector);
+
+	const certificationsGroup = $("#js-certifications") as HTMLElement;
+	const showMoreBtn = $(".js-certifications__cta--more") as HTMLButtonElement;
+	const showLessBtn = $(".js-certifications__cta--less") as HTMLButtonElement;
+
+	const GAP = 20;
+	const ELEMENTS_TO_SHOW = 2;
+
+	if (certificationsGroup.childElementCount <= ELEMENTS_TO_SHOW) {
+		const ctaContainer = $(".js-certifications__ctas") as HTMLElement;
+		ctaContainer.style.display = "none";
+	}
+
+	const ELEMENTS_HEIGHT = [...certificationsGroup.children]
+		.slice(0, ELEMENTS_TO_SHOW)
+		.reduce((acc, ele) => acc + ele.clientHeight, 0);
+	const INITIAL_HEIGHT = ELEMENTS_HEIGHT + GAP;
+	const TOTAL_HEIGHT = certificationsGroup.scrollHeight;
+
+	/* keep the container's maxheight */
+	let previousHeight: number = 0;
+
+	const changeMaxHeight = (newMaxHeight: number): number => {
+		certificationsGroup.style.maxBlockSize = `${newMaxHeight}px`;
+		return newMaxHeight;
+	};
+
+	const updateButtonAccessibility = (
+		button: HTMLButtonElement,
+		isHidden: boolean,
+		isDisabled: boolean
+	) => {
+		button.setAttribute("aria-hidden", isHidden.toString());
+		isDisabled
+			? button.setAttribute("disabled", "true")
+			: button.removeAttribute("disabled");
+	};
+
+	const handleShowMore = (_e: MouseEvent) => {
+		const newHeight = previousHeight + INITIAL_HEIGHT;
+		showLessBtn.style.display = "inline-flex";
+		updateButtonAccessibility(showLessBtn, false, false);
+
+		const isThereMoreContentToShow = newHeight < TOTAL_HEIGHT;
+
+		previousHeight = isThereMoreContentToShow
+			? changeMaxHeight(newHeight)
+			: changeMaxHeight(TOTAL_HEIGHT);
+
+		if (!isThereMoreContentToShow) {
+			updateButtonAccessibility(showMoreBtn, false, true);
+			showLessBtn.focus();
+		}
+	};
+
+	const handleShowLess = (_e: MouseEvent) => {
+		changeMaxHeight(INITIAL_HEIGHT);
+
+		updateButtonAccessibility(showMoreBtn, false, false);
+		updateButtonAccessibility(showLessBtn, true, true);
+
+		showLessBtn.style.display = "none";
+		showMoreBtn.focus();
+
+		certificationsGroup.scrollIntoView();
+	};
+
+	const main = () => {
+		previousHeight = changeMaxHeight(INITIAL_HEIGHT);
+
+		updateButtonAccessibility(showMoreBtn, false, false);
+		updateButtonAccessibility(showLessBtn, true, true);
+
+		showMoreBtn.addEventListener("click", handleShowMore);
+		showLessBtn.addEventListener("click", handleShowLess);
+	};
+
+	main();
+</script>
