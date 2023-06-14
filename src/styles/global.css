@@ -4,6 +4,7 @@
 	--secondary: #007e85;
 	--secondary-decorative: #00c3d0;
 	--background: #fafafa;
+	--background-transparent: #fafafa00;
 	--surface: #eee;
 	--surface-transparency: rgb(238 238 238 / 70%);
 	--surface-container: #e2e2e2;
@@ -98,6 +99,7 @@
 	--primary: #c497fc;
 	--secondary: #03d6da;
 	--background: #121212;
+	--background-transparent: #12121200;
 	--surface: #1f1f1f;
 	--surface-transparency: rgb(18 18 18 / 70%);
 	--surface-container: #323232;

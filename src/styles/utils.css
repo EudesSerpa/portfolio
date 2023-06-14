@@ -21,8 +21,10 @@
 
 /* Wrapping element for the whole site */
 .wrapper {
-	inline-size: min(100%, 75rem);
-	padding-inline: var(--space-stack-24x);
+	--max-size: 75rem;
+	--content-padding: var(--space-stack-48x);
+
+	inline-size: min(100% - var(--content-padding), var(--max-size));
 	margin-inline: auto;
 }
 
@@ -53,8 +55,8 @@
 
 /* Full width background inside a container */
 .full-bleed {
-  --bleed-color: transparent;
+	--bleed-color: transparent;
 
-  clip-path: inset(0 -100vmax);
-  box-shadow: 0 0 0 100vmax var(--bleed-color, var(--background, red));
+	clip-path: inset(0 -100vmax);
+	box-shadow: 0 0 0 100vmax var(--bleed-color, var(--background, red));
 }
