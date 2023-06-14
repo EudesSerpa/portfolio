@@ -389,6 +389,7 @@ const processes: Processes[] = [
 	.hero__processes {
 		gap: var(--space-stack-24x);
 		margin-block-start: var(--space-stack-32x);
+		color: var(--medium-emphasis);
 	}
 
 	.hero__process {
@@ -413,9 +414,13 @@ const processes: Processes[] = [
 		-webkit-mask-image: linear-gradient(
 			180deg,
 			var(--background),
-			transparent 98%
+			var(--background-transparent) 98%
 		);
-		mask-image: linear-gradient(180deg, var(--background), transparent 98%);
+		mask-image: linear-gradient(
+			180deg,
+			var(--background),
+			var(--background-transparent) 98%
+		);
 		z-index: -1;
 		background-color: var(--surface);
 	}
@@ -440,7 +445,7 @@ const processes: Processes[] = [
 		object-fit: cover;
 		-webkit-mask-image: linear-gradient(
 			to var(--mask-dir),
-			transparent 47.5%,
+			var(--background-transparent) 47.5%,
 			#fff 52.5%
 		);
 		-webkit-mask-size: 210%;
@@ -448,7 +453,7 @@ const processes: Processes[] = [
 		-webkit-mask-repeat: no-repeat;
 		mask-image: linear-gradient(
 			to var(--mask-dir),
-			transparent 47.5%,
+			var(--background-transparent) 47.5%,
 			#fff 52.5%
 		);
 		mask-size: 210%;
@@ -484,10 +489,13 @@ const processes: Processes[] = [
 			-webkit-mask-image: linear-gradient(
 				180deg,
 				var(--background) 60%,
-				transparent 98%
+				var(--background-transparent) 98%
 			);
-			mask-image: linear-gradient(180deg, var(--background) 60%, transparent)
-				transparent 98%;
+			mask-image: linear-gradient(
+				180deg,
+				var(--background) 60%,
+				var(--background-transparent) 98%
+			);
 		}
 	}
 </style>
