@@ -1,0 +1,329 @@
+---
+import Button from "@components/buttons/Button.astro";
+import Icon from "@components/Icon.astro";
+
+interface Props {
+	children: any;
+	class?: string;
+	i11nAttrs?: Record<string, string>;
+}
+
+const { class: className, i11nAttrs = {} } = Astro.props;
+---
+
+<section
+	class:list={[
+		"scroller-container",
+		"js-scroller-container",
+		{ [`${className}`]: !!className },
+	]}
+	aria-roledescription="Carousel"
+	{...i11nAttrs}
+>
+	<div class="scroller-btns js-scroller-btns">
+		<Button
+			class="scroller-btn scroller-btn--prev js-scroller-btn"
+			type="solid"
+			i11nAttrs={{ "aria-label": "Backward" }}
+		>
+			<Icon icon="arrow-left" size="large" />
+		</Button>
+		<Button
+			class="scroller-btn scroller-btn--next js-scroller-btn"
+			type="solid"
+			i11nAttrs={{ "aria-label": "Forward" }}
+		>
+			<Icon icon="arrow-right" size="large" />
+		</Button>
+	</div>
+
+	<ul class="scroller js-scroller">
+		<slot />
+	</ul>
+</section>
+
+<style>
+	.scroller-container {
+		position: relative;
+		display: grid;
+		isolation: isolate;
+	}
+
+	/* Shadow indicators */
+	.scroller-container::before,
+	.scroller-container::after {
+		--gradient-angle: 90deg;
+
+		position: absolute;
+		inset-block: var(--space-stack-10x);
+		z-index: 1;
+		pointer-events: none;
+		content: "";
+		user-select: none;
+		background-image: linear-gradient(
+			var(--gradient-angle),
+			var(--background),
+			var(--background-transparent)
+		);
+		opacity: 0;
+		transition: opacity 0.5s var(--appears-transition);
+		inline-size: 3.5rem;
+		-webkit-mask-image: linear-gradient(
+			var(--gradient-angle),
+			var(--background),
+			var(--background-transparent)
+		);
+		mask-image: linear-gradient(
+			var(--gradient-angle),
+			var(--background),
+			var(--background-transparent)
+		);
+	}
+
+	.scroller-container::before {
+		inset-inline-start: -1px;
+	}
+
+	.scroller-container::after {
+		--gradient-angle: -90deg;
+
+		inset-inline-end: -1px;
+	}
+
+	.scroller-container:is(.off-left-edge)::before,
+	.scroller-container:is(.off-right-edge)::after {
+		opacity: 1;
+	}
+
+	.scroller-btns {
+		display: contents;
+	}
+
+	.scroller-btns:is(.no-overflowing) {
+		display: none;
+	}
+
+	@media (hover: none) and (pointer: coarse) {
+		/* Smartphones/touchscreens devices */
+		.scroller-btns {
+			display: none;
+		}
+	}
+
+	.scroller-btn {
+		position: absolute;
+		inset-block: var(--space-stack-10x) var(--space-stack-20x);
+		z-index: 2;
+		padding: 0;
+		background-color: var(--surface-transparency);
+		opacity: 0;
+		transition: opacity 0.3s var(--appears-transition),
+			scale 0.3s var(--appears-transition);
+		inline-size: 3rem;
+		backdrop-filter: var(--background-blur);
+	}
+
+	.scroller-btn:is(:hover, :focus-visible) {
+		opacity: 1;
+	}
+
+	.scroller-btn--prev {
+		inset-inline-start: 0;
+	}
+
+	.scroller-btn--next {
+		inset-inline-end: 0;
+	}
+
+	.scroller {
+		--content-spacing: var(--space-stack-20x);
+
+		display: flex;
+		flex-wrap: nowrap;
+		gap: var(--content-spacing);
+		padding-block: calc(var(--content-spacing) / 2);
+		overflow-x: auto;
+		overflow-inline: auto;
+		overscroll-behavior-inline: contain;
+		scroll-snap-type: inline mandatory;
+		scroll-padding-inline: var(--content-spacing);
+		-webkit-overflow-scrolling: touch;
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		/* Computer/Laptop devices */
+		.scroller::-webkit-scrollbar {
+			display: none;
+		}
+	}
+
+	.scroller > * {
+		scroll-snap-align: center;
+	}
+</style>
+
+<script>
+	/**
+	 * Scroller funcionality
+	 */
+
+	import {
+		isOverflowing,
+		addClass,
+		removeClass,
+		disableButton,
+		enableButton,
+	} from "@utils/dom";
+
+	enum CLASSES {
+		NO_OVERFLOWING = "no-overflowing",
+		OFF_LEFT_EDGE = "off-left-edge",
+		OFF_RIGHT_EDGE = "off-right-edge",
+	}
+
+	enum EDGES {
+		RIGHT = "right",
+		LEFT = "left",
+	}
+
+	const $scrollers = document.querySelectorAll(
+		".js-scroller"
+	) as NodeListOf<HTMLUListElement>;
+	const $scrollItemSize = $scrollers[0].firstElementChild?.clientWidth ?? 160;
+
+	/**
+	 * Scrolls the scroller by a specified amount
+	 *
+	 * @param {HTMLElement} scroller - The scroller element
+	 * @param {number} scrollAmount - The amount to scroll by
+	 */
+	function scrollByTo(scroller: HTMLElement, scrollAmount: number): void {
+		scroller.scrollBy({
+			left: scrollAmount,
+			behavior: "smooth",
+		});
+	}
+
+	function initScroller() {
+		$scrollers.forEach(($scroller) => {
+			const $scrollerContainer = $scroller.parentElement!;
+
+			if (!isOverflowing($scroller)) {
+				const $btnContainer = $scrollerContainer.querySelector(
+					".js-scroller-btns"
+				) as HTMLElement;
+
+				addClass($btnContainer, CLASSES.NO_OVERFLOWING);
+				return;
+			}
+
+			addClass($scrollerContainer, CLASSES.OFF_RIGHT_EDGE);
+
+			const [$prevButton, $nextButton] = $scrollerContainer.querySelectorAll(
+				".js-scroller-btn"
+			) as NodeListOf<HTMLButtonElement>;
+			const $scrollerItems = Array.from($scroller.children);
+			const $firstElement = $scroller.firstElementChild!;
+			const $lastElement = $scroller.lastElementChild!;
+
+			$firstElement.setAttribute("data-edge", EDGES.LEFT);
+			$lastElement.setAttribute("data-edge", EDGES.RIGHT);
+
+			/**
+			 * Gets the intersected and non-intersected buttons based on the currently intersected edge
+			 *
+			 * @param {string} edge - The intersected edge
+			 * @returns {HTMLButtonElement[]} - An array with the intersected button and the non-intersected button, respectively
+			 */
+			const getButtonsBaseOnEdge = (edge: string): HTMLButtonElement[] => {
+				return edge === EDGES.RIGHT
+					? [$nextButton, $prevButton]
+					: [$prevButton, $nextButton];
+			};
+
+			/**
+			 * Handles scroll-items intersection: a11y focus and keyboard navigation
+			 *
+			 * @param {IntersectionObserverEntry[]} entries - The intersection observer entries.
+			 */
+			const onIntersectScrollItems = (
+				entries: IntersectionObserverEntry[]
+			): void => {
+				entries.forEach(({ isIntersecting, target }) => {
+					target.toggleAttribute("inert", !isIntersecting);
+				});
+			};
+
+			/**
+			 * Handles edge intersection
+			 *
+			 * @param {IntersectionObserverEntry[]} entries - The intersection observer entries.
+			 */
+			const onIntersectEdges = (entries: IntersectionObserverEntry[]): void => {
+				entries.forEach(({ isIntersecting, target }) => {
+					const targetEdge = target.getAttribute("data-edge") as string;
+					const intersectingRightEdge = targetEdge === EDGES.RIGHT;
+					const previousActiveElement = document.activeElement;
+					const [$buttonIntersected, $buttonNoIntersected] =
+						getButtonsBaseOnEdge(targetEdge);
+
+					if (isIntersecting) {
+						removeClass(
+							$scrollerContainer,
+							intersectingRightEdge
+								? CLASSES.OFF_RIGHT_EDGE
+								: CLASSES.OFF_LEFT_EDGE
+						);
+
+						disableButton($buttonIntersected);
+					} else {
+						addClass(
+							$scrollerContainer,
+							intersectingRightEdge
+								? CLASSES.OFF_RIGHT_EDGE
+								: CLASSES.OFF_LEFT_EDGE
+						);
+
+						enableButton($buttonIntersected);
+					}
+
+					// Set the focus on the opposite button
+					if (previousActiveElement === $buttonIntersected) {
+						$buttonNoIntersected.focus();
+					}
+				});
+			};
+
+			// --- Observers
+			const observerOptions: IntersectionObserverInit = {
+				root: $scroller,
+				threshold: 0.95,
+			};
+			const observerEdges = new IntersectionObserver(
+				onIntersectEdges,
+				observerOptions
+			);
+			const observerScrollerItems = new IntersectionObserver(
+				onIntersectScrollItems,
+				observerOptions
+			);
+
+			observerEdges.observe($firstElement);
+			observerEdges.observe($lastElement);
+
+			$scrollerItems.forEach(($scrollerItem) => {
+				observerScrollerItems.observe($scrollerItem);
+			});
+
+			// --- Event listeners
+			$prevButton.addEventListener("click", (_evt: Event) =>
+				scrollByTo($scroller, -$scrollItemSize)
+			);
+			$nextButton.addEventListener("click", (_evt: Event) =>
+				scrollByTo($scroller, $scrollItemSize)
+			);
+		});
+	}
+
+	initScroller();
+</script>

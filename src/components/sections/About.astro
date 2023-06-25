@@ -22,7 +22,7 @@ import { AUTHOR } from "@utils/const";
 import Icon from "@components/Icon.astro";
 import ButtonIcon from "@components/buttons/ButtonIcon.astro";
 import Certification from "@components/Certification/index.astro";
-import { certifications } from "@components/Certification/index.astro";
+import type { CertificationsType } from "@components/Certification/types";
 
 const t = useTranslations(getLangFromUrl(Astro.url));
 
@@ -93,6 +93,44 @@ const educations: EducationProps[] = [
 		image: SenaLogo,
 	},
 ];
+
+const certifications: CertificationsType = {
+	platzi: {
+		image: "/src/assets/platzi-logo.png",
+		certificates: [
+			{
+				name: t("certifications.platzi.db-career"),
+				image: "/src/assets/certifications/DB-career.webp",
+				href: "https://www.dropbox.com/s/h181arppgjz6zbh/diploma-base-de-datos.pdf?dl=0",
+			},
+		],
+	},
+	UNAB: {
+		image: "/src/assets/unab-logo.png",
+		certificates: [
+			{
+				name: t("certifications.unab.final"),
+				image: "/src/assets/certifications/unab_tecnico_laboral.webp",
+				href: "https://www.dropbox.com/s/ajirars39y36g5g/TECLABWEBF_Certificado%20T%C3%A9cnico%20Laboral%20Web.pdf?dl=0",
+			},
+			{
+				name: t("certifications.unab.ciclo4"),
+				image: "/src/assets/certifications/unab_ciclo4_web.webp",
+				href: "https://www.dropbox.com/s/a6qpbjoab62240w/Certificado_Ciclo4_Mision_Tic_2022.pdf?dl=0",
+			},
+			{
+				name: t("certifications.unab.ciclo3"),
+				image: "/src/assets/certifications/unab_ciclo3_software.webp",
+				href: "https://www.dropbox.com/s/4jfotipcjeawfh1/Certificado_Ciclo3_Mision_Tic_2022.pdf?dl=0",
+			},
+			{
+				name: t("certifications.unab.ciclo2"),
+				image: "/src/assets/certifications/unab_ciclo2_basic.webp",
+				href: "https://www.dropbox.com/s/ue7rwb67o2wjbqo/Certificado_Ciclo2_Mision_Tic_2022.pdf?dl=0",
+			},
+		],
+	},
+};
 ---
 
 <section id="about" class="about section wrapper">
@@ -174,11 +212,17 @@ const educations: EducationProps[] = [
 
 		<ul id="js-certifications" class="certifications__list">
 			{
-				Object.keys(certifications).map((issuer) => (
-					<li>
-						<Certification issuer={issuer} />
-					</li>
-				))
+				Object.entries(certifications).map(
+					([issuer, { image, certificates }]) => (
+						<li class="certification__item">
+							<Certification
+								name={issuer}
+								image={image}
+								certificates={certificates}
+							/>
+						</li>
+					)
+				)
 			}
 		</ul>
 
@@ -189,14 +233,14 @@ const educations: EducationProps[] = [
 				color="primary"
 			>
 				<span>{t("about.certifications.btn.see-more")}</span>
-				<Icon icon="arrow" size="small" />
+				<Icon icon="arrow-bottom" size="small" />
 			</Button>
 			<Button
 				class="certifications__cta certifications__cta--less js-certifications__cta--less"
 				type="ghost"
 			>
 				<span>{t("about.certifications.btn.see-less")}</span>
-				<Icon class="arrow-up-icon" icon="arrow" size="small" />
+				<Icon icon="arrow-top" size="small" />
 			</Button>
 		</footer>
 	</section>
@@ -326,13 +370,10 @@ const educations: EducationProps[] = [
 		--gap: var(--space-stack-20x);
 
 		display: grid;
-		grid-template-rows: repeat(auto-fill, minmax(var(--row-size), 1fr));
 		gap: var(--gap);
 		overflow: hidden;
 		transition: max-block-size 0.5s ease-in-out;
-		max-block-size: calc(
-			var(--row-size) * var(--elements-to-show) + var(--gap)
-		);
+		max-block-size: calc(var(--row-size) * var(--elements-to-show));
 		will-change: max-block-size;
 	}
 
@@ -341,18 +382,9 @@ const educations: EducationProps[] = [
 		margin-block-start: var(--space-stack-20x);
 	}
 
-	.certifications__cta[disabled] {
-		color: var(--disabled);
-		pointer-events: none;
-	}
-
 	.certifications__cta--less {
 		display: none;
 		color: var(--medium-emphasis);
-	}
-
-	.arrow-up-icon {
-		rotate: 180deg;
 	}
 </style>
 
@@ -360,83 +392,197 @@ const educations: EducationProps[] = [
 	/**
 	 * Show more/less buttons in certifications
 	 */
-	const $ = (selector: string) => document.querySelector(selector);
 
-	const certificationsGroup = $("#js-certifications") as HTMLElement;
-	const showMoreBtn = $(".js-certifications__cta--more") as HTMLButtonElement;
-	const showLessBtn = $(".js-certifications__cta--less") as HTMLButtonElement;
+	import { $ } from "@utils/selectElements";
 
-	const GAP = 20;
-	const ELEMENTS_TO_SHOW = 2;
-
-	if (certificationsGroup.childElementCount <= ELEMENTS_TO_SHOW) {
-		const ctaContainer = $(".js-certifications__ctas") as HTMLElement;
-		ctaContainer.style.display = "none";
+	interface ButtonAccessibilityOptions {
+		isHidden: boolean;
+		isDisabled: boolean;
 	}
 
-	const ELEMENTS_HEIGHT = [...certificationsGroup.children]
-		.slice(0, ELEMENTS_TO_SHOW)
-		.reduce((acc, ele) => acc + ele.clientHeight, 0);
-	const INITIAL_HEIGHT = ELEMENTS_HEIGHT + GAP;
-	const TOTAL_HEIGHT = certificationsGroup.scrollHeight;
+	/**
+	 * Gets the value of a CSS property from an element
+	 *
+	 * @param {Element} element - The element
+	 * @param {string} property - The CSS property to retrieve
+	 * @returns {string | null} - The value of the CSS property or null if it is not found
+	 */
+	function getPropertyValueFromElement(
+		element: Element,
+		property: string
+	): string | null {
+		return window.getComputedStyle(element)?.getPropertyValue(property) ?? null;
+	}
 
-	/* keep the container's maxheight */
-	let previousHeight: number = 0;
-
-	const changeMaxHeight = (newMaxHeight: number): number => {
-		certificationsGroup.style.maxBlockSize = `${newMaxHeight}px`;
+	/**
+	 * Changes the max height of an element
+	 *
+	 * @param {HTMLElement} element - The element to modify
+	 * @param {number} newMaxHeight - The new max height value
+	 * @returns {number} - The new max height value
+	 */
+	function changeMaxHeight(element: HTMLElement, newMaxHeight: number): number {
+		element.style.maxBlockSize = `${newMaxHeight}px`;
 		return newMaxHeight;
-	};
+	}
 
-	const updateButtonAccessibility = (
+	/**
+	 * Updates the accessibility attributes of a button
+	 *
+	 * @param {HTMLButtonElement} button - The button element
+	 * @param {Record<string, boolean>} options - Object containing accessibility options
+	 */
+	function updateButtonAccessibility(
 		button: HTMLButtonElement,
-		isHidden: boolean,
-		isDisabled: boolean
-	) => {
-		button.setAttribute("aria-hidden", isHidden.toString());
-		isDisabled
-			? button.setAttribute("disabled", "true")
-			: button.removeAttribute("disabled");
-	};
+		{ isHidden, isDisabled }: ButtonAccessibilityOptions
+	) {
+		button.setAttribute("aria-hidden", String(isHidden));
+		button.disabled = isDisabled;
 
-	const handleShowMore = (_e: MouseEvent) => {
-		const newHeight = previousHeight + INITIAL_HEIGHT;
-		showLessBtn.style.display = "inline-flex";
-		updateButtonAccessibility(showLessBtn, false, false);
+		button.style.display = isHidden ? "none" : "inline-flex";
+	}
 
-		const isThereMoreContentToShow = newHeight < TOTAL_HEIGHT;
+	function getElementsHeight(elements: Element[]): number {
+		return elements.reduce((acc, ele) => acc + ele.clientHeight, 0);
+	}
 
-		previousHeight = isThereMoreContentToShow
-			? changeMaxHeight(newHeight)
-			: changeMaxHeight(TOTAL_HEIGHT);
+	/**
+	 * Initializes the show more/less functionality
+	 */
+	function init() {
+		const certificationsGroup = $("#js-certifications") as HTMLElement;
+		const showMoreBtn = $(".js-certifications__cta--more") as HTMLButtonElement;
+		const showLessBtn = $(".js-certifications__cta--less") as HTMLButtonElement;
 
-		if (!isThereMoreContentToShow) {
-			updateButtonAccessibility(showMoreBtn, false, true);
-			showLessBtn.focus();
+		const elements = Array.from(certificationsGroup.children);
+		const totalHeight = certificationsGroup.scrollHeight;
+
+		const elementsToShow: number =
+			Number(
+				getPropertyValueFromElement(certificationsGroup, "--elements-to-show")
+			) ?? 2;
+		const elementsGap =
+			parseInt(
+				getPropertyValueFromElement(certificationsGroup, "gap") ?? "0"
+			) ?? 20;
+
+		let elementsShown = elementsToShow;
+		const elementsHeight = getElementsHeight(elements.slice(0, elementsShown));
+		const initialHeight = elementsHeight + elementsGap;
+
+		updateButtonAccessibility(showMoreBtn, {
+			isHidden: false,
+			isDisabled: false,
+		});
+		updateButtonAccessibility(showLessBtn, {
+			isHidden: true,
+			isDisabled: true,
+		});
+
+		/* Removes the scroll buttons when there are no hidden elements */
+		if (elements.length <= elementsToShow) {
+			const ctaContainer = $(".js-certifications__ctas") as HTMLElement;
+			ctaContainer.style.display = "none";
+
+			return;
 		}
-	};
 
-	const handleShowLess = (_e: MouseEvent) => {
-		changeMaxHeight(INITIAL_HEIGHT);
+		let previousHeight = changeMaxHeight(certificationsGroup, initialHeight);
 
-		updateButtonAccessibility(showMoreBtn, false, false);
-		updateButtonAccessibility(showLessBtn, true, true);
+		/**
+		 * Event handler for the "Show Less" button click event
+		 *
+		 * @param {MouseEvent} _e - The mouse event
+		 */
+		const handleShowLess = (_e: MouseEvent) => {
+			updateButtonAccessibility(showMoreBtn, {
+				isHidden: false,
+				isDisabled: false,
+			});
+			updateButtonAccessibility(showLessBtn, {
+				isHidden: true,
+				isDisabled: true,
+			});
 
-		showLessBtn.style.display = "none";
-		showMoreBtn.focus();
+			previousHeight = changeMaxHeight(certificationsGroup, initialHeight);
+			elementsShown = elementsToShow;
 
-		certificationsGroup.scrollIntoView();
-	};
+			showMoreBtn.focus();
+			certificationsGroup.scrollIntoView();
+		};
 
-	const main = () => {
-		previousHeight = changeMaxHeight(INITIAL_HEIGHT);
+		/**
+		 * Event handler for the "Show More" button click event
+		 *
+		 * @param {MouseEvent} _e - The mouse event
+		 */
+		const handleShowMore = (_e: MouseEvent) => {
+			const newHeight =
+				previousHeight +
+				getElementsHeight(
+					elements.slice(elementsShown, elementsShown + elementsToShow)
+				) +
+				elementsGap * elementsToShow;
 
-		updateButtonAccessibility(showMoreBtn, false, false);
-		updateButtonAccessibility(showLessBtn, true, true);
+			updateButtonAccessibility(showLessBtn, {
+				isHidden: false,
+				isDisabled: false,
+			});
+
+			const areThereMoreContentToShow = newHeight < totalHeight;
+
+			elementsShown = areThereMoreContentToShow
+				? elementsShown + elementsToShow
+				: elements.length;
+
+			previousHeight = areThereMoreContentToShow
+				? changeMaxHeight(certificationsGroup, newHeight)
+				: changeMaxHeight(certificationsGroup, totalHeight);
+
+			if (!areThereMoreContentToShow) {
+				updateButtonAccessibility(showMoreBtn, {
+					isDisabled: true,
+					isHidden: false,
+				});
+
+				showLessBtn.focus();
+			}
+		};
 
 		showMoreBtn.addEventListener("click", handleShowMore);
 		showLessBtn.addEventListener("click", handleShowLess);
+	}
+
+	init();
+</script>
+
+<script>
+	/**
+	 * A11y certifications: focus managment
+	 */
+
+	import { $, $$ } from "@utils/selectElements";
+
+	const $certificationList = $("#js-certifications");
+	const $certificationItems = $$(".certification__item");
+
+	/**
+	 * Handles the intersection of certification items
+	 *
+	 * @param {IntersectionObserverEntry[]} entries - The intersection observer entries
+	 */
+	const onIntersect = (entries: IntersectionObserverEntry[]): void => {
+		entries.forEach(({ isIntersecting, target }) => {
+			target.toggleAttribute("inert", !isIntersecting);
+		});
 	};
 
-	main();
+	const observer = new IntersectionObserver(onIntersect, {
+		root: $certificationList,
+		threshold: 0.95,
+	});
+
+	$certificationItems?.forEach(($certificationItem) => {
+		observer.observe($certificationItem);
+	});
 </script>
