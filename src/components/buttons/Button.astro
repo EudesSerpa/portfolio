@@ -56,7 +56,6 @@ const externalAtts = isExternal
 </ElementToRender>
 
 <style>
-	/* Base button */
 	.btn {
 		position: relative;
 		display: inline-flex;
@@ -73,26 +72,35 @@ const externalAtts = isExternal
 		user-select: none;
 		border: 2px solid transparent;
 		border-radius: var(--radius);
+		transition: color var(--appears-transition),
+			background-color var(--theme-transition),
+			border-color var(--theme-transition), scale var(--appears-transition);
+		transition-duration: 0.3s;
 	}
 
-	.btn:is(:hover, :focus-visible, :active) {
-		scale: 1.15;
+	.btn:is([disabled]) {
+		color: var(--disabled);
+		cursor: not-allowed;
 	}
 
-	@media (prefers-reduced-motion: no-preference) {
-		.btn {
-			transition: color var(--appears-transition),
-				background-color var(--theme-transition),
-				border-color var(--theme-transition), scale var(--appears-transition);
-			transition-duration: 0.3s;
-		}
+	.btn:is(.btn--ghost, .btn--outline, .btn--ghost-underline) {
+		background-color: transparent;
 	}
 
-	/* click effect */
+	/* hover: scale effect */
+	.btn:not([disabled]):is(:hover, :focus-visible, :active) {
+		scale: 1.1;
+	}
+
+	.btn::before,
 	.btn::after {
 		position: absolute;
-		inset: 0;
 		content: "";
+	}
+
+	/* active: click effect */
+	.btn::after {
+		inset: 0;
 		border-radius: inherit;
 		box-shadow: var(--elevation-inset-1);
 		opacity: 0;
@@ -103,14 +111,12 @@ const externalAtts = isExternal
 		opacity: 0.8;
 	}
 
-	/* Button type */
+	/**
+	 * Styles base on type
+	 */
 	.btn--solid {
 		background-color: var(--surface);
 		box-shadow: var(--elevation-1);
-	}
-
-	:is(.btn--ghost, .btn--outline, .btn--ghost-underline) {
-		background-color: transparent;
 	}
 
 	.btn--outline {
@@ -119,11 +125,10 @@ const externalAtts = isExternal
 		border-color: inherit;
 	}
 
+	/* hover: fill bg effect */
 	.btn--outline::before {
-		position: absolute;
 		inset: -20%;
 		z-index: -1;
-		content: "";
 		background-color: var(--surface);
 		border-radius: var(--radius-circle);
 		transition: scale 0.4s var(--appears-transition);
@@ -131,14 +136,13 @@ const externalAtts = isExternal
 		scale: 1 0;
 	}
 
-	.btn--outline:is(:hover, :focus-visible, :active)::before {
+	.btn--outline:not([disabled]):is(:hover, :focus-visible, :active)::before {
 		scale: 1;
 	}
 
+	/* hover: fade-out underline effect */
 	.btn--ghost-underline::before {
-		position: absolute;
 		inset-inline: 0;
-		content: "";
 		background-color: var(--on-surface);
 		border-radius: var(--radius-pill);
 		transition: scale 0.25s var(--appears-transition);
@@ -147,40 +151,51 @@ const externalAtts = isExternal
 		inset-block-end: var(--space-stack-4x);
 	}
 
-	.btn--ghost-underline:is(:hover, :focus-visible)::before {
+	.btn--ghost-underline:not([disabled]):is(:hover, :focus-visible)::before {
 		scale: 0 1;
 	}
 
-	/* Color type */
-	.btn--primary:is(.btn--solid),
-	.btn--primary.btn--outline::before,
-	.btn--primary.btn--ghost-underline::before {
+	/**
+	 * Styles base on color
+	 */
+
+	/* Primary */
+	.btn--primary:where(.btn--outline, .btn--ghost, .btn--ghost-underline) {
+		color: var(--primary);
+	}
+
+	.btn--primary:where(.btn--solid),
+	.btn--primary:where(.btn--outline, .btn--ghost-underline)::before {
 		color: var(--on-primary);
 		background-color: var(--primary);
 	}
 
-	.btn--primary.btn--outline.btn:is(:hover, :focus-visible, :active) {
+	.btn--primary:not([disabled]):where(.btn--outline):is(
+			:hover,
+			:focus-visible,
+			:active
+		) {
 		color: var(--on-primary);
 		border-color: var(--primary);
 	}
 
-	.btn--primary:is(.btn--outline, .btn--ghost, .btn--ghost-underline) {
-		color: var(--primary);
+	/* Secondary */
+	.btn--secondary:where(.btn--outline, .btn--ghost, .btn--ghost-underline) {
+		color: var(--secondary);
 	}
 
-	.btn--secondary:is(.btn--solid),
-	.btn--secondary.btn--outline::before,
-	.btn--secondary.btn--ghost-underline::before {
+	.btn--secondary:where(.btn--solid),
+	.btn--secondary:where(.btn--outline, .btn--ghost-underline)::before {
 		color: var(--on-secondary);
 		background-color: var(--secondary);
 	}
 
-	.btn--secondary.btn--outline.btn:is(:hover, :focus-visible, :active) {
+	.btn--secondary:not([disabled]):where(.btn--outline):is(
+			:hover,
+			:focus-visible,
+			:active
+		) {
 		color: var(--on-secondary);
 		border-color: var(--secondary);
-	}
-
-	.btn--secondary:is(.btn--outline, .btn--ghost, .btn--ghost-underline) {
-		color: var(--secondary);
 	}
 </style>
