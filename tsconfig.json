@@ -1,35 +1,35 @@
 {
-  "extends": "astro/tsconfigs/strict",
-  "compilerOptions": {
-    "importsNotUsedAsValues": "error",
-    "types": [
-      "astro/client",
-    ],
-    "isolatedModules": true,
-    "moduleResolution": "node",
-    "baseUrl": ".",
-    "paths": {
-      "@layouts/*": [
-        "src/layouts/*"
-      ],
-      "@components/*": [
-        "src/components/*"
-      ],
-      "@styles/*": [
-        "src/styles/*"
-      ],
-      "@assets/*": [
-        "src/assets/*"
-      ],
-      "@icons/*": [
-        "src/components/icons/*"
-      ],
-      "@utils/*": [
-        "src/utils/*"
-      ],
-      "@i18n/*": [
-        "src/i18n/*"
-      ],
-    },
-  }
+	"extends": "astro/tsconfigs/strict",
+	"compilerOptions": {
+		"importsNotUsedAsValues": "error",
+		"types": [
+			"astro/client",
+		],
+		"isolatedModules": true,
+		"moduleResolution": "node",
+		"baseUrl": ".",
+		"paths": {
+			"@layouts/*": [
+				"src/layouts/*"
+			],
+			"@components/*": [
+				"src/components/*"
+			],
+			"@styles/*": [
+				"src/styles/*"
+			],
+			"@assets/*": [
+				"src/assets/*"
+			],
+			"@icons/*": [
+				"src/components/icons/*"
+			],
+			"@utils/*": [
+				"src/utils/*"
+			],
+			"@i18n/*": [
+				"src/i18n/*"
+			],
+		},
+	}
 }
