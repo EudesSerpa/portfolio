@@ -98,6 +98,16 @@ const ABOUT = {
 	"about.certifications.btn.see-less": "See less",
 };
 
+const CERTIFICATIONS = {
+	"certifications.platzi.db-career": "Databases career",
+
+	"certifications.unab.final":
+		"Programming technician with emphasis on web applications.",
+	"certifications.unab.ciclo4": "Web Application Development",
+	"certifications.unab.ciclo3": "Software Development",
+	"certifications.unab.ciclo2": "Basic Programming",
+};
+
 const FOOTER = {
 	"footer.credits.text": "Designed & developed with",
 	"footer.credits.aux": "love",
@@ -127,5 +137,6 @@ export const enTranslations = {
 	...I11N,
 	...HERO,
 	...ABOUT,
+	...CERTIFICATIONS,
 	...FOOTER,
 };
