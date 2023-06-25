@@ -1,8 +1,7 @@
 ---
-interface Props {
-	image: string;
-	name: string;
-}
+import type { IssuerType } from "./types";
+
+interface Props extends IssuerType {}
 
 const { name, image } = Astro.props;
 ---

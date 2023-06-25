@@ -1,9 +1,7 @@
 ---
-interface Props {
-	href: string;
-	image: string;
-	name: string;
-}
+import type { CertificateType } from "./types";
+
+export interface Props extends CertificateType {}
 
 const { href, image, name } = Astro.props;
 ---
@@ -19,11 +17,16 @@ const { href, image, name } = Astro.props;
 			loading="lazy"
 		/>
 
-		<figcaption>{name}</figcaption>
+		<figcaption class="truncate-text">{name}</figcaption>
 	</figure>
 </a>
 
 <style>
+	.certificate {
+		/* To show outline */
+		display: inline-block;
+	}
+
 	.certificate__content {
 		inline-size: 10rem;
 		color: var(--medium-emphasis);
