@@ -17,7 +17,7 @@ const { href, image, name } = Astro.props;
 			loading="lazy"
 		/>
 
-		<figcaption class="truncate-text">{name}</figcaption>
+		<figcaption class="certificate__name truncate-text">{name}</figcaption>
 	</figure>
 </a>
 
@@ -40,5 +40,18 @@ const { href, image, name } = Astro.props;
 		border-radius: var(--radius-rounded-8);
 		object-fit: cover;
 		box-shadow: var(--elevation-1);
+		transition: translate 0.3s var(--bouncing-transition);
+	}
+
+	.certificate:is(:hover, :focus-visible, :active) .certificate__image {
+		translate: 0 -0.5rem;
+	}
+
+	.certificate__name {
+		transition: color 0.35s var(--theme-transition);
+	}
+
+	.certificate:is(:hover, :focus-visible, :active) .certificate__name {
+		color: var(--link);
 	}
 </style>
