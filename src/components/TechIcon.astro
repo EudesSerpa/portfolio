@@ -1,0 +1,25 @@
+---
+import type { AstroInstance } from "astro";
+import { createTechIconsObject } from "@utils/iconFiles";
+
+const techIconComponents: AstroInstance[] = await Astro.glob(
+	"/src/components/icons/techs/*.astro"
+);
+
+interface Props {
+	name: string;
+}
+
+const { name } = Astro.props;
+const techIconsObj = createTechIconsObject(techIconComponents);
+
+const IconComponent = techIconsObj[name]?.default ?? null;
+---
+
+{
+	IconComponent && (
+		<span aria-hidden="true">
+			<IconComponent />
+		</span>
+	)
+}
