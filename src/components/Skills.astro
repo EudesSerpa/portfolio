@@ -1,5 +1,6 @@
 ---
 import type { AstroInstance } from "astro";
+import { getIconName, formatIconName } from "@utils/iconFiles";
 
 /**
  * Use the files in "./icons/tech" folder to get all tech icons
@@ -16,17 +17,13 @@ const techIconComponents: AstroInstance[] = await Astro.glob(
 
 <ul class="skills flex-group">
 	{
-		techIconComponents.map((iconComponent) => (
+		techIconComponents.map((IconComponent) => (
 			<li class="skills__item">
 				<span class="skills__icon">
-					<iconComponent.default />
+					<IconComponent.default />
 				</span>
 				<span class="skills__name">
-					{iconComponent.file
-						.split("/")
-						.at(-1)!
-						.split(".")[0]
-						.replaceAll("-", " ")}
+					{formatIconName(getIconName(IconComponent))}
 				</span>
 			</li>
 		))
@@ -36,6 +33,7 @@ const techIconComponents: AstroInstance[] = await Astro.glob(
 <style>
 	.skills {
 		gap: var(--space-stack-20x);
+		align-items: flex-start;
 		justify-content: start;
 	}
 
@@ -83,7 +81,7 @@ const techIconComponents: AstroInstance[] = await Astro.glob(
 	}
 
 	.skills__icon {
-		inline-size: clamp(28px, 3vw, 32px);
+		block-size: clamp(28px, 3vw, 32px);
 		aspect-ratio: 1;
 	}
 
