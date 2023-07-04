@@ -111,6 +111,25 @@ const CERTIFICATIONS = {
 	"certifications.unab.ciclo2": "Programación básica",
 };
 
+const PROJECTS = {
+	"projects.title": "Mis proyectos",
+	"projects.introduction":
+		"Estos son algunos de los trabajos que he realizado. Puedes ver más en mi --- cuenta de GitHub.",
+	"projects.see-details": "Ver detalles del proyecto",
+	"projects.app-type": "Tipo de aplicación",
+	"projects.code-link": "Ir al código",
+	"projects.preview-link": "Ir a la vista previa",
+	"projects.see-all-link": "Ver todos en GitHub",
+
+	"projects.modal.subtitle.description": "Descripción",
+	"projects.modal.subtitle.requirements": "Requirimientos",
+	"projects.modal.subtitle.challenges": "Desafíos",
+	"projects.modal.subtitle.stack": "Tecnologias",
+	"projects.modal.text.requirements": "El usuario debe ser capaz de",
+	"projects.modal.text.stack":
+		"Este proyecto se desarrolló con las siguientes tecnologías y herramientas",
+};
+
 const FOOTER = {
 	"footer.credits.text": "Diseñado y desarrollado con",
 	"footer.credits.aux": "amor",
@@ -141,5 +160,6 @@ export const esTranslations = {
 	...HERO,
 	...ABOUT,
 	...CERTIFICATIONS,
+	...PROJECTS,
 	...FOOTER,
 };

@@ -102,10 +102,29 @@ const CERTIFICATIONS = {
 	"certifications.platzi.db-career": "Databases career",
 
 	"certifications.unab.final":
-		"Programming technician with emphasis on web applications.",
+		"Programming technician with emphasis on web applications",
 	"certifications.unab.ciclo4": "Web Application Development",
 	"certifications.unab.ciclo3": "Software Development",
 	"certifications.unab.ciclo2": "Basic Programming",
+};
+
+const PROJECTS = {
+	"projects.title": "My projects",
+	"projects.introduction":
+		"These are some of the works I have done. You can see more in my --- GitHub account.",
+	"projects.see-details": "See project details",
+	"projects.app-type": "Application type",
+	"projects.code-link": "Go to code",
+	"projects.preview-link": "Go to preview",
+	"projects.see-all-link": "See all in GitHub",
+
+	"projects.modal.subtitle.description": "Description",
+	"projects.modal.subtitle.requirements": "Requirements",
+	"projects.modal.subtitle.challenges": "Challenges",
+	"projects.modal.subtitle.stack": "Stack",
+	"projects.modal.text.requirements": "The user must be able to",
+	"projects.modal.text.stack":
+		"This project was development with following technologies and tools",
 };
 
 const FOOTER = {
@@ -138,5 +157,6 @@ export const enTranslations = {
 	...HERO,
 	...ABOUT,
 	...CERTIFICATIONS,
+	...PROJECTS,
 	...FOOTER,
 };
