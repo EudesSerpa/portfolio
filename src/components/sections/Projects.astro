@@ -1,0 +1,99 @@
+---
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
+import { toKebabCase } from "@utils/strings";
+import { AUTHOR } from "@utils/const";
+import SectionTitle from "@components/SectionTitle.astro";
+import Link from "@components/Link.astro";
+import Icon from "@components/Icon.astro";
+import Button from "@components/buttons/Button.astro";
+import Project from "@components/Project.astro";
+import ProjectModal from "@components/ProjectModal.astro";
+import Modal from "@components/Modal.astro";
+import PosterDCT from "@assets/DCT_poster.webp";
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+
+const [title, titleHighlight] = t("projects.title").split(" ");
+const [text, linkText] = t("projects.introduction").split("---");
+
+const projects = [
+	{
+		name: "Dreadful Cherry Tomatoes",
+		types: ["Movies search", "Challenge"],
+		description: `This project is a platform to find movies and its main objective is to help users to find information about their favorite movies. It is made up by a movies page which is the landing page of the web page and shows a list of movies. In this page the user will see a list of cards with the title, year, description and image from each movie, sorted by the most recent release year.`,
+		requirements: ["See 10 cards per page", "Filter movies by title"],
+		challenges: `As a developer, I faced a great challenge with this project, particularly with the implementation of the Clean architecture. Although this architecture is an excellent way to structure and conceptualize a project, it requires additional knowledge and effort, which can be counterproductive for small-scale projects.
+		---
+		I found this project to be an enriching experience, as I was able to study and apply the famous Clean Architecture, which enhances project maintainability, readability, and scalability.
+		---
+		I expanded my knowledge on high-quality software development by applying SOLID principles. The feedback from Rviewer's team of experts brought an exceptional plus to this project, allowing me to grow and improve by knowing my mistakes and points of improvement.`,
+		stack: ["React", "TypeScript", "Sass", "React Testing Library", "Jest"],
+		poster: PosterDCT,
+		video: PosterDCT,
+		links: {
+			code: "https://rviewer.io/app/developers/challenges/clh9RGZ2WRmfFbGFrHJo/report",
+			preview: "https://dreadful-cherry-tomatoes.netlify.app/",
+		},
+	},
+];
+---
+
+<section id="projects" class="projects section wrapper">
+	<header>
+		<SectionTitle>
+			<span slot="text">{title}</span>
+			<span slot="text-highlight">{titleHighlight}</span>
+		</SectionTitle>
+	</header>
+
+	<p class="projects__text">
+		{text}
+		<Link href={AUTHOR.github} isExternal>{linkText}</Link>
+	</p>
+
+	<ul class="projects__list js-projects-list">
+		{
+			projects.map((project) => (
+				<li>
+					<Project
+						id={`${toKebabCase(project.name.toLowerCase())}-project`}
+						project={project}
+					/>
+
+					<Modal
+						class="js-modal-project"
+						triggerId={`${toKebabCase(project.name.toLowerCase())}-project`}
+					>
+						<ProjectModal project={project} />
+					</Modal>
+				</li>
+			))
+		}
+	</ul>
+
+	<footer class="flex-group">
+		<Button
+			type="ghost-underline"
+			color="primary"
+			isExternal
+			href={`${AUTHOR.github}?tab=repositories`}
+		>
+			<span>{t("projects.see-all-link")}</span>
+			<Icon icon="external-link" size="small" />
+		</Button>
+	</footer>
+</section>
+
+<style>
+	.projects__text {
+		font-size: var(--font-size-medium);
+		color: var(--medium-emphasis);
+	}
+
+	.projects__list {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(400px, 100%), 1fr));
+		gap: var(--space-stack-20x);
+		place-items: center;
+	}
+</style>

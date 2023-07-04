@@ -1,0 +1,456 @@
+---
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
+import ButtonIcon from "@components/buttons/ButtonIcon.astro";
+import Button from "@components/buttons/Button.astro";
+import Icon from "@components/Icon.astro";
+import TechIcon from "@components/TechIcon.astro";
+
+interface Props {
+	id: string;
+	project: any;
+}
+
+const { id, project } = Astro.props;
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<Button
+	id={id}
+	class="project js-project"
+	type="solid"
+	shape="rounded-8"
+	i11nAttrs={{
+		"arial-label": t("projects.see-details"),
+	}}
+>
+	<figure class="project__container stack">
+		<img
+			class="project__image"
+			src={project.poster}
+			alt={project.name}
+			width="600"
+			height="400"
+		/>
+
+		<figcaption class="project__details">
+			<header>
+				<h3 class="project__title">{project.name}</h3>
+			</header>
+
+			<p class="project__type">
+				<span class="visually-hidden">{t("projects.app-type")}:</span>
+				<span>{project.types[0]}</span>
+			</p>
+
+			<ul class="project__stack flex-group">
+				{
+					project.stack.map((techName: string) => (
+						<li class="project__tech">
+							<span class="visually-hidden">{techName}</span>
+							<TechIcon name={techName} />
+						</li>
+					))
+				}
+			</ul>
+
+			<footer class="project__ctas flex-group">
+				<ButtonIcon
+					class="project__cta"
+					href={project.links.code}
+					type="solid"
+					isExternal
+					i11nAttrs={{
+						"aria-label": t("projects.code-link"),
+					}}
+				>
+					<Icon icon="code" size="medium" />
+				</ButtonIcon>
+				<ButtonIcon
+					class="project__cta"
+					href={project.links.preview}
+					type="solid"
+					isExternal
+					i11nAttrs={{
+						"aria-label": t("projects.preview-link"),
+					}}
+				>
+					<Icon icon="eye" size="medium" />
+				</ButtonIcon>
+			</footer>
+		</figcaption>
+	</figure>
+</Button>
+
+<style>
+	.project {
+		--content-padding: clamp(
+			var(--space-stack-16x),
+			4vw,
+			var(--space-stack-24x)
+		);
+
+		padding: 0;
+		isolation: isolate;
+		border: none;
+		box-shadow: var(--elevation-1);
+	}
+
+	.project:is(:focus-visible) {
+		outline-offset: var(--space-stack-10x);
+	}
+
+	.project::before {
+		inset: calc(var(--space-stack-4x) * -1);
+		z-index: -1;
+		background: conic-gradient(
+			from var(--gradient-angle),
+			var(--gradient-stop-1),
+			var(--gradient-stop-2),
+			var(--gradient-stop-1)
+		);
+		border-radius: inherit;
+		box-shadow: var(--elevation-2);
+		opacity: 0;
+		transition: opacity 0.5s var(--appears-transition);
+		animation: rotation 6s linear infinite;
+	}
+
+	.project:is(:hover, :focus-visible, :focus-within, :active)::before {
+		opacity: 1;
+	}
+
+	@property --gradient-angle {
+		syntax: "<angle>";
+		initial-value: 0deg;
+		inherits: false;
+	}
+
+	@keyframes rotation {
+		to {
+			--gradient-angle: 360deg;
+		}
+	}
+
+	.project:not([disabled]):is(:hover, :focus-visible, :active) {
+		/* changes legacy styles from .btn (Button) */
+		scale: 1.025;
+	}
+
+	.project__container {
+		overflow: hidden;
+		border-radius: inherit;
+	}
+
+	.project__image {
+		object-position: top;
+		object-fit: cover;
+		inline-size: 100%;
+		block-size: 100%;
+		aspect-ratio: 3 / 2;
+	}
+
+	.project__details {
+		position: relative;
+		z-index: 3;
+		display: grid;
+		gap: var(--space-stack-12x);
+		place-content: center;
+		padding: var(--content-padding);
+		color: var(--on-surface);
+		text-align: center;
+		pointer-events: none;
+		background-color: var(--surface-transparency);
+		inline-size: 100%;
+		block-size: 100%;
+		backdrop-filter: var(--background-blur);
+	}
+
+	/* Smartphones/touchscreens */
+	@media (hover: none) and (pointer: coarse) {
+		.project__container {
+			/* Remove legacy styles from .stack (utils) */
+			display: initial;
+		}
+
+		.project__details {
+			place-content: initial;
+			clip-path: none;
+			background-color: var(--surface);
+			border-block-start: var(--space-stack-8x) solid var(--primary);
+			border-image: linear-gradient(
+					to right,
+					var(--gradient-stop-1) 0%,
+					var(--gradient-stop-2) 100%
+				)
+				10;
+		}
+	}
+
+	/* Desktop */
+	@media (hover: hover) and (pointer: fine) {
+		.project__details {
+			clip-path: polygon(0% 0%);
+		}
+
+		.project:is(:hover, :focus-visible, :focus-within, :active)
+			.project__details {
+			animation: 2s melt-enter forwards;
+		}
+	}
+
+	@keyframes melt-enter {
+		from {
+			clip-path: polygon(
+				100% 0%,
+				0% 0%,
+				0% 12.41%,
+				1% 11.62%,
+				2% 10.73%,
+				3% 9.79%,
+				4% 8.87%,
+				5% 8.01%,
+				6% 7.28%,
+				7% 6.73%,
+				8% 6.37%,
+				9% 6.25%,
+				10% 6.36%,
+				11% 6.7%,
+				12% 7.25%,
+				13% 7.97%,
+				14% 8.82%,
+				15% 9.74%,
+				16% 10.68%,
+				17% 11.57%,
+				18% 12.37%,
+				19% 13.02%,
+				20% 13.48%,
+				21% 13.72%,
+				22% 13.72%,
+				23% 13.5%,
+				24% 13.05%,
+				25% 12.41%,
+				26% 11.62%,
+				27% 10.73%,
+				28% 9.79%,
+				29% 8.87%,
+				30% 8.01%,
+				31% 7.28%,
+				32% 6.73%,
+				33% 6.37%,
+				34% 6.25%,
+				35% 6.36%,
+				36% 6.7%,
+				37% 7.25%,
+				38% 7.97%,
+				39% 8.82%,
+				40% 9.74%,
+				41% 10.68%,
+				42% 11.57%,
+				43% 12.37%,
+				44% 13.02%,
+				45% 13.48%,
+				46% 13.72%,
+				47% 13.72%,
+				48% 13.5%,
+				49% 13.05%,
+				50% 12.41%,
+				51% 11.62%,
+				52% 10.73%,
+				53% 9.79%,
+				54% 8.87%,
+				55% 8.01%,
+				56% 7.28%,
+				57% 6.73%,
+				58% 6.37%,
+				59% 6.25%,
+				60% 6.36%,
+				61% 6.7%,
+				62% 7.25%,
+				63% 7.97%,
+				64% 8.82%,
+				65% 9.74%,
+				66% 10.68%,
+				67% 11.57%,
+				68% 12.37%,
+				69% 13.02%,
+				70% 13.48%,
+				71% 13.72%,
+				72% 13.72%,
+				73% 13.5%,
+				74% 13.05%,
+				75% 12.41%,
+				76% 11.62%,
+				77% 10.73%,
+				78% 9.79%,
+				79% 8.87%,
+				80% 8.01%,
+				81% 7.28%,
+				82% 6.73%,
+				83% 6.37%,
+				84% 6.25%,
+				85% 6.36%,
+				86% 6.7%,
+				87% 7.25%,
+				88% 7.97%,
+				89% 8.82%,
+				90% 9.74%,
+				91% 10.68%,
+				92% 11.57%,
+				93% 12.37%,
+				94% 13.02%,
+				95% 13.48%,
+				96% 13.72%,
+				97% 13.72%,
+				98% 13.5%,
+				99% 13.05%,
+				100% 12.41%
+			);
+		}
+
+		to {
+			clip-path: polygon(
+				100% 0%,
+				0% 0%,
+				0% 111.25%,
+				1% 111.6%,
+				2% 112.61%,
+				3% 114.21%,
+				4% 116.27%,
+				5% 118.63%,
+				6% 121.1%,
+				7% 123.48%,
+				8% 125.58%,
+				9% 127.24%,
+				10% 128.32%,
+				11% 128.75%,
+				12% 128.48%,
+				13% 127.53%,
+				14% 125.99%,
+				15% 123.97%,
+				16% 121.64%,
+				17% 119.18%,
+				18% 116.78%,
+				19% 114.64%,
+				20% 112.92%,
+				21% 111.77%,
+				22% 111.27%,
+				23% 111.46%,
+				24% 112.33%,
+				25% 113.81%,
+				26% 115.78%,
+				27% 118.09%,
+				28% 120.55%,
+				29% 122.96%,
+				30% 125.14%,
+				31% 126.91%,
+				32% 128.14%,
+				33% 128.71%,
+				34% 128.6%,
+				35% 127.8%,
+				36% 126.38%,
+				37% 124.45%,
+				38% 122.18%,
+				39% 119.73%,
+				40% 117.3%,
+				41% 115.08%,
+				42% 113.26%,
+				43% 111.97%,
+				44% 111.32%,
+				45% 111.36%,
+				46% 112.08%,
+				47% 113.44%,
+				48% 115.31%,
+				49% 117.56%,
+				50% 120%,
+				51% 122.44%,
+				52% 124.69%,
+				53% 126.56%,
+				54% 127.92%,
+				55% 128.64%,
+				56% 128.68%,
+				57% 128.03%,
+				58% 126.74%,
+				59% 124.92%,
+				60% 122.7%,
+				61% 120.27%,
+				62% 117.82%,
+				63% 115.55%,
+				64% 113.62%,
+				65% 112.2%,
+				66% 111.4%,
+				67% 111.29%,
+				68% 111.86%,
+				69% 113.09%,
+				70% 114.86%,
+				71% 117.04%,
+				72% 119.45%,
+				73% 121.91%,
+				74% 124.22%,
+				75% 126.19%,
+				76% 127.67%,
+				77% 128.54%,
+				78% 128.73%,
+				79% 128.23%,
+				80% 127.08%,
+				81% 125.36%,
+				82% 123.22%,
+				83% 120.82%,
+				84% 118.36%,
+				85% 116.03%,
+				86% 114.01%,
+				87% 112.47%,
+				88% 111.52%,
+				89% 111.25%,
+				90% 111.68%,
+				91% 112.76%,
+				92% 114.42%,
+				93% 116.52%,
+				94% 118.9%,
+				95% 121.37%,
+				96% 123.73%,
+				97% 125.79%,
+				98% 127.39%,
+				99% 128.4%,
+				100% 128.75%
+			);
+		}
+	}
+
+	.project__title {
+		font-size: var(--font-size-2x-large);
+	}
+
+	.project__type {
+		font-size: var(--font-size-large);
+		font-weight: var(--font-weight-regular);
+		color: var(--medium-emphasis);
+	}
+
+	.project__stack {
+		gap: var(--space-stack-12x);
+	}
+
+	.project__tech {
+		inline-size: 28px;
+		aspect-ratio: 1;
+	}
+
+	.project__ctas {
+		justify-content: flex-end;
+		margin-block-start: var(--space-stack-12x);
+	}
+
+	@media screen and (width >= 27rem) {
+		.project__ctas {
+			position: absolute;
+			inset-block-end: var(--content-padding);
+			inset-inline-end: var(--content-padding);
+		}
+	}
+
+	.project__cta {
+		pointer-events: initial;
+		background-color: var(--surface-container);
+	}
+</style>

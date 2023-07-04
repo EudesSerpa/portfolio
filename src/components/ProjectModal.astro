@@ -1,0 +1,240 @@
+---
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
+import { getParagraphs } from "@utils/strings";
+import Button from "./buttons/Button.astro";
+import Icon from "./Icon.astro";
+import TechIcon from "./TechIcon.astro";
+
+interface Props {
+	project: any;
+}
+
+const { project } = Astro.props;
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<article>
+	<video
+		class="modal__media"
+		poster={project.poster}
+		width="480"
+		height="270"
+		controls
+		muted
+	>
+		<source
+			src="https://storage.googleapis.com/web-dev-assets/video-and-source-tags/chrome.webm"
+			type="video/webm"
+		/>
+		<source
+			src="https://storage.googleapis.com/web-dev-assets/video-and-source-tags/chrome.mp4"
+			type="video/mp4"
+		/>
+	</video>
+
+	<div class="modal__separator"></div>
+
+	<div class="modal__body">
+		<header>
+			<h3 class="modal__title">{project.name}</h3>
+		</header>
+
+		<ul class="modal__types flex-group">
+			{project.types.map((type: string) => <li class="modal__type">{type}</li>)}
+		</ul>
+
+		<div class="modal__details">
+			<div class="modal__detail">
+				<div>
+					<h4 class="modal__subtitle">
+						{t("projects.modal.subtitle.description")}
+					</h4>
+
+					{
+						getParagraphs(project.description).map((text: string) => (
+							<p class="modal__text">{text}</p>
+						))
+					}
+				</div>
+
+				<div>
+					<h4 class="modal__subtitle">
+						{t("projects.modal.subtitle.requirements")}
+					</h4>
+
+					<p class="modal__text">{t("projects.modal.text.requirements")}:</p>
+					<ul class="modal__requirements-list">
+						{
+							project.requirements.map((requirement: string) => (
+								<li>{requirement}</li>
+							))
+						}
+					</ul>
+				</div>
+			</div>
+
+			<div class="modal__detail">
+				<div>
+					<h4 class="modal__subtitle">
+						{t("projects.modal.subtitle.challenges")}
+					</h4>
+
+					{
+						getParagraphs(project.challenges).map((text: string) => (
+							<p class="modal__text">{text}</p>
+						))
+					}
+				</div>
+
+				<div>
+					<h4 class="modal__subtitle">{t("projects.modal.subtitle.stack")}</h4>
+
+					<p class="modal__text">
+						{t("projects.modal.text.stack")}:
+					</p>
+
+					<ul class="modal__stack project__stack flex-group js-modal-stack">
+						{
+							project.stack.map((techName: string) => (
+								<li class="modal__tech project__tech">
+									<span class="visually-hidden">{techName}</span>
+									<TechIcon name={techName} />
+								</li>
+							))
+						}
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<footer class="modal__ctas flex-group">
+			<Button
+				href={project.links.code}
+				type="outline"
+				color="primary"
+				isExternal
+			>
+				<span>{t("projects.code-link")}</span>
+				<Icon icon="code" size="small" />
+			</Button>
+			<Button
+				href={project.links.preview}
+				type="solid"
+				color="primary"
+				isExternal
+			>
+				<span>{t("projects.preview-link")}</span>
+				<Icon icon="eye" size="small" />
+			</Button>
+		</footer>
+	</div>
+</article>
+
+<style>
+	.modal__media {
+		object-position: top;
+		object-fit: cover;
+		inline-size: 100%;
+		aspect-ratio: 16 / 9;
+	}
+
+	.modal__separator {
+		block-size: var(--space-stack-8x);
+		background-image: linear-gradient(
+			270deg,
+			var(--gradient-stop-1),
+			var(--gradient-stop-2),
+			var(--gradient-stop-1)
+		);
+		background-size: 400% 100%;
+		animation: gradient-shift 8s ease infinite;
+	}
+
+	@keyframes gradient-shift {
+		0% {
+			background-position-x: 0;
+		}
+
+		50% {
+			background-position-x: 100%;
+		}
+
+		100% {
+			background-position-x: 0;
+		}
+	}
+
+	.modal__body,
+	.modal__details,
+	.modal__detail {
+		display: grid;
+		gap: var(--content-spacing);
+	}
+
+	.modal__body {
+		padding: var(--space-stack-24x);
+	}
+
+	.modal__title,
+	.modal__subtitle {
+		color: var(--on-surface);
+	}
+
+	.modal__title {
+		font-size: var(--font-size-2x-large);
+		text-align: center;
+	}
+
+	.modal__types {
+		--justify: flex-start;
+	}
+
+	.modal__type {
+		padding: var(--space-stack-4x) var(--space-stack-12x);
+		background-color: var(--surface-container);
+		border-radius: var(--radius-pill);
+	}
+
+	.modal__details {
+		grid-template-columns: repeat(auto-fit, minmax(min(40ch, 100%), 1fr));
+	}
+
+	.modal__detail {
+		place-content: start;
+	}
+
+	.modal__subtitle {
+		margin-block-end: var(--space-stack-4x);
+		font-size: var(--font-size-large);
+		font-weight: var(--font-weight-regular);
+	}
+
+	.modal__text {
+		max-inline-size: 60ch;
+		margin-block: var(--space-stack-4x);
+	}
+
+	.modal__requirements-list {
+		padding-inline-start: var(--space-stack-8x);
+		list-style: disc inside;
+	}
+
+	.modal__stack {
+		--justify: flex-start;
+		gap: var(--space-stack-12x);
+	}
+
+	.modal__tech {
+		inline-size: 22px;
+	}
+
+	.modal__ctas {
+		margin-block-start: var(--space-stack-12x);
+	}
+
+	@media screen and (width >= 40rem) {
+		.modal__ctas {
+			--justify: flex-end;
+		}
+	}
+</style>
