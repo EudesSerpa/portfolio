@@ -7,6 +7,7 @@ export interface Props {
 	children: any;
 	type: Type;
 	color?: Color;
+	id?: string;
 	class?: string;
 	href?: string;
 	shape?: Shape;
@@ -15,6 +16,7 @@ export interface Props {
 }
 
 const {
+	id,
 	href,
 	type,
 	color,
@@ -31,6 +33,7 @@ const style = {
 };
 
 const attrs = {
+	id,
 	href,
 	style,
 	...i11nAttrs,
