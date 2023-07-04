@@ -1,0 +1,110 @@
+---
+import ButtonIcon from "./buttons/ButtonIcon.astro";
+import Icon from "./Icon.astro";
+
+interface Props {
+	children: any;
+	triggerId: string;
+	class?: string;
+}
+
+const { triggerId, class: className } = Astro.props;
+---
+
+<dialog
+	class:list={[
+		"modal",
+		"wrapper",
+		{
+			[`${className}`]: !!className,
+		},
+	]}
+	data-trigger-id={triggerId}
+>
+	<ButtonIcon
+		class="modal__close-btn js-close-modal-btn"
+		type="solid"
+		i11nAttrs={{ "aria-label": "Close modal" }}
+	>
+		<Icon icon="close" size="small" />
+	</ButtonIcon>
+
+	<slot />
+</dialog>
+
+<style>
+	.modal {
+		--max-size: 800px;
+		--content-spacing: var(--space-stack-20x);
+
+		margin: auto;
+		color: var(--medium-emphasis);
+		background-color: var(--surface);
+		border: none;
+		border-radius: var(--radius-rounded-8);
+	}
+
+	/* It doesn't take the global styles */
+	.modal::backdrop {
+		background-color: rgb(18 18 18 / 70%);
+		backdrop-filter: blur(4px);
+	}
+
+	.modal::-webkit-scrollbar {
+		inline-size: 0.5rem;
+	}
+
+	.modal::-webkit-scrollbar-track {
+		background-color: var(--surface-container);
+		border-radius: inherit;
+		box-shadow: inset var(--elevation-1);
+	}
+
+	.modal::-webkit-scrollbar-thumb {
+		background-color: var(--disabled);
+		border-radius: inherit;
+	}
+
+	.modal__close-btn {
+		--spacing: var(--space-stack-12x);
+
+		position: absolute;
+		inset-block-start: var(--spacing);
+		inset-inline-end: var(--spacing);
+		z-index: 1;
+	}
+</style>
+
+<script>
+	import { $, $$ } from "@utils/selectElements";
+
+	const $modals = $$(".modal") as NodeListOf<HTMLDialogElement>;
+
+	$modals.forEach(($modal) => {
+		const modalId = $modal.getAttribute("data-trigger-id");
+		const $modalTrigger = $(`#${modalId}`);
+		const $closeBtn = $modal.querySelector(
+			".js-close-modal-btn"
+		) as HTMLButtonElement;
+
+		$modalTrigger?.addEventListener("click", (evt) => {
+			if (evt.target === $modalTrigger) {
+				$modal.showModal();
+			}
+		});
+
+		$closeBtn.addEventListener("click", (_evt) => {
+			$modal.close();
+		});
+
+		// Close by clicking on the backdrop
+		$modal.addEventListener("click", (evt: MouseEvent) => {
+			evt.stopPropagation();
+			const target = evt.target as Element;
+
+			if (target.nodeName === "DIALOG") {
+				$modal.close();
+			}
+		});
+	});
+</script>
