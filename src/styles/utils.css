@@ -33,7 +33,6 @@
 	display: grid;
 	grid-template-areas: "stack";
 	place-items: center;
-	isolation: isolate;
 }
 
 .stack>* {
@@ -61,7 +60,7 @@
 	box-shadow: 0 0 0 100vmax var(--bleed-color, var(--background, red));
 }
 
-
+/* Truncate text vertically with ellipsis */
 .truncate-text {
 	display: -webkit-box;
 	-webkit-line-clamp: var(--lines-to-truncate, 2);
