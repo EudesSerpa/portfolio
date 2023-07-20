@@ -193,6 +193,7 @@ ul {
 
 .section__title {
 	font-size: clamp(var(--font-size-4x-large), calc(var(--font-size-5x-large) + 1.5vw), var(--font-size-6x-large));
+	line-height: 1.1;
 	text-align: center;
 	text-transform: capitalize;
 }

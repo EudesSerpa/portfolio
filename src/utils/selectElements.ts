@@ -2,10 +2,14 @@
  * Selects one element with the specified selector
  *
  * @param {string} selector - The CSS selector
+ * @param {HTMLElement | Document} [node=document] - The CSS selector
  * @returns {Element | null} - The selected element
  */
-export function $(selector: string): Element | null {
-	return document.querySelector(selector);
+export function $(
+	selector: string,
+	node: HTMLElement | Document = document
+): Element | null {
+	return node.querySelector(selector);
 }
 
 /**
