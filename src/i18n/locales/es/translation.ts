@@ -130,6 +130,10 @@ const PROJECTS = {
 		"Este proyecto se desarrolló con las siguientes tecnologías y herramientas",
 };
 
+const CONTACT = {
+	"contact.title": "Contacta conmigo",
+};
+
 const FOOTER = {
 	"footer.credits.text": "Diseñado y desarrollado con",
 	"footer.credits.aux": "amor",
@@ -161,5 +165,6 @@ export const esTranslations = {
 	...ABOUT,
 	...CERTIFICATIONS,
 	...PROJECTS,
+	...CONTACT,
 	...FOOTER,
 };

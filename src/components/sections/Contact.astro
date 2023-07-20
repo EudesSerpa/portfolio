@@ -1,0 +1,563 @@
+---
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
+import { AUTHOR } from "@utils/const";
+import ContactIllustration from "@assets/contact-illustration.astro";
+import SectionTitle from "@components/SectionTitle.astro";
+import Link from "@components/Link.astro";
+import Icon from "@components/Icon.astro";
+import Button from "@components/buttons/Button.astro";
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+
+let [title, titleHighlight] = t("contact.title").split(" ");
+---
+
+<section id="contact" class="about section wrapper">
+	<header>
+		<SectionTitle>
+			<span slot="text">{title}</span>
+			<span slot="text-highlight">{titleHighlight}</span>
+		</SectionTitle>
+	</header>
+
+	<p class="about__description">
+		Ready to connect? Whether you have a project or a question, feel free to
+		drop me a line. Use the form below or <Link href={`mailto:${AUTHOR.email}`}>
+			email me directly
+		</Link> and I'll get back to you soon. Let's make something awesome together!
+	</p>
+
+	<div class="about__content flex-group">
+		<div class="illustration">
+			<ContactIllustration />
+		</div>
+
+		<form class="contact__form js-contact-form">
+			<label class="honeypot" for="honeypot" aria-hidden="true" hidden
+				>Keep this field blank</label
+			>
+			<input
+				id="honeypot"
+				class="honeypot"
+				aria-hidden="true"
+				autocomplete="off"
+				tabindex="-1"
+				hidden
+			/>
+
+			<div class="form__item">
+				<label class="form__label" for="name">Name</label>
+
+				<p id="name-error" class="form__inline-error" aria-live="off"></p>
+
+				<div class="form__input-container flex-group">
+					<input
+						id="name"
+						name="name"
+						class="form__input"
+						autocomplete="name"
+						aria-describedby="name-error"
+						required
+					/>
+
+					<span class="form__icon form__icon--valid">
+						<Icon icon="check-mark" />
+					</span>
+					<span class="form__icon form__icon--invalid">
+						<Icon icon="close-mark" />
+					</span>
+				</div>
+			</div>
+
+			<div class="form__item">
+				<label class="form__label" for="email">Email</label>
+
+				<p id="email-hint" class="form__hint">
+					<span class="visually-hidden">Hint:</span>Example of a valid email
+					format:
+					<span class="form__hint--example">example@gmail.com</span>
+				</p>
+
+				<p id="email-error" class="form__inline-error" aria-live="off"></p>
+
+				<div class="form__input-container flex-group">
+					<input
+						id="email"
+						name="email"
+						class="form__input"
+						type="email"
+						aria-describedby="email-hint email-error"
+						required
+					/>
+
+					<span class="form__icon form__icon--valid">
+						<Icon icon="check-mark" />
+					</span>
+					<span class="form__icon form__icon--invalid">
+						<Icon icon="close-mark" />
+					</span>
+				</div>
+			</div>
+
+			<div class="form__item">
+				<label class="form__label" for="subject">Subject</label>
+
+				<p id="subject-error" class="form__inline-error" aria-live="off"></p>
+
+				<div class="form__input-container flex-group">
+					<input
+						id="subject"
+						name="subject"
+						class="form__input"
+						aria-describedby="subject-hint subject-error"
+						required
+					/>
+
+					<span class="form__icon form__icon--valid">
+						<Icon icon="check-mark" />
+					</span>
+					<span class="form__icon form__icon--invalid">
+						<Icon icon="close-mark" />
+					</span>
+				</div>
+			</div>
+
+			<div class="form__item">
+				<label class="form__label" for="message">Message</label>
+				<p id="message-hint" class="form__hint">
+					<span class="visually-hidden">Hint:</span>Maximum length of 256
+					characters.
+				</p>
+
+				<p id="message-error" class="form__inline-error" aria-live="off"></p>
+
+				<div class="form__input-container flex-group">
+					<textarea
+						id="message"
+						name="message"
+						class="form__input form__textarea"
+						rows="5"
+						cols="50"
+						aria-describedby="message-hint message-error"
+						required></textarea>
+
+					<span class="form__icon form__icon--valid">
+						<Icon icon="check-mark" />
+					</span>
+					<span class="form__icon form__icon--invalid">
+						<Icon icon="close-mark" />
+					</span>
+				</div>
+			</div>
+
+			<Button class="form__submit" type="solid" color="primary">
+				<span>Send</span>
+				<Icon icon="send" size="small" />
+			</Button>
+		</form>
+	</div>
+</section>
+
+<style>
+	.about {
+		font-size: var(--font-size-large);
+	}
+
+	.about__description {
+		max-inline-size: 65ch;
+		color: var(--medium-emphasis);
+	}
+
+	.about__content {
+		min-block-size: 560px;
+		background: no-repeat fixed top/contain
+			url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.dev/svgjs' width='960' height='460' preserveAspectRatio='none' viewBox='0 0 960 460'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1183%26quot%3b)' fill='none'%3e%3cpath d='M777.83 306.58a30.72 30.72 0 1 0 53.56-30.1z' fill='rgba(0%2c 126%2c 133%2c 1)'%3e%3c/path%3e%3cpath d='M604.2 142.55L605.44 142.55L605.44 148.8L604.2 148.8z' fill='rgba(196%2c 151%2c 252%2c 1)'%3e%3c/path%3e%3cpath d='M257.89 194.72 a29.83 29.83 0 1 0 59.66 0 a29.83 29.83 0 1 0 -59.66 0z' fill='rgba(196%2c 151%2c 252%2c 1)'%3e%3c/path%3e%3cpath d='M4.24-13.37a23.03 23.03 0 1 0 21.07 40.96z' stroke='rgba(89%2c 6%2c 197%2c 1)'%3e%3c/path%3e%3cpath d='M842.16 329.32L849.9 329.32L849.9 346.83L842.16 346.83z' fill='rgba(3%2c 214%2c 218%2c 1)'%3e%3c/path%3e%3cpath d='M895.6 212.33a5.69 5.69 0 1 0 2.94-11z' fill='rgba(0%2c 126%2c 133%2c 1)'%3e%3c/path%3e%3cpath d='M255.49 359.19L266.1 359.19L266.1 369.8L255.49 369.8z' stroke='rgba(3%2c 214%2c 218%2c 1)'%3e%3c/path%3e%3cpath d='M57.71 22.99L96.08 22.99L96.08 61.36L57.71 61.36z' fill='rgba(196%2c 151%2c 252%2c 1)'%3e%3c/path%3e%3cpath d='M213.86 121.81 a19.82 19.82 0 1 0 39.64 0 a19.82 19.82 0 1 0 -39.64 0z' fill='rgba(3%2c 214%2c 218%2c 1)'%3e%3c/path%3e%3cpath d='M838.34 426.77L843.93 426.77L843.93 432.36L838.34 432.36z' fill='rgba(196%2c 151%2c 252%2c 1)'%3e%3c/path%3e%3cpath d='M791.24 269.28L816.57 269.28L816.57 294.61L791.24 294.61z' stroke='rgba(3%2c 214%2c 218%2c 1)'%3e%3c/path%3e%3cpath d='M933.1 149.33L973.64 149.33L973.64 182.45L933.1 182.45z' stroke='rgba(207%2c 54%2c 48%2c 1)'%3e%3c/path%3e%3cpath d='M88.61 304.28L93.65 304.28L93.65 309.32L88.61 309.32z' stroke='rgba(89%2c 6%2c 197%2c 1)'%3e%3c/path%3e%3cpath d='M53.98 54.22a10.01 10.01 0 1 0-11.82-16.15z' stroke='rgba(89%2c 6%2c 197%2c 1)'%3e%3c/path%3e%3cpath d='M166.64 319.55a18.24 18.24 0 1 0-5.67-36.04z' stroke='rgba(89%2c 6%2c 197%2c 1)'%3e%3c/path%3e%3cpath d='M583.88 109.48a15.37 15.37 0 1 0-28.08 12.53z' fill='rgba(0%2c 195%2c 208%2c 1)'%3e%3c/path%3e%3cpath d='M896.61 110.89 a38.83 38.83 0 1 0 77.66 0 a38.83 38.83 0 1 0 -77.66 0z' stroke='rgba(207%2c 54%2c 48%2c 1)'%3e%3c/path%3e%3cpath d='M466.55 15.52L477.96 15.52L477.96 23.94L466.55 23.94z' fill='rgba(126%2c 209%2c 60%2c 1)'%3e%3c/path%3e%3cpath d='M668.76 267.58a41.7 41.7 0 1 0-27.73 78.66z' fill='rgba(3%2c 214%2c 218%2c 1)'%3e%3c/path%3e%3cpath d='M856.02 188.38L873.31 188.38L873.31 205.67L856.02 205.67z' stroke='rgba(89%2c 6%2c 197%2c 1)'%3e%3c/path%3e%3cpath d='M111.51 163.36L121.59 163.36L121.59 164.31L111.51 164.31z' fill='rgba(0%2c 126%2c 133%2c 1)'%3e%3c/path%3e%3cpath d='M819.4 246.22L835.73 246.22L835.73 262.55L819.4 262.55z' stroke='rgba(0%2c 126%2c 133%2c 1)'%3e%3c/path%3e%3cpath d='M507.99 113.01a34.29 34.29 0 1 0 46.89-50.05z' stroke='rgba(207%2c 54%2c 48%2c 1)'%3e%3c/path%3e%3cpath d='M790.4 222.75 a12.71 12.71 0 1 0 25.42 0 a12.71 12.71 0 1 0 -25.42 0z' stroke='rgba(89%2c 6%2c 197%2c 1)'%3e%3c/path%3e%3cpath d='M248.16 310.3L256.46 310.3L256.46 318.6L248.16 318.6z' stroke='rgba(126%2c 209%2c 60%2c 1)'%3e%3c/path%3e%3cpath d='M121.93 205.03 a20.05 20.05 0 1 0 40.1 0 a20.05 20.05 0 1 0 -40.1 0z' fill='rgba(0%2c 195%2c 208%2c 1)'%3e%3c/path%3e%3cpath d='M480.37 370.38L493.88 370.38L493.88 383.89L480.37 383.89z' fill='rgba(0%2c 126%2c 133%2c 1)'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1183'%3e%3crect width='960' height='460' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e");
+	}
+
+	.illustration {
+		display: none;
+		flex: 1;
+		max-inline-size: 540px;
+	}
+
+	@media screen and (width >= 58.75rem) {
+		.about__content {
+			--justify: space-between;
+
+			background: initial;
+		}
+
+		.illustration {
+			display: initial;
+		}
+	}
+
+	/* Form */
+	.contact__form {
+		display: grid;
+		gap: var(--space-stack-20x);
+		padding: var(--space-stack-24x);
+		color: var(--on-surface);
+		background-color: var(--surface);
+		border-radius: var(--radius-rounded-8);
+		box-shadow: var(--elevation-1);
+		inline-size: min(100%, 420px);
+	}
+
+	.honeypot,
+	.form__icon {
+		display: none;
+	}
+
+	.form__item {
+		display: grid;
+		gap: var(--space-stack-4x);
+	}
+
+	.form__hint {
+		display: none;
+		margin-block-start: calc(var(--space-stack-2x) * -1);
+		font-size: var(--font-size-base);
+		color: var(--medium-emphasis);
+	}
+
+	.form__item:focus-within .form__hint {
+		display: initial;
+	}
+
+	.form__hint--example {
+		display: inline-block;
+		padding: 0 var(--space-stack-6x);
+		color: var(--on-background);
+		background-color: var(--background);
+		border-radius: var(--radius-pill);
+	}
+
+	.form__inline-error {
+		font-size: var(--font-size-base);
+		color: var(--error-text);
+	}
+
+	.form__input-container {
+		--content-block-spacing: var(--space-stack-8x);
+		--content-inline-spacing: var(--space-stack-16x);
+
+		position: relative;
+	}
+
+	.form__input {
+		--icon-space: 2.25;
+
+		padding-block: var(--content-block-spacing);
+		padding-inline: var(--content-inline-spacing)
+			calc(var(--content-inline-spacing) * var(--icon-space, 1));
+		font-size: var(--font-size-medium);
+		line-height: 1.25;
+		color: var(--on-surface);
+		background-color: var(--surface-container);
+		border: none;
+		border-radius: var(--radius-pill);
+		box-shadow: var(--elevation-inset-1);
+		inline-size: 100%;
+	}
+
+	.form__icon {
+		position: absolute;
+		inset-block-start: var(--content-block-spacing);
+		inset-inline-end: var(--content-inline-spacing);
+		display: none;
+		color: var(--on-surface);
+		pointer-events: none;
+		user-select: none;
+	}
+
+	.form__icon--valid {
+		color: var(--success);
+	}
+
+	.form__icon--invalid {
+		color: var(--error);
+	}
+
+	.form__textarea {
+		min-block-size: 90px;
+		resize: vertical;
+		border-radius: var(--radius-rounded-8);
+	}
+
+	.form__textarea ~ .form__icon {
+		inset-block-start: calc(50% - (var(--content-block-spacing, 0) * 2));
+	}
+
+	.form__submit {
+		inline-size: fit-content;
+		margin-inline-start: auto;
+	}
+
+	/****************
+	 * Validations
+	 ****************/
+
+	/* Bordes */
+	.form__item:is(.valid, .invalid) .form__input {
+		border: 3px solid transparent;
+	}
+
+	.form__item:is(.valid) .form__input {
+		border-color: var(--success);
+	}
+
+	.form__item:is(.invalid) .form__input {
+		border-color: var(--error);
+	}
+
+	/* Icons */
+	.form__item:is(.valid) .form__icon--valid,
+	.form__item:is(.invalid) .form__icon--invalid {
+		display: initial;
+	}
+</style>
+
+<script>
+	import { $, $$ } from "@utils/selectElements";
+	import { addClass, removeClass } from "@utils/dom";
+
+	type FormControl = HTMLInputElement | HTMLTextAreaElement;
+
+	enum FieldState {
+		VALID = "valid",
+		INVALID = "invalid",
+	}
+
+	interface FieldConstraints {
+		required: boolean;
+		regex?: RegExp;
+		minLength?: number;
+		maxLength?: number;
+		errorMessages: Record<string, string>;
+	}
+
+	interface Field {
+		name: string;
+		value: string;
+	}
+
+	const $form = $(".js-contact-form") as HTMLFormElement;
+	const $formInputs = $$(".form__input") as NodeListOf<FormControl>;
+
+	const constraints: Record<string, FieldConstraints> = {
+		name: {
+			required: true,
+			errorMessages: {
+				required: "Name field cannot be empty",
+			},
+		},
+		email: {
+			required: true,
+			regex:
+				/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/,
+			errorMessages: {
+				required: "Email field cannot be empty",
+				regex: "Email format is invalid",
+			},
+		},
+		subject: {
+			required: true,
+			errorMessages: {
+				required: "Subject field cannot be empty",
+			},
+		},
+		message: {
+			required: true,
+			maxLength: 256,
+			errorMessages: {
+				required: "Message field cannot be empty",
+				maxLength: "Message must be less than 256 characters",
+			},
+		},
+	};
+
+	const validators: Record<string, any> = {
+		required: (value: string): boolean => value.trim() !== "",
+		regex: (value: string, constraintValue: RegExp): boolean =>
+			constraintValue.test(value),
+		minLength: (value: string, constraintValue: number): boolean =>
+			value.length >= constraintValue,
+		maxLength: (value: string, constraintValue: number): boolean =>
+			value.length <= constraintValue,
+	};
+
+	/**
+	 * Renders the error message for a form field
+	 *
+	 * @param {HTMLElement} errorElement - The error element
+	 * @param {string} error - The error message
+	 */
+	const renderInlineError = (errorElement: HTMLElement, error: string) => {
+		errorElement.innerHTML = `
+			<span class="visually-hidden">Error: </span>
+			${error}
+		`;
+	};
+
+	/**
+	 * Clears the error message for a form field
+	 *
+	 * @param {HTMLElement} errorElement - The error element
+	 */
+	const clearInlineError = (errorElement: HTMLElement) => {
+		errorElement.innerText = "";
+	};
+
+	/**
+	 * Clears the validation states for a form item
+	 *
+	 * @param {HTMLElement} node - The form item element
+	 */
+	const clearValidationStates = (node: HTMLElement) => {
+		Object.values(FieldState).forEach((state) => {
+			removeClass(node, state);
+		});
+	};
+
+	/**
+	 * Renders the validation state for a form item
+	 *
+	 * @param {HTMLElement} node - The form item element
+	 * @param {FieldState} state - The validation state
+	 */
+	const renderValidationState = (node: HTMLElement, state: FieldState) => {
+		clearValidationStates(node);
+
+		addClass(
+			node,
+			state === FieldState.INVALID ? FieldState.INVALID : FieldState.VALID
+		);
+	};
+
+	type ValidationResult = {
+		isValid: boolean;
+		error?: string;
+	};
+
+	/**
+	 * Validates a form field value based on constraints
+	 *
+	 * @param {Field} field - The form field
+	 * @returns {ValidationResult} - The validation result
+	 */
+	const validateField = (field: Field): ValidationResult => {
+		const { name, value } = field;
+		const { errorMessages, ...fieldConstraints } = constraints[name];
+
+		const fieldConstraintsArr = Object.entries(fieldConstraints);
+
+		for (const [constraint, constraintValue] of fieldConstraintsArr) {
+			const isValid: boolean = validators[constraint]?.(value, constraintValue);
+
+			if (!isValid) {
+				return { isValid, error: errorMessages[constraint] };
+			}
+		}
+
+		return { isValid: true, error: undefined };
+	};
+
+	/**
+	 * Checks a form input field for validation and updates the state
+	 *
+	 * @param {FormControl} field - The form input field
+
+	 */
+	const checkInput = (field: FormControl) => {
+		const { name, value } = field;
+		const formItem = field.closest(".form__item") as HTMLElement;
+
+		const { isValid, error } = validateField({ name, value });
+
+		field.setAttribute("aria-invalid", isValid ? "false" : "true");
+
+		renderValidationState(
+			formItem,
+			isValid ? FieldState.VALID : FieldState.INVALID
+		);
+
+		return { error };
+	};
+
+	/**
+	 * Validates the honeypot field
+	 *
+	 * @returns {boolean} - Indicates if the honeypot field is filled
+	 */
+	const validateHoneypot = () => {
+		const isFillOut = (document.getElementById("honeypot") as HTMLInputElement)
+			.value;
+
+		return Boolean(isFillOut);
+	};
+
+	/**
+	 * Validates the entire form
+	 *
+	 * @returns {boolean} - Indicates if the form is valid
+	 */
+	const validateForm = (): boolean => {
+		let isValid = true;
+
+		$formInputs.forEach((input) => {
+			const { error } = checkInput(input);
+
+			if (error) {
+				isValid = false;
+			}
+		});
+
+		return isValid;
+	};
+
+	$form.addEventListener("focusout", (event) => {
+		const field = event.target as FormControl;
+
+		if (field.tagName !== "INPUT" && field.tagName !== "TEXTAREA") return;
+
+		const { error } = checkInput(field);
+
+		const errorElement = document.getElementById(
+			`${field.name}-error`
+		) as HTMLElement;
+
+		if (error) {
+			renderInlineError(errorElement, error);
+		} else {
+			clearInlineError(errorElement);
+		}
+	});
+
+	$form.addEventListener("submit", (event) => {
+		event.preventDefault();
+
+		const isBotxD: boolean = validateHoneypot();
+		if (isBotxD) {
+			console.log("You're a bot 🤖. Hahaha! Or not?");
+			return;
+		}
+
+		const isValid = validateForm();
+
+		if (!isValid) {
+			const firstErrorElement = $("[aria-invalid=true]", $form) as HTMLElement;
+			firstErrorElement.focus();
+			return;
+		}
+
+		const formItems = $$(".form__item");
+		formItems?.forEach((node) => {
+			clearValidationStates(node as HTMLElement);
+		});
+
+		$form.reset();
+
+		console.log("Form sent successfully!");
+	});
+</script>

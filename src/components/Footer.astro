@@ -25,7 +25,9 @@ const t = useTranslations(lang);
 			gradient
 		/>
 		<span>{t("footer.credits.by")}</span>
-		<Link class="footer__author" href={AUTHOR.linkedin} isExternal>{AUTHOR.name}&nbsp;{AUTHOR.lastName}</Link>
+		<Link class="footer__author" href={AUTHOR.linkedin} isExternal>
+			{AUTHOR.name}&nbsp;{AUTHOR.lastName}
+		</Link>
 	</p>
 </footer>
 
